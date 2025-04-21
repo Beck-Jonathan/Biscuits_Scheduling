@@ -1,0 +1,39 @@
+<%@include file="/WEB-INF/Schedule_App/schedule_top.jsp"%>
+
+
+<div id="calendar"></div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+<div class="search-container">
+    <input type="text" id="searchBox" onkeyup="filter()" placeholder="Search for names..">
+</div>
+
+<div class="calendar">
+    <div class="calendar-header">
+        <button id="prev-month">‹</button>
+        <div id="month-year"></div>
+        <button id="next-month">›</button>
+    </div>
+    <div class="calendar-body">
+        <div class="calendar-weekdays">
+
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+
+
+        </div>
+        <div class="calendar-dates">
+            <!-- Dates will be populated here -->
+        </div>
+    </div>
+</div>
+</body>
+
+
+
+
+<%@include file="/WEB-INF/Schedule_App/schedule_bottom.jsp"%>

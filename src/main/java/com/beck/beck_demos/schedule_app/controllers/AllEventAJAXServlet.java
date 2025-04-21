@@ -1,0 +1,129 @@
+package com.beck.beck_demos.schedule_app.controllers;
+
+import com.beck.beck_demos.schedule_app.models.CalendarMonth;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import com.beck.beck_demos.schedule_app.data.EventDAO;
+import com.beck.beck_demos.schedule_app.models.CalendarDay;
+import com.beck.beck_demos.schedule_app.models.Event;
+import com.beck.beck_demos.schedule_app.models.User;
+import com.beck.beck_demos.schedule_app.iData.iEventDAO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet("/AJAXCALENDAR")
+public class AllEventAJAXServlet extends HttpServlet {
+  private iEventDAO eventDAO;
+  @Override
+  public void init() {
+    eventDAO = new EventDAO();
+  }
+  public void init(iEventDAO eventDAO){
+    this.eventDAO = eventDAO;
+  }
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    int PRIVILEGE_NEEDED = 0;
+    List<String> ROLES_NEEDED = new ArrayList<>();
+//add roles here
+    HttpSession session = req.getSession();
+    User user = (User)session.getAttribute("User_C");
+    if (user==null||!user.getRoles().contains("User")){
+      resp.sendRedirect("schedule_in");
+      return;
+    }
+    CalendarDay day = new CalendarDay();
+    session.setAttribute("currentPage",req.getRequestURL());
+
+    String cal_day = req.getParameter("day");
+    String cal_month = req.getParameter("month");
+    String cal_year = req.getParameter("year");
+    String search_term = req.getParameter("search");
+
+    int _cal_day=0;
+    int _cal_month = 0;
+    int _cal_year = 0;
+    int errors = 0;
+
+    if (cal_day!=null&&!cal_day.isEmpty()){
+      try{
+        _cal_day = Integer.parseInt(cal_day);
+        day.setDay(_cal_day);
+      }catch (Exception e){
+        errors ++;
+      }
+    }
+
+    if (cal_month!=null&&!cal_month.isEmpty()){
+      try{
+        _cal_month = Integer.parseInt(cal_month);
+        day.setMonth(_cal_month);
+      }catch (Exception e){
+        errors ++;
+      }
+    }
+    if (cal_year!=null&&!cal_year.isEmpty()){
+      try{
+        _cal_year = Integer.parseInt(cal_year);
+        day.setYear(_cal_year);
+      }catch (Exception e){
+        errors ++;
+      }
+    }
+    if (search_term==null){
+      search_term = "";
+    }
+    if (!search_term.equals("") && search_term.length()<2||search_term.length()>100){
+      errors++;
+
+    }
+    List<Event> events = new ArrayList<>();
+    if (errors==0) {
+      try {
+        events = eventDAO.getAllEvent(day,search_term);
+      } catch (Exception e) {
+        events = new ArrayList<>();
+      }
+    }
+
+
+    CalendarMonth month = new CalendarMonth();
+    List<CalendarDay> days = new ArrayList<>();
+    for (int i =0;i<31;i++){
+      CalendarDay day1 = new CalendarDay();
+      day1.setDay(i+1);
+      days.add(day1);
+    }
+    for (Event event : events) {
+      for (int i =0;i<31;i++){
+        if (event.getDate().getDate()==i){
+          days.get(i).addEvent(event);
+        }
+      }
+    }
+    int x=0;
+    ObjectMapper mapper = new ObjectMapper();
+    String output="";
+    // convert user object to json string and return it
+    if (errors==0) {
+      output = mapper.writeValueAsString(days);
+    }
+    else {
+      output = "Invalid Search";
+    }
+
+    PrintWriter out = resp.getWriter();
+    resp.setHeader("Content-Type", "application/json;charset=UTF-8");
+    resp.setCharacterEncoding("UTF-8");
+    out.print(output);
+    out.flush();
+  }
+}
