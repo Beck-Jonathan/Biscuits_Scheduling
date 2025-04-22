@@ -3,8 +3,16 @@
 
 <div id="calendar"></div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-<div class="search-container">
+<div class="row">
+<div class="search-container col-md-3">
     <input type="text" id="searchBox" onkeyup="filter()" placeholder="Search for names..">
+</div>
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-3">
+        <button onclick="culvers()">culvers</button>
+    </div>
 </div>
 
 <div class="calendar">

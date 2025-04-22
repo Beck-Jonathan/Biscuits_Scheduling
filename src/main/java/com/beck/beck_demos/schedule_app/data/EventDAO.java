@@ -3,18 +3,31 @@ package com.beck.beck_demos.schedule_app.data;
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
 import com.beck.beck_demos.schedule_app.models.Event;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import org.htmlunit.BrowserVersion;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlAnchor;
+import org.htmlunit.html.HtmlElement;
+import org.htmlunit.html.HtmlPage;
+import org.htmlunit.html.Keyboard;
+import org.htmlunit.javascript.host.event.KeyboardEvent;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import static com.beck.beck_demos.schedule_app.data.Database.getConnection;
 
@@ -237,5 +250,60 @@ public class EventDAO implements iEventDAO {
     }
     return rowsAffected;
   }
+
+  @Override
+  public List<Event> getCulversFlavors(List<String> Cities, int month) throws Exception {
+    List<Event> flavors = new ArrayList<>();
+
+    final WebClient webClient = new WebClient(BrowserVersion.BEST_SUPPORTED);
+    webClient.getOptions().setJavaScriptEnabled(true);
+    webClient.getOptions().setCssEnabled(true);
+    webClient.getOptions().setThrowExceptionOnScriptError(false);
+    webClient.getCurrentWindow().setInnerHeight(60000);
+    for (String _city : Cities) {
+      String targetURL = "https://www.culvers.com/restaurants/"+_city+"?tab=next";
+      HtmlPage page = webClient.getPage(targetURL);
+
+      webClient.getCurrentWindow().setInnerHeight(60000);
+
+      HtmlElement anchors = page.getHtmlElementById("__NEXT_DATA__");
+      String end = anchors.toString();
+      end = end.substring(end.indexOf("{"), end.length() - 1);
+      JSONObject overall = new JSONObject(end);
+      Iterator<String> overallKeys = overall.keys();
+      JSONObject props = overall.getJSONObject("props");
+      Iterator<String> propKeys = props.keys();
+      JSONObject pageProps = props.getJSONObject("pageProps");
+      Iterator<String> pagePropKeys = pageProps.keys();
+      JSONObject _page = pageProps.getJSONObject("page");
+      Iterator<String> _pageKeys = _page.keys();
+      JSONObject customData = _page.getJSONObject("customData");
+      Iterator<String> customDataKeys = customData.keys();
+      JSONObject restaurantCalendar = customData.getJSONObject("restaurantCalendar");
+      Iterator<String> restaurantCalendarKeys = restaurantCalendar.keys();
+      JSONArray _flavors = restaurantCalendar.getJSONArray("flavors");
+      for (Object o : _flavors){
+        JSONObject flavor = (JSONObject) o;
+        String date= flavor.getString("onDate");
+        date=date.substring(0,date.indexOf('T'));
+        String Name = "Culvers in "+_city+".";
+        SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
+        Date Date_Time =  Simple.parse(date);
+        ;
+        String Description = flavor.getString("title");
+        Double Length = 1d;
+        String Decision = "Maybe";
+        String Paid = "No";
+        Event result = new Event( "", Name, Date_Time, _city, Description, Length, Decision, Paid);
+        if (result.getDate().getMonth()==month) {
+          flavors.add(result);
+        }
+      }
+
+      int x = 0;
+    }
+    return flavors;
+  }
+
 
 }

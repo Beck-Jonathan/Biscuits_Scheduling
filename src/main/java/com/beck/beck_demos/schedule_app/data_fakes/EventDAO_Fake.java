@@ -167,6 +167,11 @@ public class EventDAO_Fake implements iEventDAO {
     return size-newsize;
   }
 
+  @Override
+  public List<Event> getCulversFlavors(List<String> Culvers, int month) throws Exception {
+    return List.of();
+  }
+
   private boolean duplicateKey(Event _event){
     return _event.getName().equals("DUPLICATE");
   }

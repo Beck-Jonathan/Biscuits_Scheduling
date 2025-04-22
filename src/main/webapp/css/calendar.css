@@ -157,7 +157,7 @@ body {
 
 .box:hover > span:after{
     right: 100%;
-    top: 50%;
+    top: 40px;
     border: solid transparent;
     content: " ";
     height: 0;

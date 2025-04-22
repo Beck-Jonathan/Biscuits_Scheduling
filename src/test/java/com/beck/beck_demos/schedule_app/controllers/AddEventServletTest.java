@@ -1,6 +1,7 @@
 package com.beck.beck_demos.schedule_app.controllers;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,15 +11,19 @@ import com.beck.beck_demos.schedule_app.data_fakes.EventDAO_Fake;
 import com.beck.beck_demos.schedule_app.models.Event;
 import com.beck.beck_demos.schedule_app.models.Event_VM;
 import com.beck.beck_demos.schedule_app.models.User;
+import jakarta.json.Json;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import org.json.JSONArray;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.*;
 import static org.junit.jupiter.api.Assertions.*;
+import org.jsoup.*;
+import org.jsoup.select.Elements;
+
 
 class AddEventServletTest {
 
@@ -395,38 +400,14 @@ class AddEventServletTest {
   }
   @Test
   public void testCulversNonSense() throws IOException {
-    String targetURL = "https://culvers-fotd.joe.workers.dev/";
-    URL url = new URL(targetURL);
-    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-    urlConnection.setRequestMethod("GET");
-    urlConnection.setRequestProperty("Content-Type",
-        "application/x-www-form-urlencoded");
 
 
-    urlConnection.setRequestProperty("Content-Language", "en-US");
-
-    urlConnection.setUseCaches(false);
-    urlConnection.setDoOutput(true);
-    DataOutputStream wr = new DataOutputStream (
-        urlConnection.getOutputStream());
-    //wr.writeBytes(urlParameters);
-    wr.close();
-    InputStream is = urlConnection.getInputStream();
-    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-    StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-    String line;
-    while ((line = rd.readLine()) != null) {
-      response.append(line);
-      response.append('\r');
-    }
-    rd.close();
-    String xxx=  response.toString();
-    JSONArray array = new JSONArray(xxx);
-    int y=0;
 
 
 
   }
+
+
 
   /**
    <p> Test That initializing the Servlet Does Not Crash or cause an exception </p>

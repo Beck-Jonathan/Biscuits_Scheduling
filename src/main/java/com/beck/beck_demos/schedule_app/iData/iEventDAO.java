@@ -43,4 +43,6 @@ public interface iEventDAO {
   List<Event> getEventsFromFile(File file) throws Exception;
 
   int deleteEvent(String eventID) throws SQLException;
+
+  List<Event> getCulversFlavors(List<String> Culvers, int month) throws Exception;
 }
