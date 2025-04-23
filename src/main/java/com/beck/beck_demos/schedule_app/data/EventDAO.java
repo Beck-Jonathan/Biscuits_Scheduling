@@ -10,24 +10,15 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import org.htmlunit.BrowserVersion;
-import org.htmlunit.WebClient;
-import org.htmlunit.html.HtmlAnchor;
-import org.htmlunit.html.HtmlElement;
-import org.htmlunit.html.HtmlPage;
-import org.htmlunit.html.Keyboard;
-import org.htmlunit.javascript.host.event.KeyboardEvent;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+
+
 
 import static com.beck.beck_demos.schedule_app.data.Database.getConnection;
 
@@ -255,52 +246,62 @@ public class EventDAO implements iEventDAO {
   public List<Event> getCulversFlavors(List<String> Cities, int month) throws Exception {
     List<Event> flavors = new ArrayList<>();
 
-    final WebClient webClient = new WebClient(BrowserVersion.BEST_SUPPORTED);
-    webClient.getOptions().setJavaScriptEnabled(true);
-    webClient.getOptions().setCssEnabled(true);
-    webClient.getOptions().setThrowExceptionOnScriptError(false);
-    webClient.getCurrentWindow().setInnerHeight(60000);
-    for (String _city : Cities) {
-      String targetURL = "https://www.culvers.com/restaurants/"+_city+"?tab=next";
-      HtmlPage page = webClient.getPage(targetURL);
+    String result = "";
+    for (String location : Cities) {
+      String uril = "https://www.culvers.com/restaurants/" + location + "?tab=next";
+      try {
+        try (Scanner scanner = new Scanner(new URL(uril).openStream(),
+            StandardCharsets.UTF_8.toString())) {
+          scanner.useDelimiter("\\A");
+          result = scanner.next();
+          int dataStart = result.indexOf("NEXT_DATA");
 
-      webClient.getCurrentWindow().setInnerHeight(60000);
 
-      HtmlElement anchors = page.getHtmlElementById("__NEXT_DATA__");
-      String end = anchors.toString();
-      end = end.substring(end.indexOf("{"), end.length() - 1);
-      JSONObject overall = new JSONObject(end);
-      Iterator<String> overallKeys = overall.keys();
-      JSONObject props = overall.getJSONObject("props");
-      Iterator<String> propKeys = props.keys();
-      JSONObject pageProps = props.getJSONObject("pageProps");
-      Iterator<String> pagePropKeys = pageProps.keys();
-      JSONObject _page = pageProps.getJSONObject("page");
-      Iterator<String> _pageKeys = _page.keys();
-      JSONObject customData = _page.getJSONObject("customData");
-      Iterator<String> customDataKeys = customData.keys();
-      JSONObject restaurantCalendar = customData.getJSONObject("restaurantCalendar");
-      Iterator<String> restaurantCalendarKeys = restaurantCalendar.keys();
-      JSONArray _flavors = restaurantCalendar.getJSONArray("flavors");
-      for (Object o : _flavors){
-        JSONObject flavor = (JSONObject) o;
-        String date= flavor.getString("onDate");
-        date=date.substring(0,date.indexOf('T'));
-        String Name = "Culvers in "+_city+".";
-        SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
-        Date Date_Time =  Simple.parse(date);
-        ;
-        String Description = flavor.getString("title");
-        Double Length = 1d;
-        String Decision = "Maybe";
-        String Paid = "No";
-        Event result = new Event( "", Name, Date_Time, _city, Description, Length, Decision, Paid);
-        if (result.getDate().getMonth()==month) {
-          flavors.add(result);
+          String anchors = result.substring(dataStart);
+          int endScriptIndex = anchors.indexOf("</script>");
+          String anchors2 = anchors.substring(37, endScriptIndex);
+          JSONObject overall = new JSONObject(anchors2);
+
+          JSONObject props = overall.getJSONObject("props");
+
+          JSONObject pageProps = props.getJSONObject("pageProps");
+
+          JSONObject _page = pageProps.getJSONObject("page");
+
+          JSONObject customData = _page.getJSONObject("customData");
+
+          JSONObject restaurantCalendar = customData.getJSONObject("restaurantCalendar");
+
+          JSONArray _flavors = restaurantCalendar.getJSONArray("flavors");
+          for (Object o : _flavors) {
+            JSONObject flavor = (JSONObject) o;
+            String date = flavor.getString("onDate");
+            date = date.substring(0, date.indexOf('T'));
+            String Name = "Culvers in " + location + ".";
+            SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
+            Date Date_Time = Simple.parse(date);
+
+            String Description = flavor.getString("title");
+            Double Length = 1d;
+            String Decision = "Maybe";
+            String Paid = "No";
+            Event _event = new Event("", Name, Date_Time, location, Description, Length, Decision, Paid);
+            if (_event.getDate().getMonth()==month) {
+              flavors.add(_event);
+            }
+
+          }
+        } catch (Exception e) {
+          flavors = new ArrayList<>();
+          return flavors;
         }
-      }
 
-      int x = 0;
+
+
+      } catch (Exception e) {
+          flavors = new ArrayList<>();
+          return flavors;
+      }
     }
     return flavors;
   }

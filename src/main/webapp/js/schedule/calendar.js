@@ -7,209 +7,76 @@ let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 let searchTerm = "";
+let events = [];
+let temp_events = []
+let backup_events = [];
+let culvers_events = []
+let is_culvers = false;
+let modified=false;
 
-function filter(){
+async function filter(){
+
+
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
-    if(searchTerm.length>2 && searchTerm.length<100) {
-        console.log(searchBox);
-        renderCalendar(currentMonth, currentYear);
-        callAjaxMonth(currentMonth + 1, searchTerm);
-    }
-}
 
+
+        var x =  await callAjaxMonth(currentMonth + 1, searchTerm);
+            console.log(culvers_events);
+        for (i=0;i<culvers_events.length;i++){
+            for (j=0;j<culvers_events[i].events.length;j++){
+                if(culvers_events[i].events[j].description.toLowerCase().search(searchTerm.toLowerCase())>-1){
+                    console.log("hit");
+                    events[i].events.push(culvers_events[i].events[j]);
+                }
+            }
+        }
+
+
+    renderCalendar(currentMonth, currentYear);
+    addEventsToBoxes();
+}
+function noculvers(){
+    is_culvers=false;
+    $("#culvers").slideDown();
+    $("#noculvers").slideUp();
+    renderCalendar(currentMonth, currentYear);
+    callAjaxMonth(currentMonth+1,searchTerm);
+}
 function culvers(){
-    var events = "";
+    //var events = [];
+    is_culvers=true;
     var month = currentMonth
+    $("#datesToSlide").slideUp();
+    $("#culvers").slideUp();
+    $("#noculvers").slideDown();
+
     $.ajax   ({
         url: 'AJAXCUULVERS',
         data: "month="+month+"&year="+currentYear,
         type: 'get',
-        async: false,
-        success: function(response)
-        {
-            events = response ;
-        }
-    });
-    for (i=0;i<events.length;i++){
-        if(events[i].events.length>0){
-            for (j=0;j<events[i].events.length;j++){
-                var backgroundColor="pink";
-                var textColor="black";
-                var thing=null;
-                var id = "";
-                if (j===0){
-                    id = "day"+i+"r3e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("pink")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="";
-                    textColor=""
-                }
-                else if (j===1){
-                    id = "day"+i+"r3e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("red")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="red";
-                    textColor="white"
-                }
-                else if (j===2){
-                    id = "day"+i+"r3e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("orange")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="orange";
-                    textColor="black"
-                }
-                else if (j===3){
-                    id = "day"+i+"r3e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("yellow")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="yellow";
-                    textColor="black"
-                }
-                else if (j===4){
-                    id = "day"+i+"r4e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("lightgreen")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="lightgreen";
-                    textColor="black"
-                }
-                else if (j===5){
-                    id = "day"+i+"r4e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("green")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="green";
-                    textColor="white"
-                }
-                else if (j===6){
-                    id = "day"+i+"r4e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("blue")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="blue";
-                    textColor="white"
-                }
-                else if (j===7){
-                    id = "day"+i+"r4e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("indigo")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="indigo";
-                    textColor="white"
-                }
-                else if (j===8){
-                    id = "day"+i+"r5e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("violet")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="violet";
-                    textColor="white"
-                }
-                else if (j===9){
-                    id = "day"+i+"r5e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("lightgray")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="lightgray";
-                    textColor="black"
-                }
-                else if (j===10){
-                    id = "day"+i+"r5e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("darkgray")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="darkgray";
-                    textColor="white"
-                }
-                else if (j===11){
-                    id = "day"+i+"r5e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("black")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="black";
-                    textColor="white"
-                }
+        async: true,
+        success: function(response) {
+            culvers_events = response;
+            for (i = 0; i < culvers_events.length; i++) {
 
-                var time =events[i].events[j].date;
-                var date = new Date(time).toLocaleTimeString();
+                for (j = 0; j < culvers_events[i].events.length; j++) {
+                    if(searchTerm===""||culvers_events[i].events[j].description.toLowerCase().search(searchTerm.toLowerCase())>-1){
 
-
-                thing.innerHTML="&nbsp<span style='color:"+textColor+"; background-color:"+backgroundColor+"' class='hiddendetails double-border' ><h3>"+events[i].events[j].name
-                    +"</h3></br>"+events[i].events[j].description+"</br>"+date+"</span>";
-
+                        events[i].events.push(culvers_events[i].events[j]);
+                        }
+                }
             }
+
+
+            $("#datesToSlide").slideDown();
+
+            addEventsToBoxes()
         }
-    }
+
+    });
 }
+
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -258,10 +125,14 @@ function renderCalendar(month, year) {
 
 }
 
-
+$("#noculvers").slideUp();
 renderCalendar(currentMonth, currentYear);
 callAjaxMonth(currentMonth+1,"");
 prevMonthBtn.addEventListener('click', () => {
+    is_culvers=false;
+    culvers_events = [];
+    $("#culvers").slideDown();
+    $("#noculvers").slideUp();
     currentMonth--;
     if (currentMonth < 0) {
         currentMonth = 11;
@@ -272,9 +143,14 @@ prevMonthBtn.addEventListener('click', () => {
     callAjaxMonth(currentMonth+1,searchTerm);
 
 
+
 });
 
 nextMonthBtn.addEventListener('click', () => {
+    is_culvers=false;
+    culvers_events = [];
+    $("#culvers").slideDown();
+    $("#noculvers").slideUp();
     currentMonth++;
     if (currentMonth > 11) {
         currentMonth = 0;
@@ -284,6 +160,7 @@ nextMonthBtn.addEventListener('click', () => {
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
+
 
 });
 
@@ -386,196 +263,239 @@ var boxMonth=currentMonth+1;
     calendarBox.innerHTML = html;
 }
 
-function callAjaxMonth(month,search){
-var events = "";
-    $.ajax   ({
-        url: 'AJAXCALENDAR',
-        data: "month="+month+"&year="+currentYear+"&search="+search,
-        type: 'get',
-        async: false,
-        success: function(response)
-        {
-           events = response ;
-        }
-    });
+function addEventsToBoxes(){
+
     for (i=0;i<events.length;i++){
         if(events[i].events.length>0){
-            for (j=0;j<events[i].events.length;j++){
-                var backgroundColor="pink";
-                var textColor="black";
-                var thing=null;
-                var id = "";
-                if (j===0){
-                    id = "day"+i+"r3e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("pink")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="";
-                    textColor=""
+            for (j=0;j<events[i].events.length;j++) {
+                if (j >11) {
+                    break;
                 }
-                else if (j===1){
-                    id = "day"+i+"r3e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("red")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="red";
-                    textColor="white"
-                }
-                else if (j===2){
-                    id = "day"+i+"r3e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("orange")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="orange";
-                    textColor="black"
-                }
-                else if (j===3){
-                    id = "day"+i+"r3e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("yellow")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );
-                    backgroundColor="yellow";
-                    textColor="black"
-                }
-                else if (j===4){
-                    id = "day"+i+"r4e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("lightgreen")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="lightgreen";
-                    textColor="black"
-                }
-                else if (j===5){
-                    id = "day"+i+"r4e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("green")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="green";
-                    textColor="white"
-                }
-                else if (j===6){
-                    id = "day"+i+"r4e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("blue")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="blue";
-                    textColor="white"
-                }
-                else if (j===7){
-                    id = "day"+i+"r4e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("indigo")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="indigo";
-                    textColor="white"
-                }
-                else if (j===8){
-                    id = "day"+i+"r5e1";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("violet")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="violet";
-                    textColor="white"
-                }
-                else if (j===9){
-                    id = "day"+i+"r5e2";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("lightgray")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="lightgray";
-                    textColor="black"
-                }
-                else if (j===10){
-                    id = "day"+i+"r5e3";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("darkgray")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="darkgray";
-                    textColor="white"
-                }
-                else if (j===11){
-                    id = "day"+i+"r5e4";
-                    thing =  document.getElementById(id)
-                    thing.classList.add("box")
-                    thing.classList.add("black")
-                    thing.setAttribute('href',"editEvent?eventid="+events[i].events[j].event_ID);
-                    thing.addEventListener( "click", function() {
-                    } );
-                    thing.addEventListener( "dblclick", function() {
-                        window.location=this.getAttribute("href");
-                    } );                    backgroundColor="black";
-                    textColor="white"
-                }
+                    var backgroundColor = "pink";
+                    var textColor = "black";
+                    var thing = null;
+                    var id = "";
+                    if (j === 0) {
+                        id = "day" + i + "r3e1";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("pink")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "";
+                        textColor = ""
+                    } else if (j === 1) {
+                        id = "day" + i + "r3e2";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("red")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "red";
+                        textColor = "white"
+                    } else if (j === 2) {
+                        id = "day" + i + "r3e3";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("orange")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "orange";
+                        textColor = "black"
+                    } else if (j === 3) {
+                        id = "day" + i + "r3e4";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("yellow")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "yellow";
+                        textColor = "black"
+                    } else if (j === 4) {
+                        id = "day" + i + "r4e1";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("lightgreen")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "lightgreen";
+                        textColor = "black"
+                    } else if (j === 5) {
+                        id = "day" + i + "r4e2";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("green")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "green";
+                        textColor = "white"
+                    } else if (j === 6) {
+                        id = "day" + i + "r4e3";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("blue")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "blue";
+                        textColor = "white"
+                    } else if (j === 7) {
+                        id = "day" + i + "r4e4";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("indigo")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "indigo";
+                        textColor = "white"
+                    } else if (j === 8) {
+                        id = "day" + i + "r5e1";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("violet")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "violet";
+                        textColor = "white"
+                    } else if (j === 9) {
+                        id = "day" + i + "r5e2";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("lightgray")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "lightgray";
+                        textColor = "black"
+                    } else if (j === 10) {
+                        id = "day" + i + "r5e3";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("darkgray")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "darkgray";
+                        textColor = "white"
+                    } else if (j === 11) {
+                        id = "day" + i + "r5e4";
+                        thing = document.getElementById(id)
+                        thing.classList.add("box")
+                        thing.classList.add("black")
+                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.addEventListener("click", function () {
+                        });
+                        thing.addEventListener("dblclick", function () {
+                            window.location = this.getAttribute("href");
+                        });
+                        backgroundColor = "black";
+                        textColor = "white"
+                    }
 
-                    var time =events[i].events[j].date;
+                    var time = events[i].events[j].date;
                     var date = new Date(time).toLocaleTimeString();
 
 
-                    thing.innerHTML="&nbsp<span style='color:"+textColor+"; background-color:"+backgroundColor+"' class='hiddendetails double-border' ><h3>"+events[i].events[j].name
-                        +"</h3></br>"+events[i].events[j].description+"</br>"+date+"</span>";
+                    thing.innerHTML = "&nbsp<span style='color:" + textColor + "; background-color:" + backgroundColor + "' class='hiddendetails double-border' ><h3>" + events[i].events[j].name
+                        + "</h3></br>" + events[i].events[j].description + "</br>" + date + "</span>";
 
                 }
             }
         }
 
 
+}
+
+async function callAjaxMonth(month,search){
+    $("#datesToSlide").slideUp();
+        console.log(events);
+    $.ajax   ({
+        url: 'AJAXCALENDAR',
+        data: "month="+month+"&year="+currentYear+"&search="+search,
+        type: 'get',
+        async: false,
+        success: function(response) {
+            $("#datesToSlide").slideDown();
+            events = response;
+
+            addEventsToBoxes();
+
+
+
+        }
+
+
+    });
+
+
+
+}
+function combine_array(array1,array2){
+    if(array1.events==bull || array2.events==null){
+        return null;
+    }
+    if (array1.events.length<32||array2.events.length<32){
+        return null;
+    }
+    for (i =0;i<array1.events.length;i++){
+        for (j=0;j<events2.events[i].length;i++){
+            array1[1].events.push(array2[i].events[j])
+        }
+    }
+    return array1;
+}
+function filterArray(array,search){
+    var result = [];
+    for(i=0;i<array.lengh;i++){
+        result[i].events= [];
+        for(j=0;j<array[i].events.length;j++){
+            var name = array[i].events[j].name;
+            var desc = array[i].events[j].description;
+            if (name.search(searchTerm)>-1||desc.search(searchTerm)>-1){
+                result[i].push(array[i].events[j])
+            }
+        }
+        return result;
+    }
 }

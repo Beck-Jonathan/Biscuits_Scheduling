@@ -5,7 +5,9 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import com.beck.beck_demos.schedule_app.data_fakes.EventDAO_Fake;
 import com.beck.beck_demos.schedule_app.models.Event;
@@ -16,6 +18,8 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -400,12 +404,68 @@ class AddEventServletTest {
   }
   @Test
   public void testCulversNonSense() throws IOException {
+    List<Event> flavors = new ArrayList<>();
+    String uril ="https://www.google.com";
+    List<String> locations = new ArrayList<>();
+    locations.add("hiawatha");
+    locations.add("marion");
+    locations.add("cedar-rapids");
+    String result = "xx";
+    for(String location : locations) {
+      uril = "https://www.culvers.com/restaurants/" + location + "?tab=next";
+      try {
+        try (Scanner scanner = new Scanner(new URL(uril).openStream(),
+            StandardCharsets.UTF_8.toString())) {
+          scanner.useDelimiter("\\A");
+          result = scanner.next();
+          int dataStart = result.indexOf("NEXT_DATA");
+          int resultLength = result.length();
 
+          String anchors = result.substring(dataStart);
+          int endScriptIndex = anchors.indexOf("</script>");
+          String anchors2 = anchors.substring(37, endScriptIndex);
+          JSONObject overall = new JSONObject(anchors2);
+          Iterator<String> overallKeys = overall.keys();
+          JSONObject props = overall.getJSONObject("props");
+          Iterator<String> propKeys = props.keys();
+          JSONObject pageProps = props.getJSONObject("pageProps");
+          Iterator<String> pagePropKeys = pageProps.keys();
+          JSONObject _page = pageProps.getJSONObject("page");
+          Iterator<String> _pageKeys = _page.keys();
+          JSONObject customData = _page.getJSONObject("customData");
+          Iterator<String> customDataKeys = customData.keys();
+          JSONObject restaurantCalendar = customData.getJSONObject("restaurantCalendar");
+          Iterator<String> restaurantCalendarKeys = restaurantCalendar.keys();
+          JSONArray _flavors = restaurantCalendar.getJSONArray("flavors");
+          for (Object o : _flavors) {
+            JSONObject flavor = (JSONObject) o;
+            String date = flavor.getString("onDate");
+            date = date.substring(0, date.indexOf('T'));
+            String Name = "Culvers in " + anchors2 + ".";
+            SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
+            Date Date_Time = Simple.parse(date);
+            ;
+            String Description = flavor.getString("title");
+            Double Length = 1d;
+            String Decision = "Maybe";
+            String Paid = "No";
+            Event _event = new Event("", Name, Date_Time, location, Description, Length, Decision, Paid);
 
+            flavors.add(_event);
 
+          }
+        } catch (Exception e) {
+          result = "error";
+        }
 
+        System.out.println(result);
 
-  }
+      }catch (Exception e){
+
+      }
+    }
+    int zzz=0;
+    }
 
 
 

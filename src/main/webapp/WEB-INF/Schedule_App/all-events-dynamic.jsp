@@ -7,15 +7,18 @@
 <div class="search-container col-md-3">
     <input type="text" id="searchBox" onkeyup="filter()" placeholder="Search for names..">
 </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
 
     </div>
-    <div class="col-md-3">
-        <button onclick="culvers()">culvers</button>
+    <div class="col-md-1">
+        <button id="noculvers" onclick="noculvers()">no culvers</button>
+    </div>
+    <div class="col-md-1">
+        <button id="culvers" onclick="culvers()">culvers</button>
     </div>
 </div>
 
-<div class="calendar">
+<div class="calendar" id="calendar">
     <div class="calendar-header">
         <button id="prev-month">‹</button>
         <div id="month-year"></div>
@@ -34,7 +37,7 @@
 
 
         </div>
-        <div class="calendar-dates">
+        <div class="calendar-dates" id="datesToSlide">
             <!-- Dates will be populated here -->
         </div>
     </div>

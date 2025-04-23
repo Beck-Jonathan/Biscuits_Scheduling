@@ -15,21 +15,13 @@
         <div class="hidden-sm col-md-2  " id="bottomrightblack"></div>
 
     </div>
-
-
 </footer>
-
-
-
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="js/jquery.validate.js"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<script type="text/javascript" src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
-
 
 <script src="js/schedule/site.js"></script>
 
@@ -42,23 +34,9 @@
     <script src="js/schedule/SignUp.js"></script>
 </c:if>
 
-<c:if test="${pageTitle eq 'Add Event'}">
+<c:if test="${pageTitle eq 'Add Event' || pageTitle eq 'Edit Event'}">
     <script src="js/schedule/addEvent.js"></script>
 </c:if>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 
