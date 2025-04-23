@@ -34,8 +34,11 @@ function noculvers(){
     is_culvers=false;
     $("#culvers").slideDown();
     $("#noculvers").slideUp();
+    culvers_filtered=[];
+
     renderCalendar(currentMonth, currentYear);
-    callAjaxMonth(currentMonth+1,searchTerm);
+    addEventsToBoxes()
+
 }
 function culvers(){
     //var events = [];
