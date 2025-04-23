@@ -13,26 +13,20 @@ let backup_events = [];
 let culvers_events = []
 let is_culvers = false;
 let modified=false;
+let combined_events = [];
+let culvers_filtered=[];
 
 async function filter(){
 
 
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
+    culvers_filtered = filterArray(culvers_events,searchTerm);
+
+    var x =  await callAjaxMonth(currentMonth + 1, searchTerm);
 
 
-        var x =  await callAjaxMonth(currentMonth + 1, searchTerm);
-            console.log(culvers_events);
-        for (i=0;i<culvers_events.length;i++){
-            for (j=0;j<culvers_events[i].events.length;j++){
-                if(culvers_events[i].events[j].description.toLowerCase().search(searchTerm.toLowerCase())>-1){
-                    console.log("hit");
-                    events[i].events.push(culvers_events[i].events[j]);
-                }
-            }
-        }
-
-
+    combined_events = combine_array(events,culvers_filtered);
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes();
 }
@@ -58,18 +52,9 @@ function culvers(){
         async: true,
         success: function(response) {
             culvers_events = response;
-            for (i = 0; i < culvers_events.length; i++) {
-
-                for (j = 0; j < culvers_events[i].events.length; j++) {
-                    if(searchTerm===""||culvers_events[i].events[j].description.toLowerCase().search(searchTerm.toLowerCase())>-1){
-
-                        events[i].events.push(culvers_events[i].events[j]);
-                        }
-                }
-            }
-
-
+            culvers_filtered = response;
             $("#datesToSlide").slideDown();
+
 
             addEventsToBoxes()
         }
@@ -264,10 +249,13 @@ var boxMonth=currentMonth+1;
 }
 
 function addEventsToBoxes(){
+    combined_events = combine_array(events,culvers_filtered);
+    console.log("combined events");
+    console.log(combined_events);
 
-    for (i=0;i<events.length;i++){
-        if(events[i].events.length>0){
-            for (j=0;j<events[i].events.length;j++) {
+    for (i=0;i<combined_events.length;i++){
+        if(combined_events[i].events.length>0){
+            for (j=0;j<combined_events[i].events.length;j++) {
                 if (j >11) {
                     break;
                 }
@@ -280,7 +268,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("pink")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -293,7 +281,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("red")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -306,7 +294,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("orange")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -319,7 +307,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("yellow")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -332,7 +320,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("lightgreen")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -345,7 +333,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("green")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -358,7 +346,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("blue")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -371,7 +359,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("indigo")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -384,7 +372,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("violet")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -397,7 +385,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("lightgray")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -410,7 +398,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("darkgray")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -423,7 +411,7 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("black")
-                        thing.setAttribute('href', "editEvent?eventid=" + events[i].events[j].event_ID);
+                        thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -433,12 +421,12 @@ function addEventsToBoxes(){
                         textColor = "white"
                     }
 
-                    var time = events[i].events[j].date;
+                    var time = combined_events[i].events[j].date;
                     var date = new Date(time).toLocaleTimeString();
 
 
-                    thing.innerHTML = "&nbsp<span style='color:" + textColor + "; background-color:" + backgroundColor + "' class='hiddendetails double-border' ><h3>" + events[i].events[j].name
-                        + "</h3></br>" + events[i].events[j].description + "</br>" + date + "</span>";
+                    thing.innerHTML = "&nbsp<span style='color:" + textColor + "; background-color:" + backgroundColor + "' class='hiddendetails double-border' ><h3>" + combined_events[i].events[j].name
+                        + "</h3></br>" + combined_events[i].events[j].description + "</br>" + date + "</span>";
 
                 }
             }
@@ -449,15 +437,18 @@ function addEventsToBoxes(){
 
 async function callAjaxMonth(month,search){
     $("#datesToSlide").slideUp();
-        console.log(events);
+
     $.ajax   ({
         url: 'AJAXCALENDAR',
         data: "month="+month+"&year="+currentYear+"&search="+search,
         type: 'get',
-        async: false,
+        async: true,
         success: function(response) {
             $("#datesToSlide").slideDown();
+
             events = response;
+
+            combine_array(events,culvers_filtered)
 
             addEventsToBoxes();
 
@@ -472,30 +463,59 @@ async function callAjaxMonth(month,search){
 
 }
 function combine_array(array1,array2){
-    if(array1.events==bull || array2.events==null){
-        return null;
+
+    var resulting_array= JSON.parse(JSON.stringify(array1))
+
+    if (array1.length==0 && array2.length>0){
+        console.log("array 1 empty");
+        return array2;
     }
-    if (array1.events.length<32||array2.events.length<32){
-        return null;
+    if (array1.length>0 && array2.length==0){
+        console.log("array 2 empty");
+        return array1;
     }
-    for (i =0;i<array1.events.length;i++){
-        for (j=0;j<events2.events[i].length;i++){
-            array1[1].events.push(array2[i].events[j])
+
+    if (array1.length<26||array2.length<26){
+
+        console.log("one array is too short")
+        //var result = []
+        //return result;
+    }
+    var resulting_array = structuredClone(array1);
+    for (i =1;i<array1.length&&i<array2.length;i++){
+        console.log("i ="+i)
+        for (j=0;j<array2[i].events.length;j++){
+            console.log("j ="+j)
+            resulting_array[i].events.push(array2[i].events[j])
         }
     }
-    return array1;
+    return resulting_array;
 }
 function filterArray(array,search){
+
+    if (search===""){
+        return array;
+    }
+    search=search.toLowerCase()
+
     var result = [];
-    for(i=0;i<array.lengh;i++){
-        result[i].events= [];
+    for(i=1;i<array.length;i++){
+        result[i] = {events : []}
+
         for(j=0;j<array[i].events.length;j++){
-            var name = array[i].events[j].name;
-            var desc = array[i].events[j].description;
-            if (name.search(searchTerm)>-1||desc.search(searchTerm)>-1){
-                result[i].push(array[i].events[j])
+
+
+            var name = array[i].events[j].name.toLowerCase();
+
+            var desc = array[i].events[j].description.toLowerCase();
+
+            if (name.search(search)>-1||desc.search(search)>-1){
+                console.log("hit " +i+" "+ j);
+                result[i].events.push(array[i].events[j])
             }
         }
-        return result;
+
     }
+
+    return result;
 }
