@@ -172,6 +172,18 @@ public class EventDAO_Fake implements iEventDAO {
     return List.of();
   }
 
+  @Override
+  public int writeEventToFile(List<Event> Events, String path) throws IOException {
+    return 0;
+  }
+
+  @Override
+  public int writeEventToSQLInsert(List<Event> Events, String path) throws IOException {
+    return 0;
+  }
+
+  
+
   private boolean duplicateKey(Event _event){
     return _event.getName().equals("DUPLICATE");
   }

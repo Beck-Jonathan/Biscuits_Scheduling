@@ -87,7 +87,7 @@ public class AllEventServlet extends HttpServlet {
     if (search_term==null){
       search_term = "";
     }
-    if (!search_term.equals("") && search_term.length()<2||search_term.length()>100){
+    if (!search_term.equals("") && (search_term.length()<2||search_term.length()>100)){
       errors++;
       results.put("searchError","Invalid search term");
     }

@@ -424,19 +424,13 @@ class AddEventServletTest {
           String anchors = result.substring(dataStart);
           int endScriptIndex = anchors.indexOf("</script>");
           String anchors2 = anchors.substring(37, endScriptIndex);
-          JSONObject overall = new JSONObject(anchors2);
-          Iterator<String> overallKeys = overall.keys();
-          JSONObject props = overall.getJSONObject("props");
-          Iterator<String> propKeys = props.keys();
-          JSONObject pageProps = props.getJSONObject("pageProps");
-          Iterator<String> pagePropKeys = pageProps.keys();
-          JSONObject _page = pageProps.getJSONObject("page");
-          Iterator<String> _pageKeys = _page.keys();
-          JSONObject customData = _page.getJSONObject("customData");
-          Iterator<String> customDataKeys = customData.keys();
-          JSONObject restaurantCalendar = customData.getJSONObject("restaurantCalendar");
-          Iterator<String> restaurantCalendarKeys = restaurantCalendar.keys();
-          JSONArray _flavors = restaurantCalendar.getJSONArray("flavors");
+          JSONArray _flavors = new JSONObject(anchors2).getJSONObject("props")
+              .getJSONObject("pageProps")
+              .getJSONObject("page")
+              .getJSONObject("customData")
+              .getJSONObject("restaurantCalendar")
+              .getJSONArray("flavors");
+
           for (Object o : _flavors) {
             JSONObject flavor = (JSONObject) o;
             String date = flavor.getString("onDate");
@@ -458,13 +452,13 @@ class AddEventServletTest {
           result = "error";
         }
 
-        System.out.println(result);
+
 
       }catch (Exception e){
 
       }
     }
-    int zzz=0;
+
     }
 
 

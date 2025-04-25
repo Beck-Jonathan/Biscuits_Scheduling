@@ -4,6 +4,7 @@ import com.beck.beck_demos.schedule_app.models.CalendarDay;
 import com.beck.beck_demos.schedule_app.models.Event;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -45,4 +46,6 @@ public interface iEventDAO {
   int deleteEvent(String eventID) throws SQLException;
 
   List<Event> getCulversFlavors(List<String> Culvers, int month) throws Exception;
+  int writeEventToFile(List<Event> Events, String path) throws IOException;
+  int writeEventToSQLInsert(List<Event> Events, String path) throws IOException;
 }

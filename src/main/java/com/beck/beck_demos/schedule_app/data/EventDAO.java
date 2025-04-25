@@ -7,9 +7,7 @@ import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -25,18 +23,18 @@ import static com.beck.beck_demos.schedule_app.data.Database.getConnection;
 public class EventDAO implements iEventDAO {
   @Override
   public int add(Event _event) throws SQLException {
-    int numRowsAffected=0;
+    int numRowsAffected = 0;
     try (Connection connection = getConnection()) {
       if (connection != null) {
-        try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")){
-          statement.setString(1,_event.getName());
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")) {
+          statement.setString(1, _event.getName());
           java.sql.Timestamp date = new java.sql.Timestamp(_event.getDate().getTime());
-          statement.setTimestamp(2,date);
-          statement.setString(3,_event.getLocation());
-          statement.setString(4,_event.getDescription());
-          statement.setDouble(5,_event.getLength());
-          statement.setString(6,_event.getDecision());
-          statement.setString(7,_event.getPaid());
+          statement.setTimestamp(2, date);
+          statement.setString(3, _event.getLocation());
+          statement.setString(4, _event.getDescription());
+          statement.setDouble(5, _event.getLength());
+          statement.setString(6, _event.getDecision());
+          statement.setString(7, _event.getPaid());
           numRowsAffected = statement.executeUpdate();
           if (numRowsAffected == 0) {
             throw new RuntimeException("Could not add Event. Try again later");
@@ -54,14 +52,15 @@ public class EventDAO implements iEventDAO {
     List<Event> result = new ArrayList<>();
     try (Connection connection = getConnection()) {
       if (connection != null) {
-        try(CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_all_Event(?,?,?,?)}")) {
-          statement.setInt(1,day.getMonth());
-          statement.setInt(2,day.getDay());
-          statement.setInt(3,day.getYear());
-          statement.setString(4,searchTerm);
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_all_Event(?,?,?,?)}")) {
+          statement.setInt(1, day.getMonth());
+          statement.setInt(2, day.getDay());
+          statement.setInt(3, day.getYear());
+          statement.setString(4, searchTerm);
 
-          try(ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {String Event_ID = resultSet.getString("Event_Event_ID");
+          try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+              String Event_ID = resultSet.getString("Event_Event_ID");
               String Name = resultSet.getString("Event_Name");
               Date Date = resultSet.getTimestamp("Event_Date");
               String Location = resultSet.getString("Event_Location");
@@ -69,7 +68,7 @@ public class EventDAO implements iEventDAO {
               Double Length = resultSet.getDouble("Event_Length");
               String Decision = resultSet.getString("Event_Decision");
               String Paid = resultSet.getString("Event_Paid");
-              Event _event = new Event( Event_ID, Name, Date, Location, description, Length, Decision, Paid);
+              Event _event = new Event(Event_ID, Name, Date, Location, description, Length, Decision, Paid);
               result.add(_event);
             }
           }
@@ -84,12 +83,13 @@ public class EventDAO implements iEventDAO {
   @Override
   public Event getEventByPrimaryKey(Event _event) throws SQLException {
     Event result = null;
-    try(Connection connection = getConnection()) {
-      try(CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_pk_Event(?)}")) {
+    try (Connection connection = getConnection()) {
+      try (CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_pk_Event(?)}")) {
         statement.setString(1, _event.getEvent_ID().toString());
 
-        try (ResultSet resultSet = statement.executeQuery()){
-          if(resultSet.next()){String Event_ID = resultSet.getString("Event_Event_ID");
+        try (ResultSet resultSet = statement.executeQuery()) {
+          if (resultSet.next()) {
+            String Event_ID = resultSet.getString("Event_Event_ID");
             String Name = resultSet.getString("Event_Name");
             Date Date_Time = resultSet.getTimestamp("Event_Date_Time");
             String Location = resultSet.getString("Event_Location");
@@ -97,7 +97,8 @@ public class EventDAO implements iEventDAO {
             Double Length = resultSet.getDouble("Event_Length");
             String Decision = resultSet.getString("Event_Decision");
             String Paid = resultSet.getString("Event_Paid");
-            result = new Event( Event_ID, Name, Date_Time, Location, Description, Length, Decision, Paid);}
+            result = new Event(Event_ID, Name, Date_Time, Location, Description, Length, Decision, Paid);
+          }
         }
       }
     } catch (SQLException e) {
@@ -110,29 +111,28 @@ public class EventDAO implements iEventDAO {
   public int update(Event oldEvent, Event newEvent) throws SQLException {
     int result = 0;
     try (Connection connection = getConnection()) {
-      if (connection !=null){
-        try(CallableStatement statement = connection.prepareCall("{CALL sp_update_Event(? ,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"))
-        {
-          statement.setString(1,oldEvent.getEvent_ID());
-          statement.setString(2,oldEvent.getName());
-          statement.setString(3,newEvent.getName());
+      if (connection != null) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_update_Event(? ,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}")) {
+          statement.setString(1, oldEvent.getEvent_ID());
+          statement.setString(2, oldEvent.getName());
+          statement.setString(3, newEvent.getName());
           java.sql.Timestamp oldDate = new java.sql.Timestamp(oldEvent.getDate().getTime());
 
           java.sql.Timestamp newDate = new java.sql.Timestamp(newEvent.getDate().getTime());
 
-          statement.setTimestamp(4,oldDate);
-          statement.setTimestamp(5,newDate);
-          statement.setString(6,oldEvent.getLocation());
-          statement.setString(7,newEvent.getLocation());
-          statement.setString(8,oldEvent.getDescription());
-          statement.setString(9,newEvent.getDescription());
-          statement.setDouble(10,oldEvent.getLength());
-          statement.setDouble(11,newEvent.getLength());
-          statement.setString(12,oldEvent.getDecision());
-          statement.setString(13,newEvent.getDecision());
-          statement.setString(14,oldEvent.getPaid());
-          statement.setString(15,newEvent.getPaid());
-          result=statement.executeUpdate();
+          statement.setTimestamp(4, oldDate);
+          statement.setTimestamp(5, newDate);
+          statement.setString(6, oldEvent.getLocation());
+          statement.setString(7, newEvent.getLocation());
+          statement.setString(8, oldEvent.getDescription());
+          statement.setString(9, newEvent.getDescription());
+          statement.setDouble(10, oldEvent.getLength());
+          statement.setDouble(11, newEvent.getLength());
+          statement.setString(12, oldEvent.getDecision());
+          statement.setString(13, newEvent.getDecision());
+          statement.setString(14, oldEvent.getPaid());
+          statement.setString(15, newEvent.getPaid());
+          result = statement.executeUpdate();
         } catch (SQLException e) {
           throw new RuntimeException("Could not update Event . Try again later");
         }
@@ -143,20 +143,20 @@ public class EventDAO implements iEventDAO {
 
   @Override
   public int addBatch(List<Event> events) throws SQLException {
-    int numRowsAffected=0;
+    int numRowsAffected = 0;
     try (Connection connection = getConnection()) {
       if (connection != null) {
         for (Event _event : events) {
           try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")) {
             statement.setString(1, _event.getName());
             java.sql.Timestamp date = new java.sql.Timestamp(_event.getDate().getTime());
-            statement.setTimestamp(2,date);
+            statement.setTimestamp(2, date);
             statement.setString(3, _event.getLocation());
             statement.setString(4, _event.getDescription());
             statement.setDouble(5, _event.getLength());
             statement.setString(6, _event.getDecision());
             statement.setString(7, _event.getPaid());
-            int updated =  statement.executeUpdate();
+            int updated = statement.executeUpdate();
             numRowsAffected += updated;
             if (updated == 0) {
               throw new RuntimeException("Could not add Event. Try again later");
@@ -176,60 +176,55 @@ public class EventDAO implements iEventDAO {
     BufferedReader reader;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
 
-
-
     try {
       reader = new BufferedReader(new FileReader(file));
       String line = reader.readLine();
 
-
       //first line is just heading data
       line = reader.readLine();
 
-        while (line != null) {
-          ArrayList parts = new ArrayList(List.of(line.split("\t")));
-          String name = (String) parts.get(1);
-          String date = (String) parts.get(2);
-          String time = (String) parts.get(3);
-          String dateTime = date + " " + time;
-          Date parsed = formatter.parse(dateTime);
-          String description = (String) parts.get(5);
-          String length =  (String) parts.get(6);
-          ArrayList parts2 = new ArrayList(List.of(length.split(" ")));
-          double count = Double.parseDouble((String) parts2.get(0));
-          String units = (String) parts2.get(1);
-          if (units.toLowerCase().equals("minutes")){
-            count = count/60;
-          }
-          if (units.toLowerCase().equals("days")){
-            count = count*24;
-          }
-          String decision = (String) parts.get(7);
-          String paid = (String) parts.get(8);
-          String location = (String) parts.get(9);
-          Event _event = new Event("",name,parsed,location,description,count,decision,paid);
-          result.add(_event);
-          // read next line
-          line = reader.readLine();
+      while (line != null) {
+        ArrayList parts = new ArrayList(List.of(line.split("\t")));
+        String name = (String) parts.get(1);
+        String date = (String) parts.get(2);
+        String time = (String) parts.get(3);
+        String dateTime = date + " " + time;
+        Date parsed = formatter.parse(dateTime);
+        String description = (String) parts.get(5);
+        String length = (String) parts.get(6);
+        ArrayList parts2 = new ArrayList(List.of(length.split(" ")));
+        double count = Double.parseDouble((String) parts2.get(0));
+        String units = (String) parts2.get(1);
+        if (units.toLowerCase().equals("minutes")) {
+          count = count / 60;
         }
-
-
+        if (units.toLowerCase().equals("days")) {
+          count = count * 24;
+        }
+        String decision = (String) parts.get(7);
+        String paid = (String) parts.get(8);
+        String location = (String) parts.get(9);
+        Event _event = new Event("", name, parsed, location, description, count, decision, paid);
+        result.add(_event);
+        // read next line
+        line = reader.readLine();
+      }
 
       reader.close();
 
     } catch (Exception e) {
-      throw new RuntimeException(e.getMessage()+"\n\nCould not add Events. Try again later");
+      throw new RuntimeException(e.getMessage() + "\n\nCould not add Events. Try again later");
     }
     return result;
   }
 
   @Override
-  public int deleteEvent(String eventID) throws SQLException{
-    int rowsAffected=0;
+  public int deleteEvent(String eventID) throws SQLException {
+    int rowsAffected = 0;
     try (Connection connection = getConnection()) {
       if (connection != null) {
-        try (CallableStatement statement = connection.prepareCall("{CALL sp_Delete_Event( ?)}")){
-          statement.setString(1,eventID);
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_Delete_Event( ?)}")) {
+          statement.setString(1, eventID);
           rowsAffected = statement.executeUpdate();
           if (rowsAffected == 0) {
             throw new RuntimeException("Could not Delete Event. Try again later");
@@ -255,7 +250,6 @@ public class EventDAO implements iEventDAO {
           scanner.useDelimiter("\\A");
           result = scanner.next();
           int dataStart = result.indexOf("NEXT_DATA");
-
 
           String anchors = result.substring(dataStart);
           int endScriptIndex = anchors.indexOf("</script>");
@@ -286,7 +280,7 @@ public class EventDAO implements iEventDAO {
             String Decision = "Maybe";
             String Paid = "No";
             Event _event = new Event("", Name, Date_Time, location, Description, Length, Decision, Paid);
-            if (_event.getDate().getMonth()==month) {
+            if (_event.getDate().getMonth() == month) {
               flavors.add(_event);
             }
 
@@ -296,15 +290,66 @@ public class EventDAO implements iEventDAO {
           return flavors;
         }
 
-
-
       } catch (Exception e) {
-          flavors = new ArrayList<>();
-          return flavors;
+        flavors = new ArrayList<>();
+        return flavors;
       }
     }
     return flavors;
   }
 
+  @Override
+  public int writeEventToFile(List<Event> Events, String path) throws IOException {
+    int result = 0;
+    File file = new File(path);
+    if (!file.exists()) {
+      file.getParentFile().mkdirs();
+      file.createNewFile();
+    }
+    PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
+    writer.println("Event_ID\tName\tDate\tLocation\tDescription\tLength\tDecision\tPaid");
+    for (Event _event : Events) {
+      writer.print(_event.getEvent_ID());
+      writer.print("\t" +"'"+ _event.getName()+"'");
+      writer.print("\t" + _event.getDate());
+      writer.print("\t" + _event.getLocation());
+      writer.print("\t" + _event.getDescription());
+      writer.print("\t" + _event.getLength());
+      writer.print("\t" + _event.getDecision());
+      writer.print("\t" + _event.getPaid());
+      writer.print("\n");
+      result++;
+    }
+    writer.close();
+    return result;
+  }
 
+  @Override
+  public int writeEventToSQLInsert(List<Event> Events, String path) throws IOException {
+    int result = 0;
+    File file = new File(path);
+    if (!file.exists()) {
+      file.getParentFile().mkdirs();
+      file.createNewFile();
+    }
+    PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
+    writer.println("INSERT\t INTO \tEvent\t(Event_ID,\tName,\tDate,\tLocation,\tDescription,\tLength,\tDecision,\tPaid)\n");
+    writer.println("VALUES\n");
+    for (Event _event : Events) {
+      writer.print("(");
+      writer.print(_event.getEvent_ID());
+      writer.print(" , " + _event.getName());
+      writer.print(" , " + _event.getDate());
+      writer.print(" , " + _event.getLocation());
+      writer.print(" , " + _event.getDescription());
+      writer.print(" , " + _event.getLength());
+      writer.print(" , " + _event.getDecision());
+      writer.print(" , " + _event.getPaid());
+      writer.print(")\n");
+      result++;
+    }
+    writer.close();
+    return result;
+
+  }
 }

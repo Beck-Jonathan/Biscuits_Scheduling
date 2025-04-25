@@ -5,6 +5,8 @@ const nextMonthBtn = document.getElementById('next-month');
 
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
+let anchorMonth = currentDate.getMonth();
+let anchorYear = currentDate.getFullYear();
 let currentYear = currentDate.getFullYear();
 let searchTerm = "";
 let events = [];
@@ -15,6 +17,7 @@ let is_culvers = false;
 let modified=false;
 let combined_events = [];
 let culvers_filtered=[];
+let culvers_stored = [];
 
 async function filter(){
 
@@ -47,22 +50,31 @@ function culvers(){
     $("#datesToSlide").slideUp();
     $("#culvers").slideUp();
     $("#noculvers").slideDown();
+    console.log(culvers_stored[currentMonth]);
+    if (culvers_stored[currentMonth]==null) {
+        $.ajax({
+            url: 'AJAXCUULVERS',
+            data: "month=" + month + "&year=" + currentYear,
+            type: 'get',
+            async: true,
+            success: function (response) {
+                culvers_events = response;
+                culvers_filtered = response;
+                culvers_stored[currentMonth]=culvers_events;
+                $("#datesToSlide").slideDown();
+                addEventsToBoxes()
+            }
 
-    $.ajax   ({
-        url: 'AJAXCUULVERS',
-        data: "month="+month+"&year="+currentYear,
-        type: 'get',
-        async: true,
-        success: function(response) {
-            culvers_events = response;
-            culvers_filtered = response;
-            $("#datesToSlide").slideDown();
 
+        });
+    } else {
+        
+        culvers_events = culvers_stored[currentMonth];
+        culvers_filtered = culvers_stored[currentMonth];
+        $("#datesToSlide").slideDown();
+        addEventsToBoxes()
+    }
 
-            addEventsToBoxes()
-        }
-
-    });
 }
 
 
@@ -118,14 +130,20 @@ renderCalendar(currentMonth, currentYear);
 callAjaxMonth(currentMonth+1,"");
 prevMonthBtn.addEventListener('click', () => {
     is_culvers=false;
-    culvers_events = [];
-    $("#culvers").slideDown();
-    $("#noculvers").slideUp();
+    culvers_filtered = [];
+
     currentMonth--;
     if (currentMonth < 0) {
         currentMonth = 11;
         currentYear--;
     }
+    if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
+        $("#culvers").slideDown();
+    }
+    else {
+        $("#culvers").slideUp();
+    }
+    $("#noculvers").slideUp();
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
@@ -136,14 +154,20 @@ prevMonthBtn.addEventListener('click', () => {
 
 nextMonthBtn.addEventListener('click', () => {
     is_culvers=false;
-    culvers_events = [];
-    $("#culvers").slideDown();
-    $("#noculvers").slideUp();
+    culvers_filtered = [];
+
     currentMonth++;
     if (currentMonth > 11) {
         currentMonth = 0;
         currentYear++;
     }
+    if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
+        $("#culvers").slideDown();
+    }
+    else {
+        $("#culvers").slideUp();
+    }
+    $("#noculvers").slideUp();
     let _events = "";
 
     renderCalendar(currentMonth, currentYear);
@@ -253,8 +277,7 @@ var boxMonth=currentMonth+1;
 
 function addEventsToBoxes(){
     combined_events = combine_array(events,culvers_filtered);
-    console.log("combined events");
-    console.log(combined_events);
+
 
     for (i=0;i<combined_events.length;i++){
         if(combined_events[i].events.length>0){
@@ -486,9 +509,9 @@ function combine_array(array1,array2){
     }
     var resulting_array = structuredClone(array1);
     for (i =1;i<array1.length&&i<array2.length;i++){
-        console.log("i ="+i)
+
         for (j=0;j<array2[i].events.length;j++){
-            console.log("j ="+j)
+
             resulting_array[i].events.push(array2[i].events[j])
         }
     }
@@ -513,7 +536,7 @@ function filterArray(array,search){
             var desc = array[i].events[j].description.toLowerCase();
 
             if (name.search(search)>-1||desc.search(search)>-1){
-                console.log("hit " +i+" "+ j);
+
                 result[i].events.push(array[i].events[j])
             }
         }

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,23 +53,38 @@ public class DeleteEventServlet extends HttpServlet {
     req.setAttribute("pageTitle", "Delete Event");
     String EventID = req.getParameter("eventid");
     String search_term = req.getParameter("search");
+    boolean _ajax= false;
+    String AJAX = req.getParameter("AJAX");
+    try {
+      _ajax = Boolean.parseBoolean(AJAX);
+    } catch (Exception e){
+      _ajax = false;
+    }
     if (search_term==null){
       search_term = "";
     }
 
-    int result = 0;
+    Integer result = 0;
 
-      try{
-        result = eventDAO.deleteEvent(EventID);
-        if (result == 0){
-
-
-          throw new SQLException("Unable To Find Event.","un");
-        }
-      }
-      catch(SQLException ex){
+    try{
+       result = eventDAO.deleteEvent(EventID);
+       if (result == 0){
+         throw new SQLException("Unable To Find Event.","un");
+       }
+     }
+    catch(SQLException ex){
         results.put("dbStatus", "Unable To Find Event.");
-      }
+    }
+
+    if (_ajax){
+      resp.setStatus(200);
+      resp.setContentType("text/plain");
+      PrintWriter writer=resp.getWriter();
+      writer.write(result.toString());
+      writer.flush();
+      writer.close();
+      return;
+    }
 
     List<Event> events = null;
     CalendarDay day = new CalendarDay();

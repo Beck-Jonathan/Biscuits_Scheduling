@@ -10,6 +10,8 @@ Create the JSP  For Viewing All of The  Event table
             <p>There ${Events.size() eq 1 ? "is" : "are"}&nbsp;${Events.size()} Event${Events.size() ne 1 ? "s" : ""}</p>
             Add Event   <a href="addEvent?day=${results.day}&month=${results.month}&year=${results.year}">Add</a>
             <c:if test="${Events.size() > 0}">
+                Export Event   <a href="exportEvent?mode=export">Export</a>
+                Write To SQL File Event   <a href="exportEvent?mode=SQL">SQL</a>
                 <div class="search-container">
                     <form action="all-events">
                         <input type="text" placeholder="Search.." id="searchBox" name="search">
@@ -32,6 +34,7 @@ Create the JSP  For Viewing All of The  Event table
                     </thead>
                     <tbody>
                     <c:forEach items="${Events}" var="event">
+                           <tr id="${event.event_ID}row">
                             <td><a href = "editEvent?eventid=${event.event_ID}">View Detail</a></td>
                             <td>${fn:escapeXml(event.name)}</td>
                             <td>${fn:escapeXml(event.date)}</td>
@@ -53,10 +56,13 @@ Create the JSP  For Viewing All of The  Event table
                             </td>
                             <td>${fn:escapeXml(event.decision)}</td>
                             <td>${fn:escapeXml(event.paid)}</td>
-                            <td><form action="deleteEvent" method="post">
-                                <input type="hidden" name ="eventid" value="${event.event_ID}">
-                                <input type="submit" value="delete" />
-                            </form>
+                            <td>
+                                <div>
+                                    <button class="delButton" href="${event.event_ID}" >Delete</button>
+                                </div>
+                                <div style="display: none;" id="event.event_IDStatus">
+
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>
@@ -66,6 +72,9 @@ Create the JSP  For Viewing All of The  Event table
             </c:if>
         </div>
     </div>
+</div>
+<div id="dialog" title="Confirmation Required">
+    Are you sure about this?
 </div>
 </main>
 <%@include file="/WEB-INF/Schedule_App/schedule_bottom.jsp"%>

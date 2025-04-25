@@ -37,6 +37,9 @@
 <c:if test="${pageTitle eq 'Add Event' || pageTitle eq 'Edit Event'}">
     <script src="js/schedule/addEvent.js"></script>
 </c:if>
+<c:if test="${pageTitle eq 'All Events - List'}">
+    <script src="js/schedule/allEvents.js"></script>
+</c:if>
 
 </body>
 
