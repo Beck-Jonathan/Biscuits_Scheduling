@@ -34,7 +34,7 @@ Create the JSP  For Viewing All of The  Event table
                     </thead>
                     <tbody>
                     <c:forEach items="${Events}" var="event">
-                           <tr id="${event.event_ID}row">
+                        <tr id="${event.event_ID}row">
                             <td><a href = "editEvent?eventid=${event.event_ID}">View Detail</a></td>
                             <td>${fn:escapeXml(event.name)}</td>
                             <td>${fn:escapeXml(event.date)}</td>

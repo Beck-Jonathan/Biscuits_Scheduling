@@ -68,7 +68,7 @@ function culvers(){
 
         });
     } else {
-        
+
         culvers_events = culvers_stored[currentMonth];
         culvers_filtered = culvers_stored[currentMonth];
         $("#datesToSlide").slideDown();
@@ -295,10 +295,27 @@ function addEventsToBoxes(){
                         thing.classList.add("box")
                         thing.classList.add("pink")
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
+                        //thing.setAttribute('href', "eventid=" + combined_events[i].events[j].event_ID+"&viewmode=middle");
+                        var href = thing.getAttribute("href");
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
+                            //$("#calendarmain").slideUp();
                             window.location = this.getAttribute("href");
+                            //$.ajax({
+                              //  url: 'editEvent',
+                                //data: this.getAttribute("href"),
+                                //type: 'get',
+                                //async: true,
+                                //success: function (response) {
+                                 //   console.log(response);
+                                  //  document.getElementById("calendarmain").innerHTML="";
+                                   // document.getElementById("calendarmain").innerHTML=response;
+
+                                   // $("#calendarmain").slideDown();
+
+
+                                //}})
                         });
                         backgroundColor = "";
                         textColor = ""

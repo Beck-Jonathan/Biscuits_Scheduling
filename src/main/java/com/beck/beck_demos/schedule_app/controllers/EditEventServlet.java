@@ -47,7 +47,10 @@ public class EditEventServlet extends HttpServlet{
       resp.sendRedirect("schedule_in");
       return;
     }
-
+    String viewmode = req.getParameter("viewmode");
+    if (viewmode!=null && viewmode.equals("middle")){
+      req.setAttribute("viewmode","middle");
+    }
 
     String primaryKey = "";
     try{
@@ -69,7 +72,7 @@ public class EditEventServlet extends HttpServlet{
       event=eventDAO.getEventByPrimaryKey(event);
     } catch (SQLException e) {
       req.setAttribute("dbStatus",e.getMessage());
-      event = new Event();
+      event = null;
     }
     if (event==null || event.getEvent_ID()==null){
       resp.sendRedirect("all-events");
@@ -101,6 +104,10 @@ public class EditEventServlet extends HttpServlet{
 //to set the drop downs
 //to get the old Event
     Event _oldEvent= (Event)session.getAttribute("event");
+    if (_oldEvent==null){
+      resp.sendRedirect("all-events");
+      return;
+    }
 //to get the new event's info
 
     String _Name = req.getParameter("inputeventName");

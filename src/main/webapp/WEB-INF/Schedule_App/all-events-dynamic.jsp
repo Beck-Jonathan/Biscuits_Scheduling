@@ -1,8 +1,9 @@
 <%@include file="/WEB-INF/Schedule_App/schedule_top.jsp"%>
 
 
-<div id="calendar"></div>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+<div id="calendarmain">
 <div class="row">
 <div class="search-container col-md-3">
     <input type="text" id="searchBox" onkeyup="filter()" placeholder="Search for names..">
@@ -18,7 +19,7 @@
     </div>
 </div>
 
-<div class="calendar" id="calendar">
+<div class="calendar" >
     <div class="calendar-header">
         <button id="prev-month">‹</button>
         <div id="month-year"></div>
@@ -41,6 +42,7 @@
             <!-- Dates will be populated here -->
         </div>
     </div>
+</div>
 </div>
 </body>
 

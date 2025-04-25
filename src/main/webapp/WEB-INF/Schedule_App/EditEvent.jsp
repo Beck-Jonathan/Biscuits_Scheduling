@@ -2,7 +2,10 @@
 Create the JSP For Viuw/Edit from the Event table
  Created By Jonathan Beck 4/10/2025
 **********--%>
+<c:if test="${empty viewmode}">
+
 <%@include file="/WEB-INF/Schedule_App/schedule_top.jsp"%>
+</c:if>
 <div class = "container">
     <form method="post" action="${appURL}/editEvent" id = "editEvent" >
         <!-- Event_ID -->
@@ -112,5 +115,6 @@ Create the JSP For Viuw/Edit from the Event table
         </div>
     </form>
 </div>
+<c:if test="${empty viewmode}">
 <%@include file="/WEB-INF/Schedule_App/schedule_bottom.jsp"%>
-
+</c:if>

@@ -75,7 +75,7 @@ class EditEventServletTest  {
    <p> Test That a logged in user gets a 200 status on doPost </p>
    */
   @Test
-  public void TestLoggedInUserGets200OnDoPost() throws ServletException, IOException{
+  public void TestLoggedInUserGets302nDoPostWithNoEventSet() throws ServletException, IOException{
     User user = new User();
     List<String> roles = new ArrayList<>();
     roles.add("User");
@@ -84,7 +84,7 @@ class EditEventServletTest  {
     request.setSession(session);
     servlet.doPost(request,response);
     int status = response.getStatus();
-    assertEquals(200,status);
+    assertEquals(302,status);
   }
 
   /**
@@ -250,6 +250,8 @@ class EditEventServletTest  {
     roles.add("User");
     user.setRoles(roles);
     session.setAttribute("User_C",user);
+    Event event = new Event();
+    session.setAttribute("event",event);
     request.setSession(session);
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
