@@ -52,6 +52,8 @@ public class AddEventServlet extends HttpServlet{
     String day = req.getParameter("day");
     String month = req.getParameter("month");
     String year = req.getParameter("year");
+    Date now = new Date();
+    Calendar calendar = Calendar.getInstance();
     Integer _day = 0;
     Integer _month = 0;
     Integer _year = 0;
@@ -62,7 +64,18 @@ public class AddEventServlet extends HttpServlet{
           day="0"+_day;
         }
       }catch (Exception e) {
-        _day=0;
+        _day = calendar.get(Calendar.DAY_OF_MONTH);
+        day = ((Integer) calendar.get(Calendar.DAY_OF_MONTH)).toString();
+        if (_day>0&&_day<10){
+          day="0"+_day;
+        }
+      }
+    }
+    else {
+      _day = calendar.get(Calendar.DAY_OF_MONTH);
+      day = ((Integer) calendar.get(Calendar.DAY_OF_MONTH)).toString();
+      if (_day>0&&_day<10){
+        day="0"+_day;
       }
     }
     if (month!=null && !month.isEmpty()){
@@ -73,17 +86,34 @@ public class AddEventServlet extends HttpServlet{
         }
 
       }catch (Exception e) {
-        _month=0;
+        _month =  calendar.get(Calendar.MONTH);
+        month = ((Integer) calendar.get(Calendar.MONTH)).toString();
+        if (_month<10){
+          month = "0"+_month;
+        }
       }
-    }if (year!=null && !year.isEmpty()){
+    } else {
+      _month = calendar.get(Calendar.MONTH)+1;
+      month = ((Integer) calendar.get(Calendar.MONTH)).toString();
+      if (_month<10){
+        month = "0"+_month;
+      }
+    }
+
+    if (year!=null && !year.isEmpty()){
       try{
         _year=Integer.parseInt(year);
 
       }catch (Exception e) {
-      _year=0;
+
+        year = ((Integer) calendar.get(Calendar.YEAR)).toString();
+
       }
     }
-    String date = _year+"-"+month+"-"+day+"T08:00";
+    else {
+      year = ((Integer) calendar.get(Calendar.YEAR)).toString();
+    }
+    String date = year+"-"+month+"-"+day+"T08:00";
     results.put("Date",date);
 
 
