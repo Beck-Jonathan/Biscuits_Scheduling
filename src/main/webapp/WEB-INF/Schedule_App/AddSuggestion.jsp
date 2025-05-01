@@ -5,16 +5,16 @@ Create the JSP  For adding to The  Suggestion table
 <%@include file="/WEB-INF/Schedule_App/schedule_top.jsp"%>
 <div class = "container">
     <form method="post" action="${appURL}/addSuggestion" id = "addSuggestion" >
-        
+
         <!-- Application_Name -->
         <div class ="row" id = "row1">
-            <label for="inputsuggestionApplication_Name" class="form-label">Application_Name</label>
-            <div class="input-group input-group-lg">
-                <input type="text" class="<c:if test="${not empty results.suggestionApplication_Nameerror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1" placeholder="Application_Name" id="inputsuggestionApplication_Name" name="inputsuggestionApplication_Name" value="${fn:escapeXml(results.Application_Name)}">
-                <c:if test="${not empty results.suggestionApplication_Nameerror}">
-                    <div class="invalid-feedback">${results.suggestionApplication_Nameerror}</div>
-                </c:if>
-            </div>
+            <label for="inputsuggestionApplication_Name" class="form-label">Application Name</label>
+            <select name="cars" name ="inputsuggestionApplication_Name" id="inputsuggestionApplication_Name">
+                <option value="Budgeting" >Budgeting</option>
+                <option value="Homepage">Homepage</option>
+                <option value="Scheduling" selected>Scheduling</option>
+                <option value="Other">Other (Please Explain)</option>
+            </select>
         </div>
         <!-- content -->
         <div class ="row" id = "row2">

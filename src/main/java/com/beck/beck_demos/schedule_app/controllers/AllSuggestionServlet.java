@@ -57,7 +57,7 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
     session.setAttribute("currentPage",req.getRequestURL());
     List<Suggestion> suggestions = null;
     try {
-      suggestions =suggestionDAO.getAllSuggestion(0,20,search_term,user.getUser_ID());
+      suggestions =suggestionDAO.getAllSuggestion(0,20,search_term,"");
     } catch (Exception e) {
       suggestions = new ArrayList<>();
     }
