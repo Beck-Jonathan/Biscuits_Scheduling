@@ -197,3 +197,24 @@ CONSTRAINT Saved_Search_Order_PK PRIMARY KEY (Saved_Search_Order_ID),
 
 CONSTRAINT fk_Saved_Search_Order_User0 foreign key (Owned_User) references User (User_ID)
 );
+
+/******************
+Create the Suggestion table
+ Created By Jonathan Beck 5/1/2025
+***************/
+
+
+DROP TABLE IF EXISTS Suggestion;
+CREATE TABLE Suggestion(
+
+Suggestion_ID	nvarchar(36)	DEFAULT "uuid()"	not null	comment '',
+User_ID	nvarchar(36)	not null	comment '',
+Application_Name	nvarchar(100)	not null	comment '',
+content	nvarchar(1000)	not null	comment '',
+
+CONSTRAINT Suggestion_PK PRIMARY KEY (Suggestion_ID),
+
+CONSTRAINT fk_Suggestion_User0 foreign key (User_ID) references User (User_ID)
+);
+
+

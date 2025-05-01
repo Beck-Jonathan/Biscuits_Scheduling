@@ -1265,3 +1265,121 @@ limit limit_param
 offset offset_param
  ; END $$
  DELIMITER ;
+ 
+ 
+/******************
+Create the delete script for the Suggestion table
+ Created By Jonathan Beck 5/1/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_delete_Suggestion;
+DELIMITER $$
+CREATE PROCEDURE sp_delete_Suggestion
+(Suggestion_ID_param nvarchar(36)
+)
+BEGIN
+UPDATE Suggestion
+   set is_active=0
+WHERE Suggestion_ID=Suggestion_ID_param
+
+ ; END $$
+ DELIMITER ;
+ 
+ 
+/******************
+Create the retreive by key script for the Suggestion table
+ Created By Jonathan Beck 5/1/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retreive_by_pk_Suggestion;
+DELIMITER $$
+CREATE PROCEDURE sp_retreive_by_pk_Suggestion
+(
+Suggestion_ID_param nvarchar(36)
+)
+ Begin 
+ select 
+
+Suggestion.Suggestion_ID as 'Suggestion_Suggestion_ID',
+Suggestion.User_ID as 'Suggestion_User_ID',
+Suggestion.Application_Name as 'Suggestion_Application_Name',
+Suggestion.content as 'Suggestion_content',
+User.User_ID as 'User_User_ID',
+User.User_Name as 'User_User_Name',
+User.User_PW as 'User_User_PW',
+User.Email as 'User_Email'
+ FROM Suggestion
+join User on Suggestion.User_ID = User.User_ID
+where Suggestion_ID=Suggestion_ID_param
+ ; END $$
+ DELIMITER ;
+ 
+ /******************
+Create the retreive by all script for the Suggestion table
+ Created By Jonathan Beck 5/1/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retreive_by_all_Suggestion;
+DELIMITER $$
+CREATE PROCEDURE sp_retreive_by_all_Suggestion(
+limit_param int ,
+ offset_param int ,
+
+User_ID_param nvarchar(36),
+serach_param nvarchar(100)
+)
+begin 
+ SELECT 
+
+Suggestion.Suggestion_ID as 'Suggestion_Suggestion_ID',
+Suggestion.User_ID as 'Suggestion_User_ID',
+Suggestion.Application_Name as 'Suggestion_Application_Name',
+Suggestion.content as 'Suggestion_content',
+User.User_ID as 'User_User_ID',
+User.User_Name as 'User_User_Name',
+User.User_PW as 'User_User_PW',
+User.Email as 'User_Email'
+ FROM Suggestion
+join User on Suggestion.User_ID = User.User_ID
+WHERE
+(
+case when 
+User_ID_param ='' then 1=1
+else Suggestion.User_ID=User_ID_param
+end
+)
+and
+(case when search_param!='' then 
+	Suggestion.Suggestion_ID LIKE CONCAT('%',search_param,'%') 
+    OR Suggestion.User_ID LIKE CONCAT('%',search_param,'%')
+    OR Suggestion.Application_Name LIKE CONCAT('%',search_param,'%') 
+    OR Suggestion.content LIKE CONCAT('%',search_param,'%')
+end )
+
+ORDER BY Suggestion_ID
+limit limit_param
+offset offset_param
+
+ ;
+ END $$ 
+ DELIMITER ;
+ 
+ 
+/******************
+Create the insert script for the Suggestion table
+ Created By Jonathan Beck 5/1/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_insert_Suggestion;
+DELIMITER $$
+CREATE PROCEDURE sp_insert_Suggestion(
+in User_ID_param nvarchar(36)
+,in Application_Name_param nvarchar(100)
+,in content_param nvarchar(1000)
+)
+begin 
+INSERT INTO  Suggestion
+(User_ID,Application_Name,content)
+ values 
+(User_ID_param
+,Application_Name_param
+,content_param
+)
+ ; END $$
+ DELIMITER ;

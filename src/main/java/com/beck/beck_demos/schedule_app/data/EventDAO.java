@@ -25,6 +25,7 @@ public class EventDAO implements iEventDAO {
   public int add(Event _event) throws SQLException {
     int numRowsAffected = 0;
     try (Connection connection = getConnection()) {
+
       if (connection != null) {
         try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")) {
           statement.setString(1, _event.getName());

@@ -11,8 +11,12 @@
         <a href="all-events?view=calendar">   <button type="button" value="View" id="calendar" ></button></a>
 
     </div>
+    <div class="col col-md-1">
+        <a href="all-Suggestions">   <button type="button" value="View" id="suggestions" ></button></a>
+
+    </div>
 
 
-    <div class="col col-md-9">
+    <div class="col col-md-8">
         <</div>
 </div>

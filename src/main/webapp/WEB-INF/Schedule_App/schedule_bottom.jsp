@@ -41,6 +41,16 @@
     <script src="js/schedule/allEvents.js"></script>
 </c:if>
 
+<c:if test="${pageTitle eq 'Add Suggestion'}">
+    <script src="js/schedule/addSuggestion.js"></script>
+</c:if>
+
+<c:if test="${pageTitle eq 'All Suggestions'}">
+    <script src="js/schedule/allSuggestion.js"></script>
+</c:if>
+
+
+
 </body>
 
 

@@ -40,6 +40,13 @@ $(document).ready(function() {
 
 
 
+	$("#suggestions").button();
+	$( "#suggestions" ).button( "option", "icon", "ui-icon-check" );
+	$( "#suggestions" ).button( "option", "showIcon", "true" );
+	$( "#suggestions" ).button( "option", "label", "Suggestion Box" );
+
+
+
 
 
 
