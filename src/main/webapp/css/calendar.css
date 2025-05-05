@@ -143,8 +143,8 @@ body {
     display:none;
 }
 
-.box:hover > span {
-    width:400px;
+.box.HoverRight:hover > span {
+    width:300px;
     text-align: left;
     position: absolute;
     top:-60px;
@@ -158,7 +158,7 @@ body {
     padding : 20px;
 }
 
-.box:hover > span:after{
+.box.HoverRight:hover > span:after{
     right: 100%;
     top: 40px;
     border: solid transparent;
@@ -169,6 +169,37 @@ body {
     pointer-events: none;
     border-color: rgba(136, 183, 213, 0);
     border-right-color: lightgray;
+    border-width: 20px;
+    margin-top: -6px;
+    z-index: 7;
+}
+
+.box.HoverLeft:hover > span {
+    width:300px;
+    text-align: left;
+    position: absolute;
+    top:-60px;
+    left:-330px;
+    display:block;
+    background:lightcoral;
+    color:white;
+
+    z-index: 7;
+    margin: 12px;
+    padding : 20px;
+}
+
+.box.HoverLeft:hover > span:after{
+    left: 100%;
+    top: 40px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: lightgray;
     border-width: 20px;
     margin-top: -6px;
     z-index: 7;

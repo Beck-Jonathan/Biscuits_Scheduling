@@ -106,7 +106,12 @@ function renderCalendar(month, year) {
         const day = document.createElement('div');
         //day.textContent = i;
         day.setAttribute("id","day"+i);
-
+        let thisday = new Date();
+        thisday.setMonth(currentMonth);
+        thisday.setFullYear(currentYear)
+        thisday.setDate(i);
+        let dayofweek = thisday.getDay();
+        day.setAttribute("dayofweek",dayofweek)
 
 
         // Highlight today's date
@@ -294,6 +299,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("pink")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         //thing.setAttribute('href', "eventid=" + combined_events[i].events[j].event_ID+"&viewmode=middle");
                         var href = thing.getAttribute("href");
@@ -324,6 +338,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("red")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -337,6 +360,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("orange")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -350,6 +382,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("yellow")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -363,6 +404,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("lightgreen")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -376,6 +426,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("green")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -389,6 +448,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("blue")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -402,6 +470,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("indigo")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -415,6 +492,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("violet")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -428,6 +514,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("lightgray")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -441,6 +536,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("darkgray")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
@@ -454,6 +558,15 @@ function addEventsToBoxes(){
                         thing = document.getElementById(id)
                         thing.classList.add("box")
                         thing.classList.add("black")
+                        var parent = (thing.parentElement.parentElement.parentElement);
+                        var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
+
+                        if (parentdayofweek<4){
+                            thing.classList.add("HoverRight")
+                        }
+                        else {
+                            thing.classList.add("HoverLeft")
+                        }
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
