@@ -91,7 +91,7 @@ public class Suggestion implements Comparable<Suggestion> {
    * throws IllegalArgumentException if Application_Name under 3 characters or longer than 100 characters
    */
   public void setApplication_Name(String Application_Name) {
-    Application_Name = Application_Name.replaceAll("[^A-Za-z0-9 - ]","");
+    Application_Name = Application_Name.replaceAll("[^.,!()A-Za-z0-9 - ]","");
     if(Application_Name.length()<4){
       throw new IllegalArgumentException("Application_Name is too short.");
     }
@@ -115,7 +115,7 @@ public class Suggestion implements Comparable<Suggestion> {
    * throws IllegalArgumentException if content under 3 characters or longer than 1000 characters
    */
   public void setcontent(String content) {
-    content = content.replaceAll("[^A-Za-z0-9 - ]","");
+    content = content.replaceAll("[^.,!()A-Za-z0-9 - ]","");
     if(content.length()<4){
       throw new IllegalArgumentException("content is too short.");
     }

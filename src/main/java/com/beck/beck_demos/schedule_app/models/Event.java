@@ -52,7 +52,7 @@ public class Event implements Comparable<Event> {
    * throws IllegalArgumentException if Event_ID under 3 characters or longer than 36 characters
    */
   public void setEvent_ID(String Event_ID) {
-    Event_ID = Event_ID.replaceAll("[^-A-Za-z0-9 - ]","");
+    Event_ID = Event_ID.replaceAll("[^.,!()-A-Za-z0-9 - ]","");
     if(Event_ID.length()<4){
       throw new IllegalArgumentException("Event_ID is too short.");
     }
@@ -76,7 +76,7 @@ public class Event implements Comparable<Event> {
    * throws IllegalArgumentException if Name under 3 characters or longer than 100 characters
    */
   public void setName(String Name) {
-    Name = Name.replaceAll("[^A-Za-z0-9 - ]","");
+    Name = Name.replaceAll("[^.,!()A-Za-z0-9 - ]","");
     if(Name.length()<4){
       throw new IllegalArgumentException("Name is too short.");
     }
@@ -117,7 +117,7 @@ public class Event implements Comparable<Event> {
    * throws IllegalArgumentException if Location under 3 characters or longer than 100 characters
    */
   public void setLocation(String Location) {
-    Location = Location.replaceAll("[^A-Za-z0-9 - ]","");
+    Location = Location.replaceAll("[^.,!()A-Za-z0-9 - ]","");
     if(Location.length()<4){
       throw new IllegalArgumentException("Location is too short.");
     }
@@ -141,7 +141,7 @@ public class Event implements Comparable<Event> {
    * throws IllegalArgumentException if description under 3 characters or longer than 256 characters
    */
   public void setDescription(String description) {
-    description = description.replaceAll("[^A-Za-z0-9 - ]","");
+    description = description.replaceAll("[^.,!()A-Za-z0-9 - ]","");
     if(description.length()<4){
       throw new IllegalArgumentException("description is too short.");
     }
