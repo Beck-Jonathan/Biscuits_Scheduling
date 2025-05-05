@@ -174,13 +174,17 @@ public class AddEventServlet extends HttpServlet{
       _Paid=_Paid.trim();
     }
     String _numberRecurrences = req.getParameter("inputEventRecur");
+    String repeat = req.getParameter("bool_recur");
     int recur=0;
-    if (_numberRecurrences!=null) {
+    if (_numberRecurrences!=null&&repeat!=null&&repeat.equals("yes")) {
       try {
         recur = Integer.parseInt(_numberRecurrences);
       } catch (Exception e) {
-        recur=1;
+        recur=0;
       }
+    }
+    else {
+      recur=0;
     }
     String period = req.getParameter("inputEventPeriod");
     if (period!=null) {
@@ -191,6 +195,7 @@ public class AddEventServlet extends HttpServlet{
 
 
     }
+
 
     Map<String, String> results = new HashMap<>();
     results.put("Event_ID",_Event_ID);
