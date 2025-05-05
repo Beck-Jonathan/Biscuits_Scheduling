@@ -22,7 +22,7 @@ Create the JSP  For Viewing All of The  Suggestion table
                     <thead>
                     <tr>
                         <th scope="col"> Details </th>
-                        <th scope="col">User_ID</th>
+                        <th scope="col">User</th>
                         <th scope="col">Application_Name</th>
                         <th scope="col">content</th>
 
@@ -35,7 +35,7 @@ Create the JSP  For Viewing All of The  Suggestion table
                             <td>
                                 <button class="detailButton" href="${suggestion.suggestion_ID}" >Details</button>
                             </td>
-                            <td>${fn:escapeXml(suggestion.user_ID)}</td>
+                            <td>${fn:escapeXml(suggestion.user.user_Name)}</td>
                             <td>${fn:escapeXml(suggestion.application_Name)}</td>
                             <td>${fn:escapeXml(suggestion.content)}</td>
                             <td>
