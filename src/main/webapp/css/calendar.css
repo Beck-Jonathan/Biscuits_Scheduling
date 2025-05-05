@@ -6,6 +6,10 @@ body {
     align-items: center;
     height: 80%
 }
+#prev-month, #next-month{
+   font-size: 64px !important;
+
+}
 .calendar {
     width: 80%;
     background-color: #fff;
