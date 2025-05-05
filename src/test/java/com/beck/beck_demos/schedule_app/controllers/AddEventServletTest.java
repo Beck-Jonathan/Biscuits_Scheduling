@@ -221,6 +221,7 @@ class AddEventServletTest {
     request.setParameter("inputeventUnit","days");
     request.setParameter("inputeventDescision","Skipping");
     request.setParameter("inputeventPaid","Yes");
+    request.setParameter("bool_recur","no");
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
     Map<String, String> results = (Map<String, String>) request.getAttribute("results");
@@ -249,6 +250,7 @@ class AddEventServletTest {
     request.setParameter("inputEventRecur","day");
     request.setParameter("inputEventRecur","4");
     request.setParameter("inputEventPeriod","day");
+    request.setParameter("bool_recur","yes");
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
     Map<String, String> results = (Map<String, String>) request.getAttribute("results");
@@ -277,6 +279,7 @@ class AddEventServletTest {
     request.setParameter("inputEventRecur","day");
     request.setParameter("inputEventRecur","12");
     request.setParameter("inputEventPeriod","week");
+    request.setParameter("bool_recur","yes");
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
     Map<String, String> results = (Map<String, String>) request.getAttribute("results");
@@ -304,6 +307,7 @@ class AddEventServletTest {
     request.setParameter("inputeventPaid","Yes");
     request.setParameter("inputEventRecur","5");
     request.setParameter("inputEventPeriod","month");
+    request.setParameter("bool_recur","yes");
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
     Map<String, String> results = (Map<String, String>) request.getAttribute("results");
@@ -331,6 +335,7 @@ class AddEventServletTest {
     request.setParameter("inputeventPaid","Yes");
     request.setParameter("inputEventRecur","6");
     request.setParameter("inputEventPeriod","year");
+    request.setParameter("bool_recur","yes");
     servlet.doPost(request,response);
     int responseStatus = response.getStatus();
     Map<String, String> results = (Map<String, String>) request.getAttribute("results");
