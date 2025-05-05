@@ -220,51 +220,51 @@ var boxMonth=currentMonth+1;
         "<!-- start row 3 -->\n" +
 
         "  <div class=\"row xxyy\">\n" +
-        "    <div id=day"+dayno+"r3e1 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r3e1 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "     </div>\n" +
         "   \n" +
-        "    <div id=day"+dayno+"r3e2 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r3e2 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "   </div>\n" +
-        "    <div id=day"+dayno+"r3e3 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r3e3 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
-        "    <div id=day"+dayno+"r3e4 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r3e4 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
         "   </div>\n" +
         "   <!-- end row 3 for real -->\n" +
         "   <!-- start row 4 -->\n" +
         "  <div class=\"row xxyy\">\n" +
-        "    <div id=day"+dayno+"r4e1 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r4e1 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "     </div>\n" +
         "   \n" +
-        "    <div id=day"+dayno+"r4e2 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r4e2 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "   </div>\n" +
-        "   <div id=day"+dayno+"r4e3 class=\"col \">\n" +
+        "   <div id=day"+dayno+"r4e3 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
-        "    <div id=day"+dayno+"r4e4 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r4e4 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
         "   </div>\n" +
         "   <!-- end row 4 for real -->\n" +
         "   <!-- start row 5 -->\n" +
         "  <div class=\"row xxyy\">\n" +
-        "    <div id=day"+dayno+"r5e1 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r5e1 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "     </div>\n" +
         "   \n" +
-        "    <div id=day"+dayno+"r5e2 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r5e2 class=\"col-2 \">\n" +
         "    &nbsp\n" +
         "   </div>\n" +
-        "    <div id=day"+dayno+"r5e3 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r5e3 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
-        "    <div id=day"+dayno+"r5e4 class=\"col \">\n" +
+        "    <div id=day"+dayno+"r5e4 class=\"col-2 \">\n" +
         "   \n" +
         "   </div>\n" +
         "   </div>\n" +
