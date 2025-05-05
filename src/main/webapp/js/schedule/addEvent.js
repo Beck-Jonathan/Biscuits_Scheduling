@@ -1,7 +1,7 @@
 $(document).ready(function() {
 // to clean the field, then set event listener for validating the input for Name
         var Name_input= document.getElementById("inputeventName");
-        Name_input.value='';
+
         Name_input.addEventListener('keyup',function(){
                 if (Name_input.value!=""&& Name_input.value.length>1 && Name_input.value.length<=100){
                     $(Name_input).addClass("ui-state-highlight");
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 // to clean the field, then set event listener for validating the input for Location
         var Location_input= document.getElementById("inputeventLocation");
-        Location_input.value='';
+        
         Location_input.addEventListener('keyup',function(){
                 if (Location_input.value!=""&& Location_input.value.length>1 && Location_input.value.length<=100){
                     $(Location_input).addClass("ui-state-highlight");
