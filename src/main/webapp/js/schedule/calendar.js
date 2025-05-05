@@ -582,7 +582,7 @@ function addEventsToBoxes(){
 
 
                     thing.innerHTML = "&nbsp<span style='color:" + textColor + "; background-color:" + backgroundColor + "' class='hiddendetails double-border' ><h3>" + combined_events[i].events[j].name
-                        + "</h3></br>" + combined_events[i].events[j].description + "</br>" + date + "</span>";
+                        + "</h3></br>" + combined_events[i].events[j].description + "</br>" + date + "</br>" + combined_events[i].events[j].location+ "</span>";
 
                 }
             }
