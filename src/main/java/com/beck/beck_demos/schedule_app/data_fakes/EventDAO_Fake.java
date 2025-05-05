@@ -173,6 +173,11 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
+  public List<Event> getPokemonEvents() throws Exception {
+    return List.of();
+  }
+
+  @Override
   public int writeEventToFile(List<Event> Events, String path) throws IOException {
     return 0;
   }

@@ -14,10 +14,14 @@ let temp_events = []
 let backup_events = [];
 let culvers_events = []
 let is_culvers = false;
+let is_pokemon =false;
 let modified=false;
 let combined_events = [];
 let culvers_filtered=[];
 let culvers_stored = [];
+let pokemon_events=[];
+let pokemon_filtered = [];
+let pokemon_stored = [];
 
 async function filter(){
 
@@ -25,11 +29,13 @@ async function filter(){
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
     culvers_filtered = filterArray(culvers_events,searchTerm);
+    pokemon_filtered = filterArray(pokemon_events,searchTerm)
 
     var x =  await callAjaxMonth(currentMonth + 1, searchTerm);
 
 
     combined_events = combine_array(events,culvers_filtered);
+    combined_events = combine_array(combined_events,pokemon_filtered)
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes();
 }
@@ -41,6 +47,47 @@ function noculvers(){
 
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes()
+}
+function noPokemon(){
+    is_pokemon=false;
+    $("#Pokemon").slideDown();
+    $("#noPokemon").slideUp();
+    pokemon_filtered=[];
+
+    renderCalendar(currentMonth, currentYear);
+    addEventsToBoxes()
+}
+function Pokemon(){
+    //var events = [];
+    is_pokemon=true;
+
+    $("#datesToSlide").slideUp();
+    $("#Pokemon").slideUp();
+    $("#noPokemon").slideDown();
+
+    //if (culvers_stored[currentMonth]==null) {
+        $.ajax({
+            url: 'AJAXPOKEMON',
+           // data: "month=" + month + "&year=" + currentYear,
+            type: 'get',
+            async: true,
+            success: function (response) {
+                pokemon_events = response;
+                pokemon_filtered = response;
+                pokemon_stored[currentMonth]=culvers_events;
+                $("#datesToSlide").slideDown();
+                addEventsToBoxes()
+            }
+
+
+        });
+    //} else {
+
+//culvers_events = culvers_stored[currentMonth];
+      //  culvers_filtered = culvers_stored[currentMonth];
+     //   $("#datesToSlide").slideDown();
+       // addEventsToBoxes()
+   // }
 
 }
 function culvers(){
@@ -131,6 +178,7 @@ function renderCalendar(month, year) {
 }
 
 $("#noculvers").slideUp();
+$("#noPokemon").slideUp();
 renderCalendar(currentMonth, currentYear);
 callAjaxMonth(currentMonth+1,"");
 prevMonthBtn.addEventListener('click', () => {
@@ -282,6 +330,7 @@ var boxMonth=currentMonth+1;
 
 function addEventsToBoxes(){
     combined_events = combine_array(events,culvers_filtered);
+    combined_events = combine_array(combined_events,pokemon_filtered)
 
 
     for (i=0;i<combined_events.length;i++){

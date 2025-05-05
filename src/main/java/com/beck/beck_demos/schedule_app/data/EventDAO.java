@@ -300,6 +300,74 @@ public class EventDAO implements iEventDAO {
   }
 
   @Override
+  public List<Event> getPokemonEvents() throws Exception {
+    SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    List<Event> pokemonEvents = new ArrayList<>();
+    String result = "";
+    int i = 0;
+    String uril = "https://raw.githubusercontent.com/bigfoott/ScrapedDuck/data/events.json";
+    try {
+      try (Scanner scanner = new Scanner(new URL(uril).openStream(),
+          StandardCharsets.UTF_8.toString())) {
+        scanner.useDelimiter("\\A");
+        result = scanner.next();
+        JSONArray array = new JSONArray(result);
+        for (Object o : array) {
+          if (i==45) {
+            int yy=0;
+          }
+          JSONObject pkmnEvent = (JSONObject) o;
+          String Name = pkmnEvent.getString("name");
+          Object _start_date = pkmnEvent.get("start");
+          Object _end_date = pkmnEvent.get("end");
+          Date Start_Date_Time = new Date();
+          Date End_Date_Time = new Date();
+          double Length=0d;
+          if (_start_date != JSONObject.NULL) {
+            String date = _start_date.toString();
+
+            date=date.replace("T"," ");
+            Start_Date_Time = Simple.parse(date);
+          }
+          if (_end_date != JSONObject.NULL) {
+            String date = _end_date.toString();
+
+            date=date.replace("T"," ");
+
+            End_Date_Time = Simple.parse(date);
+          }
+          if (_start_date != JSONObject.NULL&& _end_date != JSONObject.NULL){
+            Length = End_Date_Time.getTime()-Start_Date_Time.getTime();
+            Length=Length/1000/60/60;
+          }
+
+          String Description = pkmnEvent.getString("heading");
+
+          String Decision = "Maybe";
+          String Paid = "No";
+          String location = "home";
+
+          Event _event = new Event("", Name, Start_Date_Time, location, Description, Length, Decision, Paid);
+
+          pokemonEvents.add(_event);
+          i++;
+        }
+
+
+      } catch (Exception e) {
+        pokemonEvents = new ArrayList<>();
+        return pokemonEvents;
+      }
+
+    } catch (Exception e) {
+      pokemonEvents = new ArrayList<>();
+      return pokemonEvents;
+    }
+    int x = 0;
+    return pokemonEvents;
+  }
+
+  @Override
   public int writeEventToFile(List<Event> Events, String path) throws IOException {
     int result = 0;
     File file = new File(path);
