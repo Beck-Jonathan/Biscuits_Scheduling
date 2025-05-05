@@ -57,7 +57,7 @@ Create the JSP For Viuw/Edit from the Event table
         <div class ="row" id = "row5">
             <label for="inputeventLength" class="form-label">Length</label>
             <div class="input-group input-group-lg">
-                <input type="number" class="<c:if test="${not empty results.eventLengtherror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1" placeholder="Length" id="inputeventLength" name="inputeventLength"
+                <input type="number" step='0.1' class="<c:if test="${not empty results.eventLengtherror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1" placeholder="Length" id="inputeventLength" name="inputeventLength"
                        value="<c:choose>
                                     <c:when test = "${event.length < 1}">
                                         ${Math.round(event.length*60)}
