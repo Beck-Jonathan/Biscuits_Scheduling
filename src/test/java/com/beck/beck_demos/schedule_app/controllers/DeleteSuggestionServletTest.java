@@ -83,7 +83,7 @@ public class DeleteSuggestionServletTest {
    <p> Test that the deactivation servlet can deactivate a Suggestion </p>
    */
   @Test
-  public void TestDeleteCanDeletee() throws ServletException, IOException {
+  public void TestDeleteCanDelete() throws ServletException, IOException {
     User user = new User();
     List<String> roles = new ArrayList<>();
     roles.add("User");

@@ -6,6 +6,7 @@ package com.beck.beck_demos.schedule_app.controllers;
 
 import com.beck.beck_demos.schedule_app.data.SuggestionDAO;
 import com.beck.beck_demos.schedule_app.models.Suggestion;
+import com.beck.beck_demos.schedule_app.models.Suggestion_VM;
 import com.beck.beck_demos.schedule_app.models.User;
 import com.beck.beck_demos.schedule_app.iData.iSuggestionDAO;
 import jakarta.servlet.ServletException;
@@ -78,7 +79,7 @@ public class DeleteSuggestionServlet extends HttpServlet {
       writer.close();
       return;
     }
-    List<Suggestion> suggestions = null;
+    List<Suggestion_VM> suggestions = null;
     try {
       suggestions = suggestionDAO.getAllSuggestion(0,20,"","");
     }

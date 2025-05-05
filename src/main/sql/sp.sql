@@ -1,4 +1,4 @@
-USE budget;
+
 
 
 /******************
@@ -1277,8 +1277,8 @@ CREATE PROCEDURE sp_delete_Suggestion
 (Suggestion_ID_param nvarchar(36)
 )
 BEGIN
-UPDATE Suggestion
-   set is_active=0
+delete from Suggestion
+
 WHERE Suggestion_ID=Suggestion_ID_param
 
  ; END $$
@@ -1321,9 +1321,8 @@ DELIMITER $$
 CREATE PROCEDURE sp_retreive_by_all_Suggestion(
 limit_param int ,
  offset_param int ,
-
-User_ID_param nvarchar(36),
-serach_param nvarchar(100)
+search_param nvarchar(100),
+User_ID_param nvarchar(36)
 )
 begin 
  SELECT 
@@ -1346,12 +1345,13 @@ else Suggestion.User_ID=User_ID_param
 end
 )
 and
-(case when search_param!='' then 
+case when search_param!='' then 
 	Suggestion.Suggestion_ID LIKE CONCAT('%',search_param,'%') 
     OR Suggestion.User_ID LIKE CONCAT('%',search_param,'%')
     OR Suggestion.Application_Name LIKE CONCAT('%',search_param,'%') 
     OR Suggestion.content LIKE CONCAT('%',search_param,'%')
-end )
+else 1=1
+end 
 
 ORDER BY Suggestion_ID
 limit limit_param

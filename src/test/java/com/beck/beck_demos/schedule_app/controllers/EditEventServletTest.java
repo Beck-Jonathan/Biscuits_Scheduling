@@ -348,7 +348,7 @@ class EditEventServletTest  {
     request.setSession(session);
 //to set the old Event
     Event event = new Event();
-    event.setEvent_ID("EXCEPTION");
+    event.setEvent_ID("aaFvXjubiRihIcdaUnZDDqnRShTiokciQmOx");
     event.setName("EXCEPTION");
     event.setLocation("EXCEPTION");
     event.setDescription("EXCEPTION");

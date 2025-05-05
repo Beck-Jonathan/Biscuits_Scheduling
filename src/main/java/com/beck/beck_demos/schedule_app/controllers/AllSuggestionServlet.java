@@ -5,6 +5,7 @@ package com.beck.beck_demos.schedule_app.controllers; /******************
 
 import com.beck.beck_demos.schedule_app.data.SuggestionDAO;
 import com.beck.beck_demos.schedule_app.models.Suggestion;
+import com.beck.beck_demos.schedule_app.models.Suggestion_VM;
 import com.beck.beck_demos.schedule_app.models.User;
 import com.beck.beck_demos.schedule_app.iData.iSuggestionDAO;
 import jakarta.servlet.ServletException;
@@ -55,7 +56,7 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
       results.put("searchError","Invalid search term");
     }
     session.setAttribute("currentPage",req.getRequestURL());
-    List<Suggestion> suggestions = null;
+    List<Suggestion_VM> suggestions = null;
     try {
       suggestions =suggestionDAO.getAllSuggestion(0,20,search_term,"");
     } catch (Exception e) {

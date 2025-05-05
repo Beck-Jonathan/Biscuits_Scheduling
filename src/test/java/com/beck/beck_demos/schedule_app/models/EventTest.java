@@ -96,7 +96,7 @@ class EventTest {
    */
   @Test
   public void  testEventThrowsIllegalArgumentExceptionIfEvent_IDTooLong(){
-    String Event_ID = "PPraBQQbidflmwCYfWjfhLEHxwNZnXQwYEHRpv";
+    String Event_ID = "PPraBQQbikkkkkdflmwCYfWjfhLEHxwNZnXQwYEHRpv";
     Assertions.assertThrows(IllegalArgumentException.class, () -> {_event.setEvent_ID(Event_ID);});
   }
 
@@ -105,7 +105,7 @@ class EventTest {
    */
   @Test
   public void testSetEvent_IDSetsEvent_ID(){
-    String Event_ID = "FvXjubiRihIcdaUnZDDqnRShTiokciQmOx";
+    String Event_ID = "aaFvXjubiRihIcdaUnZDDqnRShTiokciQmOx";
     _event.setEvent_ID(Event_ID);
     Assertions.assertEquals(Event_ID,_event.getEvent_ID());
   }
@@ -285,12 +285,12 @@ class EventTest {
     Event smaller = new Event();
     Event bigger = new Event();
 //to compare a smaller and larger Event_ID
-    smaller.setEvent_ID("aaaa");
-    bigger.setEvent_ID("bbbb");
+    smaller.setEvent_ID("PPraBQQbikkkkkdflmwCYfWjfhLEHxwNZnXQ");
+    bigger.setEvent_ID("QQraBQQbikkkkkdflmwCYfWjfhLEHxwNZnXQ");
     Assertions.assertTrue(smaller.compareTo(bigger)<0);
     Assertions.assertTrue(bigger.compareTo(smaller)>0);
 //to set the Event_ID as equal.
-    smaller.setEvent_ID("bbbb");
+    smaller.setEvent_ID("QQraBQQbikkkkkdflmwCYfWjfhLEHxwNZnXQ");
 //to compare a smaller and larger Name
     smaller.setName("aaaa");
     bigger.setName("bbbb");

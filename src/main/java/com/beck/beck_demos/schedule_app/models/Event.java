@@ -52,8 +52,8 @@ public class Event implements Comparable<Event> {
    * throws IllegalArgumentException if Event_ID under 3 characters or longer than 36 characters
    */
   public void setEvent_ID(String Event_ID) {
-    Event_ID = Event_ID.replaceAll("[^.,!()-A-Za-z0-9 - ]","");
-    if(Event_ID.length()<4){
+    //Event_ID = Event_ID.replaceAll("[^.,!()-A-Za-z0-9 - ]","");
+    if(Event_ID.length()<36){
       throw new IllegalArgumentException("Event_ID is too short.");
     }
     if(Event_ID.length()>36){
