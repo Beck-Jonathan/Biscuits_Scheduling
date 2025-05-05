@@ -45,7 +45,8 @@ $(document).ready(function() {
     $(document.getElementsByName("bool_recur")).click(function(){
         var recur= (document.querySelector('input[name="bool_recur"]:checked').value);
         if (recur=="yes") {
-            $("#recur_row").slideDown();
+            $("#recur_row").slideDown().removeAttr("hidden");
+
         }
 
         else {$("#recur_row").slideUp();

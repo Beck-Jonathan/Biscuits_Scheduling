@@ -90,15 +90,15 @@ Create the JSP  For adding to The  Event table
             <label for="inputEventRecur" class="form-label">Repeat </label>
             <div class="input-group input-group-lg row">
                 <div class="col-md-1">
-                    <input type="radio" id="yes" name="bool_recur" value="yes" checked>
+                    <input type="radio" id="yes" name="bool_recur" value="yes" >
                     <label for="yes">Yes</label><br>
                 </div>
                 <div class="col-md-1">
-                <input type="radio" id="no" name="bool_recur" value="no">
+                <input type="radio" id="no" checked name="bool_recur" value="no">
                 <label for="no">No</label><br>
                 </div>
             </div>
-            <div class="input-group input-group-lg row" id="recur_row">
+            <div class="input-group input-group-lg row" id="recur_row" style="display: none">
                 <input type="number" class="<c:if test="${not empty results.eventLengtherror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1" placeholder="Length" id="inputEventRecur" name="inputEventRecur" value="${fn:escapeXml(results.Length)}">
 
                 <select class="<c:if test="${not empty results.eventDescisionerror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1"  id="inputEventPeriod" name="inputEventPeriod">
