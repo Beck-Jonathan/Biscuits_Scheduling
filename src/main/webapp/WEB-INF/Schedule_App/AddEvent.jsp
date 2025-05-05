@@ -103,7 +103,7 @@ Create the JSP  For adding to The  Event table
 
                 <select class="<c:if test="${not empty results.eventDescisionerror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1"  id="inputEventPeriod" name="inputEventPeriod">
                     <option value="day">Days</option>
-                    <option value="week" >weeks</option>
+                    <option value="week" >Weeks</option>
                     <option value="month" selected>Months</option>
                     <option value="year">Years</option>
                 </select>
