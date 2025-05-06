@@ -75,6 +75,13 @@ function Pokemon(){
             success: function (response) {
                 pokemon_events = response;
                 pokemon_filtered = response;
+                for (i=0;i<pokemon_events.length;i++){
+                    for (j=0;j<pokemon_events[i].events.length;j++){
+                        pokemon_events[i].events[j].source="Pokemon"
+                        pokemon_events[i].events[j].source="Pokemon"
+                    }
+                }
+                console.log(pokemon_events)
                 pokemon_stored[currentMonth]=pokemon_events;
                 $("#datesToSlide").slideDown();
                 addEventsToBoxes()
@@ -108,6 +115,13 @@ function culvers(){
             success: function (response) {
                 culvers_events = response;
                 culvers_filtered = response;
+                for (i=0;i<culvers_events.length;i++){
+                    for (j=0;j<culvers_events[i].events.length;j++){
+                        culvers_events[i].events[j].source="Culvers"
+                        culvers_events[i].events[j].source="Culvers"
+                    }
+                }
+
                 culvers_stored[currentMonth]=culvers_events;
                 $("#datesToSlide").slideDown();
                 addEventsToBoxes()
@@ -358,6 +372,8 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         //thing.setAttribute('href', "eventid=" + combined_events[i].events[j].event_ID+"&viewmode=middle");
                         var href = thing.getAttribute("href");
@@ -365,7 +381,10 @@ function addEventsToBoxes(){
                         });
                         thing.addEventListener("dblclick", function () {
                             //$("#calendarmain").slideUp();
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                             //$.ajax({
                               //  url: 'editEvent',
                                 //data: this.getAttribute("href"),
@@ -397,11 +416,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "red";
                         textColor = "white"
@@ -423,7 +446,10 @@ function addEventsToBoxes(){
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "orange";
                         textColor = "black"
@@ -441,11 +467,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "yellow";
                         textColor = "black"
@@ -463,11 +493,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "lightgreen";
                         textColor = "black"
@@ -485,11 +519,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "green";
                         textColor = "white"
@@ -507,11 +545,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "blue";
                         textColor = "white"
@@ -529,11 +571,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "indigo";
                         textColor = "white"
@@ -551,11 +597,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "violet";
                         textColor = "white"
@@ -573,11 +623,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "lightgray";
                         textColor = "black"
@@ -595,11 +649,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "darkgray";
                         textColor = "white"
@@ -617,11 +675,15 @@ function addEventsToBoxes(){
                         else {
                             thing.classList.add("HoverLeft")
                         }
+                        thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
-                            window.location = this.getAttribute("href");
+                            var source = this.getAttribute("source");
+                            if (source==="Personal") {
+                                window.location = this.getAttribute("href");
+                            }
                         });
                         backgroundColor = "black";
                         textColor = "white"
@@ -653,20 +715,18 @@ async function callAjaxMonth(month,search){
             $("#datesToSlide").slideDown();
 
             events = response;
+            for (i=0;i<events.length;i++){
+                for (j=0;j<events[i].events.length;j++){
+                    events[i].events[j].source="Personal"
+                }
+            }
+            console.log(events);
 
             combine_array(events,culvers_filtered)
 
             addEventsToBoxes();
-
-
-
         }
-
-
     });
-
-
-
 }
 function combine_array(array1,array2){
 
