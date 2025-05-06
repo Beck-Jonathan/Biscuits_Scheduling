@@ -80,8 +80,8 @@ body {
 
 .box {
     position: relative;
-    margin-left: 8px;
-    right: -18px;
+    margin-left: 2%;
+    right: -10%;
 }
 .box:before{
     position: absolute;
