@@ -173,7 +173,7 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
-  public List<Event> getPokemonEvents() throws Exception {
+  public List<Event> getPokemonEvents(int month, int year) throws Exception {
     return List.of();
   }
 

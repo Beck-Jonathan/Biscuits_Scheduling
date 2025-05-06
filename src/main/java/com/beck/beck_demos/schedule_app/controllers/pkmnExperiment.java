@@ -47,9 +47,30 @@ public class pkmnExperiment extends HttpServlet {
       resp.sendRedirect("schedule_in");
       return;
     }
+    String cal_month = req.getParameter("month");
+    String cal_year = req.getParameter("year");
+    int _cal_month = 0;
+    int _cal_year = 0;
+    int errors=0;
+    if (cal_month!=null&&!cal_month.isEmpty()){
+      try{
+        _cal_month = Integer.parseInt(cal_month);
+
+      }catch (Exception e){
+        errors ++;
+      }
+    }
+    if (cal_year!=null&&!cal_year.isEmpty()){
+      try{
+        _cal_year = Integer.parseInt(cal_year);
+
+      }catch (Exception e){
+        errors ++;
+      }
+    }
     List<Event> events = new ArrayList<>();
     try {
-      events = eventDAO.getPokemonEvents();
+      events = eventDAO.getPokemonEvents(_cal_month,_cal_year);
     } catch (Exception e) {
       events = new ArrayList<>();
     }

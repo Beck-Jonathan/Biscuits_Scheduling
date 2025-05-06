@@ -64,17 +64,18 @@ function Pokemon(){
     $("#datesToSlide").slideUp();
     $("#Pokemon").slideUp();
     $("#noPokemon").slideDown();
+    var month = currentMonth;
 
     //if (culvers_stored[currentMonth]==null) {
         $.ajax({
             url: 'AJAXPOKEMON',
-           // data: "month=" + month + "&year=" + currentYear,
+            data: "month=" + month + "&year=" + currentYear,
             type: 'get',
             async: true,
             success: function (response) {
                 pokemon_events = response;
                 pokemon_filtered = response;
-                pokemon_stored[currentMonth]=culvers_events;
+                pokemon_stored[currentMonth]=pokemon_events;
                 $("#datesToSlide").slideDown();
                 addEventsToBoxes()
             }

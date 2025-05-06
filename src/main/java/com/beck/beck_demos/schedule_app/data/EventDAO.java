@@ -300,7 +300,7 @@ public class EventDAO implements iEventDAO {
   }
 
   @Override
-  public List<Event> getPokemonEvents() throws Exception {
+  public List<Event> getPokemonEvents(int month, int year) throws Exception {
     SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     List<Event> pokemonEvents = new ArrayList<>();
     String result = "";
@@ -313,9 +313,8 @@ public class EventDAO implements iEventDAO {
         result = scanner.next();
         JSONArray array = new JSONArray(result);
         for (Object o : array) {
-          if (i==45) {
-            int yy=0;
-          }
+          i++;
+
           JSONObject pkmnEvent = (JSONObject) o;
           String Name = pkmnEvent.getString("name");
           Object _start_date = pkmnEvent.get("start");
@@ -323,11 +322,22 @@ public class EventDAO implements iEventDAO {
           Date Start_Date_Time = new Date();
           Date End_Date_Time = new Date();
           double Length=0d;
+          boolean thisMonth=true;
           if (_start_date != JSONObject.NULL) {
             String date = _start_date.toString();
 
             date=date.replace("T"," ");
             Start_Date_Time = Simple.parse(date);
+            int start_month = Start_Date_Time.getMonth();
+            int start_year = Start_Date_Time.getYear()+1900;
+            if (start_month != month) {
+              thisMonth=false;
+              continue;
+            }
+            if (start_year != year) {
+              thisMonth=false;
+              continue;
+            }
           }
           if (_end_date != JSONObject.NULL) {
             String date = _end_date.toString();
@@ -335,7 +345,10 @@ public class EventDAO implements iEventDAO {
             date=date.replace("T"," ");
 
             End_Date_Time = Simple.parse(date);
+
+
           }
+          if (thisMonth) {
           if (_start_date != JSONObject.NULL&& _end_date != JSONObject.NULL){
             Length = End_Date_Time.getTime()-Start_Date_Time.getTime();
             Length=Length/1000/60/60;
@@ -347,10 +360,11 @@ public class EventDAO implements iEventDAO {
           String Paid = "No";
           String location = "home";
 
-          Event _event = new Event("", Name, Start_Date_Time, location, Description, Length, Decision, Paid);
+            Event _event = new Event("", Name, Start_Date_Time, location, Description, Length, Decision, Paid);
 
-          pokemonEvents.add(_event);
-          i++;
+            pokemonEvents.add(_event);
+          }
+
         }
 
 
