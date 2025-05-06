@@ -53,6 +53,7 @@ public class DeleteEventServlet extends HttpServlet {
     req.setAttribute("pageTitle", "Delete Event");
     String EventID = req.getParameter("eventid");
     String search_term = req.getParameter("search");
+
     boolean _ajax= false;
     String AJAX = req.getParameter("AJAX");
     try {
