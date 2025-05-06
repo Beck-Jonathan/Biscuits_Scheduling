@@ -18,5 +18,5 @@
 
 
     <div class="col col-md-8">
-        <</div>
+        </div>
 </div>
