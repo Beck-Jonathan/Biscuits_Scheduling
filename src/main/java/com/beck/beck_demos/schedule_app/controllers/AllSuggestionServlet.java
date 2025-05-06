@@ -60,13 +60,29 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
       Appplication_Name="";
       session.setAttribute("App",Appplication_Name);
     }
+    int suggestioncount=0;
+    int page_number=1;
+    int page_size = 20;
+    try {
+      page_number = Integer.parseInt(req.getParameter("suggestion_page"));
+    } catch (Exception e){
+      page_number=1;
+    }
+    session.setAttribute("suggestion_page_number",page_number);
+    int offset=(page_number-1)*(page_size);
     session.setAttribute("currentPage",req.getRequestURL());
     List<Suggestion_VM> suggestions = null;
+    int suggestion_count = 0;
     try {
-      suggestions =suggestionDAO.getAllSuggestion(0,20,search_term,"",Appplication_Name);
+      //List <String> allApplications = suggestionDAO.getDistinctApplicationForDropdown();
+      //req.setAttribute("Applications", allApplications);
+      suggestion_count = suggestionDAO.getSuggestionCount(search_term, "", Appplication_Name);
+      suggestions =suggestionDAO.getAllSuggestion(offset,page_size,search_term,"",Appplication_Name);
     } catch (Exception e) {
       suggestions = new ArrayList<>();
     }
+    int total_pages = (suggestion_count/page_size)+1;
+    req.setAttribute("noOfPages", total_pages);
     req.setAttribute("Suggestions", suggestions);
     req.setAttribute("pageTitle", "All Suggestions");
     req.getRequestDispatcher("WEB-INF/Schedule_App/all-Suggestions.jsp").forward(req,resp);
