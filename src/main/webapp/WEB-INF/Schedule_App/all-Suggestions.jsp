@@ -14,11 +14,9 @@ Create the JSP  For Viewing All of The  Suggestion table
                     <form action="all-Suggestions">
                         <input type="text" placeholder="Search.." id="searchBox" name="search">
 
-
-
-                        <select  class="<c:if test="${not empty results.suggestionApplication_Nameerror}">is-invalid</c:if> form-control border-0 bg-light rounded-end ps-1" placeholder="Application_Name" id="inputsuggestionApplication_Name" name="inputsuggestionApplication_Name" value="${fn:escapeXml(results.Application_Name)}">
+                        <select   id="inputsuggestionApplication_Name" name="App" >
                             <c:forEach items="${Applications}" var="Application">
-                                <option value="${Application.application_Name}">${Application.name}   </option>
+                                <option value="${Application}">${Application}   </option>
                             </c:forEach>
                         </select>
                         <button type="submit"><i class="fa fa-search">search & filter</i></button>
