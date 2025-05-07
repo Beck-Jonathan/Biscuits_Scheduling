@@ -45,6 +45,7 @@ class EventTest {
     Date date = new Date();
     Event _event= new Event(
         "NkegijfhuVnAYDVBaDQNYssImPAQYDVHNk",
+        "10bff3c1-9278-4152-b384-13d3acdde559",
         "ZHgiCPAPQhfDZopKZWNpqtNevkdvvHQGUnUNxYdbZGMawNLCjAtccmaeEfljuJhHCpLYoMOEmBtIxYsMHVkBtgTUEugVQWnpLV",
         date
         ,
@@ -56,6 +57,7 @@ class EventTest {
     );
     Assertions.assertEquals("NkegijfhuVnAYDVBaDQNYssImPAQYDVHNk",_event.getEvent_ID());
     Assertions.assertEquals("ZHgiCPAPQhfDZopKZWNpqtNevkdvvHQGUnUNxYdbZGMawNLCjAtccmaeEfljuJhHCpLYoMOEmBtIxYsMHVkBtgTUEugVQWnpLV",_event.getName());
+    Assertions.assertEquals("10bff3c1-9278-4152-b384-13d3acdde559", _event.getUser_ID());
     Assertions.assertEquals(date,_event.getDate());
     Assertions.assertEquals("hTyYfFBNsnmJVAvFZHSWWkUISDCuvhKLBAqPDhnrddZKYQLkAIbhJGviJpcrFyJxNKDecOskiHdkiLHJDZmqjSUwOdePLxlxVC",_event.getLocation());
     Assertions.assertEquals("ZPVNaFsgwoGhhqhGeQdUFYveykeenWTaTFnxrVwapJfQDinPslotQndtFHBRBaHTHIktHmugnPOPUuQvqeefDQJDlNuOobvvRwsHGqIGATJqFvpFjDAgkglXyxywWnVCkobVpmSfBGMJDFJWarbHKrGFXiuCitYQulIBkRknSYdxxsNVWjPMNRfKmOgroXqqpgGcjmxEwpgJBmLvmYfxaiolkIFBVjWGYONJbfwbTeFPSEYKisKxMSxnYnQeQW",_event.getDescription());
@@ -117,6 +119,33 @@ class EventTest {
   public void  testEventThrowsIllegalArgumentExceptionIfNameTooShort(){
     String Name = "Pa";
     Assertions.assertThrows(IllegalArgumentException.class, () -> {_event.setName(Name);});
+  }
+  /**
+   <p> Tests That the Setters for the Event.User_ID field can throw exceptions with invalid inputs </p>
+   */
+  @Test
+  public void  testEventThrowsIllegalArgumentExceptionIfUser_IDTooShort(){
+    String User_ID = "sq";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {_event.setUser_ID(User_ID);});
+  }
+
+  /**
+   <p> Tests That the Setters for the Event.User_ID field can throw exceptions with invalid inputs </p>
+   */
+  @Test
+  public void  testEventThrowsIllegalArgumentExceptionIfUser_IDTooLong(){
+    String User_ID = "MsDEinkEVDvdLUObjjKqFLIMRXMLZnCIqtJRDc";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {_event.setUser_ID(User_ID);});
+  }
+
+  /**
+   <p> Tests That the Setters for the Event.User_ID field work </p>
+   */
+  @Test
+  public void testSetUser_IDSetsUser_ID(){
+    String User_ID = "10bff3c1-9278-4152-b384-13d3acdde559";
+    _event.setUser_ID(User_ID);
+    Assertions.assertEquals(User_ID,_event.getUser_ID());
   }
 
   /**
@@ -291,6 +320,13 @@ class EventTest {
     Assertions.assertTrue(bigger.compareTo(smaller)>0);
 //to set the Event_ID as equal.
     smaller.setEvent_ID("QQraBQQbikkkkkdflmwCYfWjfhLEHxwNZnXQ");
+    //to compare a smaller and larger User_ID
+    smaller.setUser_ID("10bff3c1-9278-4152-b384-13d3acdde559");
+    bigger.setUser_ID("20bff3c1-9278-4152-b384-13d3acdde559");
+    Assertions.assertTrue(smaller.compareTo(bigger)<0);
+    Assertions.assertTrue(bigger.compareTo(smaller)>0);
+//to set the User_ID as equal.
+    smaller.setUser_ID("20bff3c1-9278-4152-b384-13d3acdde559");
 //to compare a smaller and larger Name
     smaller.setName("aaaa");
     bigger.setName("bbbb");

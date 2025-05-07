@@ -448,7 +448,7 @@ class AddEventServletTest {
             Double Length = 1d;
             String Decision = "Maybe";
             String Paid = "No";
-            Event _event = new Event("", Name, Date_Time, location, Description, Length, Decision, Paid);
+            Event _event = new Event("","", Name, Date_Time, location, Description, Length, Decision, Paid);
 
             flavors.add(_event);
 

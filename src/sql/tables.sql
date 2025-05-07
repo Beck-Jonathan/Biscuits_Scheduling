@@ -82,6 +82,7 @@ DROP TABLE IF EXISTS Event;
 CREATE TABLE Event(
 
 Event_ID	nvarchar(36)	DEFAULT "uuid()"	not null	comment '',
+User_ID	nvarchar(36)	not null	comment '',
 Name	nvarchar(100)	not null	comment '',
 Date	DateTime	not null	comment '',
 Location	nvarchar(100)	not null	comment '',
@@ -90,7 +91,8 @@ Length	decimal	not null	comment '',
 Descision	nvarchar(6)	not null	comment '',
 Paid	nvarchar(6)	not null	comment '',
 
-CONSTRAINT Event_PK PRIMARY KEY (Event_ID)
+CONSTRAINT Event_PK PRIMARY KEY (Event_ID),
+CONSTRAINT fk_Event_User0 foreign key (User_ID) references User (User_ID)
 );
 
 /******************

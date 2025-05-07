@@ -101,7 +101,7 @@ public class AddEventFromFile extends HttpServlet {
     List<Event> events = null;
 
     try {
-      events = eventDAO.getEventsFromFile(uploadedFile);
+      events = eventDAO.getEventsFromFile(uploadedFile,user.getUser_ID());
     } catch (Exception e) {
       results.put("dbError", e.getMessage());
       session.setAttribute("currentPage", req.getRequestURL());

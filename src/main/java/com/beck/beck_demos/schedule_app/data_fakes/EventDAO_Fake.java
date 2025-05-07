@@ -29,10 +29,10 @@ public class EventDAO_Fake implements iEventDAO {
     Date date3 = sdf.parse("06/05/2025");
     Date date4 = sdf.parse("05/05/2026");
 
-    Event event0 = new Event("stSawjFeLaTErGYxLOrrixdXgGONQmJhFhxm", "call", date1, "FiyXAEdm", "bLHvSOIv", 32.1, "Going", "Yes");
-    Event event1 = new Event("suqWRmraiODoymCjCbTDoBPLjhfmFGvXMAud", "call", date2, "LcoYRSAx", "ycoDfsKi", 21.7, "Skipping", "No");
-    Event event2 = new Event("oaravCCPTRemxAoTysPQXkfmWFOhXRDSNBBo", "qHxNKSbb", date3, "eQvxAUye", "NwjdQCeF", 65.84, "Skipping", "Yes");
-    Event event3 = new Event("fdjmnVFGdakoRahRsmRhkdEAkJqwmoJYLROn", "TKKNftsa", date4, "hhJmsHmE", "wiYvufgB", 28.7, "Going", "No");
+    Event event0 = new Event("stSawjFeLaTErGYxLOrrixdXgGONQmJhFhxm","10bff3c1-9278-4152-b384-13d3acdde559", "call", date1, "FiyXAEdm", "bLHvSOIv", 32.1, "Going", "Yes");
+    Event event1 = new Event("suqWRmraiODoymCjCbTDoBPLjhfmFGvXMAud","10bff3c1-9278-4152-b384-13d3acdde559", "call", date2, "LcoYRSAx", "ycoDfsKi", 21.7, "Skipping", "No");
+    Event event2 = new Event("oaravCCPTRemxAoTysPQXkfmWFOhXRDSNBBo","10bff3c1-9278-4152-b384-13d3acdde559", "qHxNKSbb", date3, "eQvxAUye", "NwjdQCeF", 65.84, "Skipping", "Yes");
+    Event event3 = new Event("fdjmnVFGdakoRahRsmRhkdEAkJqwmoJYLROn","10bff3c1-9278-4152-b384-13d3acdde559", "TKKNftsa", date4, "hhJmsHmE", "wiYvufgB", 28.7, "Going", "No");
     events.add(event0);
     events.add(event1);
     events.add(event2);
@@ -54,7 +54,7 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
-  public List<Event> getAllEvent(CalendarDay day, String searchTerm) throws SQLException {
+  public List<Event> getAllEvent(CalendarDay day, String searchTerm, String user_id) throws SQLException {
     List<Event> _events = new ArrayList<>();
 
     if (day.getYear()==0 && day.getMonth()==0 && day.getDay()==0){
@@ -145,7 +145,7 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
-  public List<Event> getEventsFromFile(File file) throws Exception {
+  public List<Event> getEventsFromFile(File file,String user_id) throws Exception {
     return List.of();
   }
 

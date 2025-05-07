@@ -90,7 +90,7 @@ public class DeleteEventServlet extends HttpServlet {
     List<Event> events = null;
     CalendarDay day = new CalendarDay();
     try {
-      events = eventDAO.getAllEvent(day,search_term);
+      events = eventDAO.getAllEvent(day,search_term, user.getUser_ID());
     } catch (SQLException e) {
       results.put("dbError",e.getMessage());
     }

@@ -214,6 +214,11 @@ public class AddEventServlet extends HttpServlet{
       errors++;
     }
     try {
+      event.setUser_ID(user.getUser_ID());
+    } catch(Exception e) {results.put("eventUser_IDerror", e.getMessage());
+      errors++;
+    }
+    try {
       _Date=_Date.replace('T',' ');
       SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
       Date date = formatter.parse(_Date);

@@ -67,7 +67,7 @@ public class ExportEventServlet extends HttpServlet {
     boolean error = false;
     CalendarDay day = new CalendarDay();
     try {
-      events = eventDAO.getAllEvent(day,"");
+      events = eventDAO.getAllEvent(day,"", user.getUser_ID());
     } catch (SQLException e) {
       error = true;
     }

@@ -88,7 +88,7 @@ public class AllEventAJAXServlet extends HttpServlet {
     List<Event> events = new ArrayList<>();
     if (errors==0) {
       try {
-        events = eventDAO.getAllEvent(day,search_term);
+        events = eventDAO.getAllEvent(day,search_term, user.getUser_ID());
       } catch (Exception e) {
         events = new ArrayList<>();
       }

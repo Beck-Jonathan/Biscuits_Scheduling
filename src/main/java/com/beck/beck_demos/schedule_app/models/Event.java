@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class Event implements Comparable<Event> {
   private String Event_ID;
+  private String User_ID;
   private String Name;
   private Date Date;
   private String Location;
@@ -21,13 +22,14 @@ public class Event implements Comparable<Event> {
 
   public Event(){}
 
-  public Event(String Event_ID, String Name, Date Date, String Location, String description, Double Length, String Decision, String Paid) {
+  public Event(String Event_ID, String User_ID, String Name, Date Date, String Location, String Description, Double Length, String Decision, String Paid) {
 
     this.Event_ID = Event_ID;
+    this.User_ID = User_ID;
     this.Name = Name;
     this.Date = Date;
     this.Location = Location;
-    this.Description = description;
+    this.Description = Description;
     this.Length = Length;
     this.Decision = Decision;
     this.Paid = Paid;
@@ -84,6 +86,29 @@ public class Event implements Comparable<Event> {
       throw new IllegalArgumentException("Name is too long.");
     }
     this.Name = Name;
+  }
+
+  /**
+   * <p> Gets the User_ID of the associated Event object </p>
+   * @return the User_ID of this Event object.
+   */
+  public String getUser_ID() {
+    return User_ID;
+  }
+
+  /**
+   * <p> Sets the User_ID of the associated Event object </p>
+   * @param User_ID the user_id of the event,
+   * throws IllegalArgumentException if User_ID under 3 characters or longer than 36 characters
+   */
+  public void setUser_ID(String User_ID) {
+    if(User_ID.length()<36){
+      throw new IllegalArgumentException("User_ID is too short.");
+    }
+    if(User_ID.length()>36){
+      throw new IllegalArgumentException("User_ID is too long.");
+    }
+    this.User_ID = User_ID;
   }
 
   /**
@@ -219,6 +244,12 @@ public class Event implements Comparable<Event> {
       return -1;
     }
     else if(this.Event_ID.compareTo(o.Event_ID) > 0){
+      return 1;
+    }
+    if (this.User_ID.compareTo(o.User_ID)<0){
+      return -1;
+    }
+    else if(this.User_ID.compareTo(o.User_ID) > 0){
       return 1;
     }
     if (this.Name.compareTo(o.Name)<0){

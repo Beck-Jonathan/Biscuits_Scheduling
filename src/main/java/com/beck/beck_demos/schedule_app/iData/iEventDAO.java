@@ -21,7 +21,8 @@ public interface iEventDAO {
    * @return List of Event
    * @author Jonathan Beck
    */
-  List<Event> getAllEvent(CalendarDay day, String searchTerm) throws SQLException;
+
+  List<Event> getAllEvent(CalendarDay day, String searchTerm, String user_ID) throws SQLException;
 
   /**
    * DAO Method to retreive by Foreign Key Event objects
@@ -41,7 +42,8 @@ public interface iEventDAO {
 
   int addBatch(List<Event> events) throws SQLException;
 
-  List<Event> getEventsFromFile(File file) throws Exception;
+
+  List<Event> getEventsFromFile(File file, String user_id) throws Exception;
 
   int deleteEvent(String eventID) throws SQLException;
 

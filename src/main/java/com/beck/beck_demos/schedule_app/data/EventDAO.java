@@ -3,7 +3,6 @@ package com.beck.beck_demos.schedule_app.data;
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
 import com.beck.beck_demos.schedule_app.models.Event;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,7 +11,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
 
@@ -27,15 +25,16 @@ public class EventDAO implements iEventDAO {
     try (Connection connection = getConnection()) {
 
       if (connection != null) {
-        try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?,?)}")) {
           statement.setString(1, _event.getName());
+          statement.setString(2, _event.getUser_ID());
           java.sql.Timestamp date = new java.sql.Timestamp(_event.getDate().getTime());
-          statement.setTimestamp(2, date);
-          statement.setString(3, _event.getLocation());
-          statement.setString(4, _event.getDescription());
-          statement.setDouble(5, _event.getLength());
-          statement.setString(6, _event.getDecision());
-          statement.setString(7, _event.getPaid());
+          statement.setTimestamp(3, date);
+          statement.setString(4, _event.getLocation());
+          statement.setString(5, _event.getDescription());
+          statement.setDouble(6, _event.getLength());
+          statement.setString(7, _event.getDecision());
+          statement.setString(8, _event.getPaid());
           numRowsAffected = statement.executeUpdate();
           if (numRowsAffected == 0) {
             throw new RuntimeException("Could not add Event. Try again later");
@@ -49,19 +48,21 @@ public class EventDAO implements iEventDAO {
   }
 
   @Override
-  public List<Event> getAllEvent(CalendarDay day, String searchTerm) throws SQLException {
+  public List<Event> getAllEvent(CalendarDay day, String searchTerm, String user_ID) throws SQLException {
     List<Event> result = new ArrayList<>();
     try (Connection connection = getConnection()) {
       if (connection != null) {
-        try (CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_all_Event(?,?,?,?)}")) {
-          statement.setInt(1, day.getMonth());
-          statement.setInt(2, day.getDay());
-          statement.setInt(3, day.getYear());
-          statement.setString(4, searchTerm);
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_retreive_by_all_Event(?,?,?,?,?)}")) {
+          statement.setString(1,user_ID);
+          statement.setInt(2, day.getMonth());
+          statement.setInt(3, day.getDay());
+          statement.setInt(4, day.getYear());
+          statement.setString(5, searchTerm);
 
           try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
               String Event_ID = resultSet.getString("Event_Event_ID");
+              String user_id = resultSet.getString("Event_User_ID");
               String Name = resultSet.getString("Event_Name");
               Date Date = resultSet.getTimestamp("Event_Date");
               String Location = resultSet.getString("Event_Location");
@@ -69,7 +70,7 @@ public class EventDAO implements iEventDAO {
               Double Length = resultSet.getDouble("Event_Length");
               String Decision = resultSet.getString("Event_Decision");
               String Paid = resultSet.getString("Event_Paid");
-              Event _event = new Event(Event_ID, Name, Date, Location, description, Length, Decision, Paid);
+              Event _event = new Event(Event_ID,user_id, Name, Date, Location, description, Length, Decision, Paid);
               result.add(_event);
             }
           }
@@ -91,6 +92,7 @@ public class EventDAO implements iEventDAO {
         try (ResultSet resultSet = statement.executeQuery()) {
           if (resultSet.next()) {
             String Event_ID = resultSet.getString("Event_Event_ID");
+            String user_id = resultSet.getString("Event_User_ID");
             String Name = resultSet.getString("Event_Name");
             Date Date_Time = resultSet.getTimestamp("Event_Date_Time");
             String Location = resultSet.getString("Event_Location");
@@ -98,7 +100,7 @@ public class EventDAO implements iEventDAO {
             Double Length = resultSet.getDouble("Event_Length");
             String Decision = resultSet.getString("Event_Decision");
             String Paid = resultSet.getString("Event_Paid");
-            result = new Event(Event_ID, Name, Date_Time, Location, Description, Length, Decision, Paid);
+            result = new Event(Event_ID, user_id, Name, Date_Time, Location, Description, Length, Decision, Paid);
           }
         }
       }
@@ -148,15 +150,17 @@ public class EventDAO implements iEventDAO {
     try (Connection connection = getConnection()) {
       if (connection != null) {
         for (Event _event : events) {
-          try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?, ?, ?, ?, ?, ?, ?)}")) {
+          try (CallableStatement statement = connection.prepareCall("{CALL sp_insert_Event( ?,?, ?, ?, ?, ?, ?, ?)}")) {
             statement.setString(1, _event.getName());
+            statement.setString(2, _event.getUser_ID());
+
             java.sql.Timestamp date = new java.sql.Timestamp(_event.getDate().getTime());
-            statement.setTimestamp(2, date);
-            statement.setString(3, _event.getLocation());
-            statement.setString(4, _event.getDescription());
-            statement.setDouble(5, _event.getLength());
-            statement.setString(6, _event.getDecision());
-            statement.setString(7, _event.getPaid());
+            statement.setTimestamp(3, date);
+            statement.setString(4, _event.getLocation());
+            statement.setString(5, _event.getDescription());
+            statement.setDouble(6, _event.getLength());
+            statement.setString(7, _event.getDecision());
+            statement.setString(8, _event.getPaid());
             int updated = statement.executeUpdate();
             numRowsAffected += updated;
             if (updated == 0) {
@@ -172,7 +176,7 @@ public class EventDAO implements iEventDAO {
   }
 
   @Override
-  public List<Event> getEventsFromFile(File file) throws Exception {
+  public List<Event> getEventsFromFile(File file, String user_id) throws Exception {
     List<Event> result = new ArrayList<>();
     BufferedReader reader;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
@@ -205,7 +209,7 @@ public class EventDAO implements iEventDAO {
         String decision = (String) parts.get(7);
         String paid = (String) parts.get(8);
         String location = (String) parts.get(9);
-        Event _event = new Event("", name, parsed, location, description, count, decision, paid);
+        Event _event = new Event("",user_id ,name, parsed, location, description, count, decision, paid);
         result.add(_event);
         // read next line
         line = reader.readLine();
@@ -280,7 +284,7 @@ public class EventDAO implements iEventDAO {
             Double Length = 1d;
             String Decision = "Maybe";
             String Paid = "No";
-            Event _event = new Event("", Name, Date_Time, location, Description, Length, Decision, Paid);
+            Event _event = new Event("","", Name, Date_Time, location, Description, Length, Decision, Paid);
             if (_event.getDate().getMonth() == month) {
               flavors.add(_event);
             }
@@ -360,7 +364,7 @@ public class EventDAO implements iEventDAO {
           String Paid = "No";
           String location = "home";
 
-            Event _event = new Event("", Name, Start_Date_Time, location, Description, Length, Decision, Paid);
+            Event _event = new Event("", "",Name, Start_Date_Time, location, Description, Length, Decision, Paid);
 
             pokemonEvents.add(_event);
           }
@@ -390,9 +394,10 @@ public class EventDAO implements iEventDAO {
       file.createNewFile();
     }
     PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
-    writer.println("Event_ID\tName\tDate\tLocation\tDescription\tLength\tDecision\tPaid");
+    writer.println("Event_ID\tuser_id\tName\tDate\tLocation\tDescription\tLength\tDecision\tPaid");
     for (Event _event : Events) {
       writer.print(_event.getEvent_ID());
+      writer.print("\t" +"'"+ _event.getUser_ID()+"'");
       writer.print("\t" +"'"+ _event.getName()+"'");
       writer.print("\t" + _event.getDate());
       writer.print("\t" + _event.getLocation());
@@ -416,11 +421,12 @@ public class EventDAO implements iEventDAO {
       file.createNewFile();
     }
     PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
-    writer.println("INSERT\t INTO \tEvent\t(Event_ID,\tName,\tDate,\tLocation,\tDescription,\tLength,\tDecision,\tPaid)\n");
+    writer.println("INSERT\t INTO \tEvent\t(Event_ID,\tuser_id,\tName,\tDate,\tLocation,\tDescription,\tLength,\tDecision,\tPaid)\n");
     writer.println("VALUES\n");
     for (Event _event : Events) {
       writer.print("(");
       writer.print(_event.getEvent_ID());
+      writer.print(" , " + _event.getUser_ID());
       writer.print(" , " + _event.getName());
       writer.print(" , " + _event.getDate());
       writer.print(" , " + _event.getLocation());
