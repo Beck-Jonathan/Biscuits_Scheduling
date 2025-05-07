@@ -1,220 +1,128 @@
-DROP DATABASE IF EXISTS budget;
-CREATE DATABASE budget;
-USE budget;
 
-/******************
-Create the User table
- Created By Jonathan Beck 7/24/2024
-***************/
+--
+-- Table structure for table `event`
+--
 
+DROP TABLE IF EXISTS `event`;
 
-DROP TABLE IF EXISTS User;
-CREATE TABLE User(
+CREATE TABLE `event` (
+  `Event_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT (uuid()),
+  `User_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Date` datetime NOT NULL,
+  `Location` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `description` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Length` decimal(10,2) NOT NULL,
+  `Decision` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Paid` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Event_ID`),
+  KEY `fk_Event_User0` (`User_ID`),
+  CONSTRAINT `fk_Event_User0` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-User_ID	int	AUTO_INCREMENT	not null	unique	comment '',
-User_Name	nvarchar(100)	not null	unique	comment '',
-User_PW	nvarchar(100)	not null	unique	comment '',
-Email	nvarchar(100)	not null	unique	comment '',
 
-CONSTRAINT User_PK PRIMARY KEY (User_ID),
 
- UNIQUE (User_ID),
- UNIQUE (User_Name),
- UNIQUE (Email)
 
-);
+--
+-- Table structure for table `person`
+--
 
-/******************
-Create the Category table
- Created By Jonathan Beck 7/31/2024
-***************/
+DROP TABLE IF EXISTS `person`;
 
+CREATE TABLE `person` (
+  `Person_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'uuid()',
+  `First_Name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Last_Name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Description` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Person_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS Category;
-CREATE TABLE Category(
 
-Category_ID	nvarchar(100)	not null	comment '',
-User_ID	int	not null	comment '',
 
-CONSTRAINT Category_PK PRIMARY KEY (Category_ID , User_ID),
 
-CONSTRAINT fk_Category_User0 foreign key (User_ID) references User (User_ID)
-);
 
-/******************
-Create the Bank_Account table
- Created By Jonathan Beck 1/22/2025
-***************/
+DROP TABLE IF EXISTS `person_event_line`;
 
+CREATE TABLE `person_event_line` (
+  `Person_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Event_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Person_ID`,`Event_ID`),
+  KEY `fk_Person_Event_Line_Event1` (`Event_ID`),
+  CONSTRAINT `fk_Person_Event_Line_Event1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`),
+  CONSTRAINT `fk_Person_Event_Line_Person0` FOREIGN KEY (`Person_ID`) REFERENCES `person` (`Person_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS Bank_Account;
-CREATE TABLE Bank_Account(
 
-Bank_Account_ID	nvarchar(100)	not null	comment '',
-User_ID	int	not null	comment '',
-Account_Nickname	nvarchar(100)	not null	comment '',
-Balance	decimal	not null	comment '',
-Balance_Date	Date	not null	comment '',
 
-CONSTRAINT Bank_Account_PK PRIMARY KEY (Bank_Account_ID, user_ID),
 
-CONSTRAINT fk_Bank_Account_User0 foreign key (User_ID) references User (User_ID)
-);
+--
+-- Table structure for table `role`
+--
 
+DROP TABLE IF EXISTS `role`;
 
+CREATE TABLE `role` (
+  `Role_ID` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Role_ID`),
+  UNIQUE KEY `Role_ID` (`Role_ID`),
+  UNIQUE KEY `Role_ID_2` (`Role_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DROP TABLE IF EXISTS Transaction;
-CREATE TABLE Transaction(
 
-Transaction_ID	int auto_increment	not null	unique	comment '',
-User_ID	int	not null	comment '',
-Category_ID	nvarchar(100)	not null	comment '',
-Bank_Account_ID	nvarchar(100)	not null	comment '',
-Post_Date	Date	not null	comment '',
-Check_No	int	null	comment '',
-Description	nvarchar(255)	not null	comment '',
-Amount	decimal(10,2)	not null	comment '',
-Type	nvarchar(20)	not null	comment '',
-Status	nvarchar(20)	not null	comment '',
 
-CONSTRAINT Transaction_PK PRIMARY KEY (Transaction_ID),
+--
+-- Table structure for table `suggestion`
+--
 
+DROP TABLE IF EXISTS `suggestion`;
 
-CONSTRAINT fk_Transaction_User0 foreign key (User_ID) references User (User_ID),
-CONSTRAINT fk_Transaction_Categofy1 foreign key (Category_ID,User_ID) references Category (Category_ID,User_ID) on update cascade,
-CONSTRAINT fk_Transaction_Bank_Account2 foreign key (Bank_Account_ID, user_id) references Bank_Account (Bank_Account_ID,user_id) on update cascade,
-CONSTRAINT UC_Transaction unique (user_id,Check_No, post_Date, description,amount)
-);
+CREATE TABLE `suggestion` (
+  `Suggestion_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT (uuid()),
+  `User_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Application_Name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `content` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Suggestion_ID`),
+  KEY `fk_Suggestion_User0` (`User_ID`),
+  CONSTRAINT `fk_Suggestion_User0` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-select * from bank_account;
 
 
 
+--
+-- Table structure for table `user`
+--
 
+DROP TABLE IF EXISTS `user`;
 
-select * from bank_account;
-
-Create index idx_trans
-on Transaction (
- User_ID ,
- Account_Num ,
- Amount ,
- Description ,
- Post_Date 
-);
-
-
-alter table transaction add index trans_amount_asc  (amount) ;
-alter table transaction add index trans_date_asc (Post_Date) ;
-alter table transaction add index trans_check_asc (Check_No) ;
-
-alter table transaction add index trans_amount_desc  (amount desc) ;
-alter table transaction add index trans_date_desc (Post_Date desc) ;
-alter table transaction add index trans_check_desc (Check_No desc) ;
-
-SHOW INDEXES FROM transaction;
-
-select amount from transaction;
-
-
-
-
- 
- /******************
-Create the Role table
- Created By Jonathan Beck 7/26/2024
-***************/
-
-DROP TABLE IF EXISTS Role;
-CREATE TABLE Role(
-
-Role_ID	nvarchar(100)	not null	unique	comment '',
-
-CONSTRAINT Role_PK PRIMARY KEY (Role_ID),
-
- UNIQUE (Role_ID)
-
-);
-
-/******************
-Create the Uwer_Role_Line table
- Created By Jonathan Beck 7/26/2024
-***************/
-
-
-DROP TABLE IF EXISTS User_Role_Line;
-CREATE TABLE User_Role_Line(
-
-Role_ID	nvarchar(100)	not null	comment '',
-User_ID	int	not null	comment '',
-
-CONSTRAINT Uwer_Role_Line_PK PRIMARY KEY (Role_ID , User_ID),
-
-CONSTRAINT fk_Uwer_Role_Line_Roel0 foreign key (Role_ID) references Role (Role_ID),
-CONSTRAINT fk_Uwer_Role_Line_User1 foreign key (User_ID) references User (User_ID)
-);
-
-/******************
-Create the Mortgage table
- Created By Jonathan Beck 8/6/2024
-***************/
-
-
-DROP TABLE IF EXISTS Mortgage;
-CREATE TABLE Mortgage(
-
-Mortgage_ID	int	AUTO_INCREMENT	not null	unique	comment '',
-User_ID	int	not null	comment '',
-Present_Value	decimal	not null	comment '',
-Future_Value	decimal	not null	comment '',
-Interest_Rate	decimal	not null	comment '',
-Monthly_Payment	decimal	not null	comment '',
-Extra_Payment	decimal	not null	comment '',
-Remaining_Term	int	not null	comment '',
-
-CONSTRAINT Mortgage_PK PRIMARY KEY (Mortgage_ID),
-CONSTRAINT fk_Mortgage_User0 foreign key (User_ID) references User (User_ID)
-);
-
-/******************
-Create the Saved_Search_Order table
- Created By Jonathan Beck 2/4/2025
-***************/
-
-
-DROP TABLE IF EXISTS Saved_Search_Order;
-CREATE TABLE Saved_Search_Order(
-
-Saved_Search_Order_ID	int	AUTO_INCREMENT	not null	comment '',
-Owned_User	int	not null	comment '',
-Nickname	nvarchar(100)	not null	comment '',
-Description	nvarchar(255)	not null	comment '',
-Last_Used	datetime	not null	comment '',
-Last_Updated	datetime	not null	comment '',
-Times_Ran	int	not null	comment '',
-
-CONSTRAINT Saved_Search_Order_PK PRIMARY KEY (Saved_Search_Order_ID),
-
-CONSTRAINT fk_Saved_Search_Order_User0 foreign key (Owned_User) references User (User_ID)
-);
-
-/******************
-Create the Suggestion table
- Created By Jonathan Beck 5/1/2025
-***************/
-
-
-DROP TABLE IF EXISTS Suggestion;
-CREATE TABLE Suggestion(
-
-Suggestion_ID	nvarchar(36)	DEFAULT "uuid()"	not null	comment '',
-User_ID	nvarchar(36)	not null	comment '',
-Application_Name	nvarchar(100)	not null	comment '',
-content	nvarchar(1000)	not null	comment '',
-
-CONSTRAINT Suggestion_PK PRIMARY KEY (Suggestion_ID),
-
-CONSTRAINT fk_Suggestion_User0 foreign key (User_ID) references User (User_ID)
-);
-
+CREATE TABLE `user` (
+  `User_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT (uuid()),
+  `User_Name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `User_PW` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`User_ID`),
+  UNIQUE KEY `User_Name` (`User_Name`),
+  UNIQUE KEY `Email` (`Email`),
+  UNIQUE KEY `User_ID` (`User_ID`),
+  UNIQUE KEY `User_Name_2` (`User_Name`),
+  UNIQUE KEY `Email_2` (`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+--
+-- Table structure for table `user_role_line`
+--
+
+DROP TABLE IF EXISTS `user_role_line`;
+
+CREATE TABLE `user_role_line` (
+  `Role_ID` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `User_ID` varchar(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`Role_ID`,`User_ID`),
+  KEY `fk_Uwer_Role_Line_User1` (`User_ID`),
+  CONSTRAINT `fk_Uwer_Role_Line_Roel0` FOREIGN KEY (`Role_ID`) REFERENCES `role` (`Role_ID`),
+  CONSTRAINT `fk_Uwer_Role_Line_User1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
