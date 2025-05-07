@@ -21,11 +21,17 @@ public class UserDAO_Fake implements iUserDAO {
     User user2 = new User("CDJFADKFJSA5412345DJFDKANFA215458123", "xOqYpDHU", "jahcUHBA".toCharArray(), "vRmtjGFI@gmail.com");
     User user3 = new User("DDJFADKFJSA5412345DJFDKANFA215458123", "eRceDjmK", "soBHCkld".toCharArray(), "CWZkwrDf@gmail.com");
     User user4 = new User("EDJFADKFJSA5412345DJFDKANFA215458123", "eRceDjmKdd", "soBHCkld!!".toCharArray(), "error@gmail.com");
+    User user5 = new User("FDJFADKFJSA5412345DJFDKANFA215458123", "eRceDdjmKdd", "soB2HCkld!!".toCharArray(), "test@gmail.com");
+    User user6 = new User("DUPLICATESA5412345DJFDKANFA215458123", "eRceDdjmKdd", "soB2HCkld!!".toCharArray(), "duplicateEmail@gmail.com");
+    User user7 = new User("EXCEPTIONxSA5412345JFDKANFA215458123", "eRceDdjmKdd", "soB2HCkld!!".toCharArray(), "exceptionEmail@gmail.com");
     users.add(user0);
     users.add(user1);
     users.add(user2);
     users.add(user3);
     users.add(user4);
+    users.add(user5);
+    users.add(user6);
+    users.add(user7);
     Collections.sort(users);
   }
   @Override

@@ -208,6 +208,7 @@ class AddEventServletTest {
   @Test
   public void TestAddCanAddWithNoErrorsAndRedirects() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -234,6 +235,7 @@ class AddEventServletTest {
   @Test
   public void TestAddCanAddRecurringDailyWithNoErrorsAndRedirects() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -263,6 +265,7 @@ class AddEventServletTest {
   @Test
   public void TestAddCanAddRecurringWeeklyWithNoErrorsAndRedirects() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -292,6 +295,7 @@ class AddEventServletTest {
   @Test
   public void TestAddCanAddRecurringMonthlyWithNoErrorsAndRedirects() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -320,6 +324,7 @@ class AddEventServletTest {
   @Test
   public void TestAddCanAddWRecurringYearlyWithNoErrorsAndRedirects() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -352,6 +357,7 @@ class AddEventServletTest {
   @Test
   public void testExceptionKeyThrowsException() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
@@ -385,6 +391,7 @@ class AddEventServletTest {
   @Test
   public void testDuplicateKeyReturnsZero() throws ServletException, IOException{
     User user = new User();
+    user.setUser_ID("72017ae6-968a-4bbd-904b-5c902ed9c072");
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);

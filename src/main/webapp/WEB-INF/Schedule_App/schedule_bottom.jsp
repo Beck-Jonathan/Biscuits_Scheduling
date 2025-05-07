@@ -49,6 +49,9 @@
     <script src="js/schedule/allSuggestion.js"></script>
 </c:if>
 
+<c:if test="${pageTitle eq 'Manage Friends'}">
+    <script src="js/schedule/allFriends.js"></script>
+</c:if>
 
 
 </body>

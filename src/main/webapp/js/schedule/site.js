@@ -45,6 +45,11 @@ $(document).ready(function() {
 	$( "#suggestions" ).button( "option", "showIcon", "true" );
 	$( "#suggestions" ).button( "option", "label", "Suggestion Box" );
 
+	$("#friends").button();
+	$( "#friends" ).button( "option", "icon", "ui-icon-check" );
+	$( "#friends" ).button( "option", "showIcon", "true" );
+	$( "#friends" ).button( "option", "label", "Friends" );
+
 
 
 
