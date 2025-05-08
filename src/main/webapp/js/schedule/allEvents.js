@@ -9,12 +9,14 @@ $(document).ready(function() {
     $(".delButton").click(function(e) {
         e.preventDefault();
         var headers = document.getElementsByClassName('table-responsive')[0].childNodes[0].childNodes[1].childNodes[1].childNodes;
-        var parentrow = this.parentElement.parentElement.parentElement.children;var rowid ="#"+ targetUrl+"row";
+        var parentrow = this.parentElement.parentElement.parentElement.children;
+        var rowid ="#"+ targetUrl+"row";
         var text = "";
         for (i=1;i<headers.length-2;i=i+2){
             text +=headers[i].textContent+": "+parentrow[(i-1)/2].innerHTML+"</br>";
         }
-        document.getElementById("dialog").innerHTML=text;var targetUrl = $(this).attr("href");
+        document.getElementById("dialog").innerHTML=text;
+        var targetUrl = $(this).attr("href");
         $('#dialog').dialog('option', 'title', 'Delete '+parentrow[1].innerHTML+"???");
         $("#dialog").dialog({
             hide: {

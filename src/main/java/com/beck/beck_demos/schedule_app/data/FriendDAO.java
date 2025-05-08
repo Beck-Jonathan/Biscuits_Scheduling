@@ -50,12 +50,17 @@ public class FriendDAO implements iFriendDAO {
             while (resultSet.next()) {
               String User_One = resultSet.getString("Friend_Line_Other_User");
               String User_Two = resultSet.getString("Friend_Line_User_Two");
-              String other_uesr = "";
+              String _User_ID = resultSet.getString("User_ID");
+
+              String other_user = "";
+
               if (User_One.equals(User_ID)) {
-                other_uesr = User_Two;
+                other_user = User_Two;
+
               }
               if (User_Two.equals(User_ID)) {
-                other_uesr = User_One;
+                other_user = User_One;
+
               }
               String Status = resultSet.getString("Friend_Line_Status");
               Date Last_Updated = resultSet.getDate("Friend_Line_Last_Updated");
@@ -64,7 +69,8 @@ public class FriendDAO implements iFriendDAO {
               User user = new User();
               user.setUser_Name(User_User_Name);
               user.setEmail(User_Email);
-              Friend _friend = new Friend( other_uesr, Status, Last_Updated);
+              user.setUser_ID(_User_ID);
+              Friend _friend = new Friend( other_user, Status, Last_Updated);
               Friend_VM friend_vm = new Friend_VM(_friend);
               friend_vm.setUser2(user);
               result.add(friend_vm);
@@ -76,5 +82,58 @@ public class FriendDAO implements iFriendDAO {
       throw new RuntimeException("Could not retrieve Friend_Lines. Try again later");
     }
     return result;
+  }
+  /**
+   * DAO Method to approve friend requests
+   * @param friend_id the friend to be accepted
+   * @param user_id the current user
+   * @return number of records approved
+   * @author Jonathan Beck
+   */
+  @Override
+  public int approveFriend(String friend_id, String user_id) throws SQLException {
+    int rowsAffected=0;
+    try (Connection connection = getConnection()) {
+      if (connection != null) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_approve_Friend_Line( ?,?)}")){
+          statement.setString(1,friend_id);
+          statement.setString(2,user_id);
+          rowsAffected = statement.executeUpdate();
+          if (rowsAffected == 0) {
+            throw new RuntimeException("Could not Delete Friend_Line. Try again later");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not Delete Friend_Line. Try again later");
+    }
+    return rowsAffected;
+  }
+  /**
+   * DAO Method to delete Friend_Line objects
+   * @param friend_id the friend to be deleted
+   * @param user_id the current user
+   * @return number of records deleted
+   * @author Jonathan Beck
+   */
+
+  @Override
+  public int deleteFriend(String friend_id, String user_id) throws SQLException {
+    int rowsAffected=0;
+    try (Connection connection = getConnection()) {
+      if (connection != null) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_delete_Friend_Line( ?,?)}")){
+          statement.setString(1,friend_id);
+          statement.setString(2,user_id);
+          rowsAffected = statement.executeUpdate();
+          if (rowsAffected == 0) {
+            throw new RuntimeException("Could not Delete Friend_Line. Try again later");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not Delete Friend_Line. Try again later");
+    }
+    return rowsAffected;
   }
 }

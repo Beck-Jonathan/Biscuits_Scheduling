@@ -67,10 +67,29 @@ public class AllFriendServlet extends HttpServlet {
     } catch (Exception e) {
       friends = new ArrayList<>();
     }
+    List<Friend_VM> approved_Friends = new ArrayList<>();
+    List<Friend_VM> incoming_friends = new ArrayList<>();
+    List<Friend_VM> outgoing_friends = new ArrayList<>();
+    for (Friend_VM friend : friends) {
+      if (friend.getStatus().toLowerCase().contains("accepted")){
+        approved_Friends.add(friend);
+      }
+      else if (friend.getStatus().equalsIgnoreCase("pending - received")){
+        incoming_friends.add(friend);
+      }
+      else if (friend.getStatus().equalsIgnoreCase("pending - sent")){
+        outgoing_friends.add(friend);
+      }
 
 
 
-    req.setAttribute("Friend_Lines", friends);
+    }
+
+
+
+    req.setAttribute("approved_Friends", approved_Friends);
+    req.setAttribute("incoming_friends", incoming_friends);
+    req.setAttribute("outgoing_friends", outgoing_friends);
     req.setAttribute("pageTitle", "Manage Friends");
     req.getRequestDispatcher("WEB-INF/Schedule_App/all-Friends.jsp").forward(req,resp);
 

@@ -22,4 +22,6 @@ public interface iFriendDAO {
    * @author Jonathan Beck
    */
   List<Friend_VM> getFriendebyUser(String User_ID) throws SQLException;
+  int approveFriend(String friend_id, String user_id) throws SQLException;
+  int deleteFriend(String friend_id, String user_id) throws SQLException;
 }

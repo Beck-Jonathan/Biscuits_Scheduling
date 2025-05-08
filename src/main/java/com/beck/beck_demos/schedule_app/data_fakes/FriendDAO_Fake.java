@@ -6,6 +6,7 @@ import com.beck.beck_demos.schedule_app.models.Friend_VM;
 import com.beck.beck_demos.schedule_app.models.User;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -146,9 +147,49 @@ Collections.sort(friendVMs);
     return results;
   }
 
+  @Override
+  public int approveFriend(String friend_id, String user_id) throws SQLException {
+
+    int result =-1;
+    for (Friend_VM friendVM : friendVMs) {
+      if (
+          (friendVM.getUser1().getUser_ID().equals(friend_id) && friendVM.getUser2().getUser_ID().equals(user_id))
+              || (friendVM.getUser1().getUser_ID().equals(user_id) && friendVM.getUser2().getUser_ID().equals(friend_id))) {
+        friendVM.setStatus("approved");
+        result = 1;
+        try {
+          friendVM.setLast_Updated(new Date());
+        } catch (ParseException e) {
+        }
+        break;
+      }
+    }
+    if (result==-1){
+      throw new SQLException();
+    }
+    return result;
+  }
+
+  @Override
+  public int deleteFriend(String friend_id, String user_id) throws SQLException {
+    int size = friendVMs.size();
+    int location =-1;
+    for (int i=0;i<friendVMs.size();i++){
+      if ((friendVMs.get(i).getUser1().getUser_ID().equals(friend_id)&&friendVMs.get(i).getUser2().getUser_ID().equals(user_id))
+          ||(friendVMs.get(i).getUser1().getUser_ID().equals(user_id)&&friendVMs.get(i).getUser2().getUser_ID().equals(friend_id)) ){
+        location =i;
+        break;
+      }
+    }
+    if (location==-1){
+      throw new SQLException();
+    }
+    friendVMs.remove(location);
+    int newsize = friendVMs.size();
+    return size-newsize;
+  }
 
   private boolean duplicateKey(Friend _friend){
-
     return _friend.getFriend()!=null&&_friend.getFriend().contains("DUPLICATE");
   }
   private boolean exceptionKey(Friend _friend){
