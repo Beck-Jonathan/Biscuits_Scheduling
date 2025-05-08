@@ -126,3 +126,22 @@ CREATE TABLE `user_role_line` (
   CONSTRAINT `fk_Uwer_Role_Line_User1` FOREIGN KEY (`User_ID`) REFERENCES `user` (`User_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+/******************
+Create the Friend_Line table
+ Created By Jonathan Beck 5/7/2025
+***************/
+
+
+DROP TABLE IF EXISTS Friend_Line;
+CREATE TABLE Friend_Line(
+
+User_One	nvarchar(36)	not null	comment '',
+User_Two	nvarchar(36)	not null	comment '',
+Status	nvarchar(25)	not null	comment '',
+Last_Updated	datetime	DEFAULT now()	not null	comment '',
+
+CONSTRAINT Friend_Line_PK PRIMARY KEY (User_One , User_Two),
+
+CONSTRAINT fk_Friend_Line_User0 foreign key (User_One) references User (User_ID),
+CONSTRAINT fk_Friend_Line_User1 foreign key (User_Two) references User (User_ID)
+);

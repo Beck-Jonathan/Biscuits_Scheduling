@@ -18,7 +18,7 @@ Create the JSP  For adding to The  Friend_Line table
         </div>
 
         <div class="align-items-center mt-0">
-            <div class="d-grid"><button class="btn btn-orange mb-0" type="submit">Create Friend_Line  </button></div>
+            <div class="d-grid"><button class="btn btn-orange mb-0"  id="submitButton" type="submit">Create Friend_Line  </button></div>
             <c:if test="${not empty results.dbStatus}"
             ><p>${results.dbStatus}</p>
             </c:if>

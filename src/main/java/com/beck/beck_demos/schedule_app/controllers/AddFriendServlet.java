@@ -50,7 +50,7 @@ public class AddFriendServlet extends HttpServlet{
       return;
     }
     session.setAttribute("currentPage",req.getRequestURL());
-    req.setAttribute("pageTitle", "Add Friend_Line");
+    req.setAttribute("pageTitle", "Add a Friend");
 
 
     req.getRequestDispatcher("WEB-INF/Schedule_App/AddFriend.jsp").forward(req, resp);
@@ -113,7 +113,7 @@ public class AddFriendServlet extends HttpServlet{
       }
     }
     req.setAttribute("results", results);
-    req.setAttribute("pageTitle", "Create a Friend_Line ");
+    req.setAttribute("pageTitle", "Add a Friend");
     req.getRequestDispatcher("WEB-INF/Schedule_App/AddFriend.jsp").forward(req, resp);
 
   }

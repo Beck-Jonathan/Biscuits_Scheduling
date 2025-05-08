@@ -53,6 +53,12 @@
     <script src="js/schedule/allFriends.js"></script>
 </c:if>
 
+<c:if test="${pageTitle eq 'Add a Friend'}">
+    <script src="js/schedule/addFriend.js"></script>
+</c:if>
+
+
+
 
 </body>
 

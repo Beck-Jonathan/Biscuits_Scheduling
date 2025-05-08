@@ -505,3 +505,119 @@ DELIMITER ;
 
 
 
+/******************
+Create the insert script for the Friend_Line table
+ Created By Jonathan Beck 5/7/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_insert_Friend;
+DELIMITER $$
+CREATE PROCEDURE sp_insert_Friend(
+in User_One_param nvarchar(36)
+,in User_Two_param nvarchar(36)
+)
+begin 
+INSERT INTO  Friend_Line
+(User_One,User_Two,Status)
+ values 
+(User_One_param
+,User_Two_param
+,"pending"
+)
+ ; END $$
+ DELIMITER ;
+
+
+/******************
+Create the retrieve by all script for the Friend_Line table
+ Created By Jonathan Beck 5/7/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retrieve_Friend_by_User;
+DELIMITER $$
+CREATE PROCEDURE sp_retrieve_Friend_by_User(
+
+User_One_param nvarchar(36)
+/*serach_param nvarchar(100),*/
+)
+begin 
+ SELECT 
+
+Friend_Line.User_One as 'Friend_Line_Other_User',
+Friend_Line.User_Two as 'Friend_Line_User_Two',
+concat(Friend_Line.Status, ' - sent') as 'Friend_Line_Status',
+Friend_Line.Last_Updated as 'Friend_Line_Last_Updated',
+
+User.User_Name as 'User_User_Name',
+User.Email as 'User_Email',
+User.user_id as "User_ID"
+
+ FROM Friend_line
+join User on Friend_line.User_Two = User.User_ID
+
+where 
+Friend_Line.User_One=User_One_param
+/**
+and
+case 
+when search_param="" then 0=0  
+else Friend_Line.User_One LIKE CONCAT('%',search_param,'%') OR Friend_Line.User_Two LIKE CONCAT('%',search_param,'%') OR Friend_Line.Status LIKE CONCAT('%',search_param,'%') OR Friend_Line.Last_Updated LIKE CONCAT('%',search_param,'%')
+end
+**/
+union 
+SELECT 
+
+Friend_Line.User_One as 'Friend_Line_User_One',
+Friend_Line.User_Two as 'Friend_Line_User_Two',
+concat(Friend_Line.Status, ' - received') as 'Friend_Line_Status',
+Friend_Line.Last_Updated as 'Friend_Line_Last_Updated',
+
+User.User_Name as 'User_User_Name',
+User.Email as 'User_Email',
+User.user_id as "User_ID"
+
+ FROM Friend_line
+join User on Friend_line.User_One = User.User_ID
+
+where 
+Friend_Line.User_Two=User_One_param
+ ;
+ END $$ 
+ DELIMITER ;
+ 
+/******************
+Create the delete script for the Friend_Line table
+ Created By Jonathan Beck 5/7/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_delete_Friend_Line;
+DELIMITER $$
+CREATE PROCEDURE sp_delete_Friend_Line
+(User_One_param nvarchar(36)
+,User_Two_param nvarchar(36)
+)
+BEGIN
+delete from  Friend_Line
+  
+WHERE (User_One=User_One_param AND User_Two=User_Two_param) or (User_One=User_Two_param AND User_Two=User_One_param) 
+
+
+ ; END $$
+ DELIMITER ;
+ 
+ /******************
+Create the approve script for the Friend_Line table
+ Created By Jonathan Beck 5/7/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_approve_Friend_Line;
+DELIMITER $$
+CREATE PROCEDURE sp_approve_Friend_Line
+(User_One_param nvarchar(36)
+,User_Two_param nvarchar(36)
+)
+BEGIN
+update  Friend_Line
+  set status="Accepted"
+WHERE (User_One=User_One_param AND User_Two=User_Two_param) or (User_One=User_Two_param AND User_Two=User_One_param) 
+
+ ; END $$
+ DELIMITER ;
+
+
