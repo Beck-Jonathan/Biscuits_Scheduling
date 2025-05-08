@@ -11,10 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
 /****************** <br/>
  Create the Servlet  For adding to The  Event table
@@ -100,14 +99,34 @@ public class AllEventServlet extends HttpServlet {
       }
     }
 
-    req.setAttribute("Events", events);
     req.setAttribute("results",results);
-
+    req.setAttribute("Events",events);
     if (view!=null&&view.equals("calendar")) {
+
       req.setAttribute("pageTitle", "All Events - Calendar");
       req.getRequestDispatcher("WEB-INF/Schedule_App/all-events-dynamic.jsp").forward(req, resp);
     }
     else {
+      List<Event> PastEvents = new ArrayList<>();
+      List<Event> CurrentEvents = new ArrayList<>();
+      List<Event> FutureEvents = new ArrayList<>();
+      Instant Now = (new Date()).toInstant();
+      for (Event event : events) {
+        Instant eventInstant=event.getDate().toInstant();
+        if (Duration.between(Now,eventInstant).toDays()<0){
+          PastEvents.add(event);
+        }
+        else if (Duration.between(Now,eventInstant).toDays()<60){
+          CurrentEvents.add(event);
+        }
+        else {
+          FutureEvents.add(event);
+        }
+      }
+
+      req.setAttribute("PastEvents", PastEvents);
+      req.setAttribute("CurrentEvents", CurrentEvents);
+      req.setAttribute("FutureEvents", FutureEvents);
       req.setAttribute("pageTitle", "All Events - List");
       req.getRequestDispatcher("WEB-INF/Schedule_App/all-events.jsp").forward(req, resp);
     }

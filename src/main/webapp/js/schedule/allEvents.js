@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    $("#CurrentEvents").slideUp();
+    $("#FutureEvents").slideUp();
+    $("#PastEvents").slideUp();
+
+    document.getElementById("CurrentHeader").addEventListener("click",function(){$("#CurrentEvents").slideToggle()});
+    document.getElementById("FutureHeader").addEventListener("click",function(){$("#FutureEvents").slideToggle()});
+    document.getElementById("PastHeader").addEventListener("click",function(){$("#PastEvents").slideToggle()});
     $("#dialog").dialog({
         modal: true,
         bgiframe: true,

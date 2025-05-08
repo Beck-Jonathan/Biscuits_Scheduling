@@ -23,7 +23,7 @@ let pokemon_events=[];
 let pokemon_filtered = [];
 let pokemon_stored = [];
 let bgcolors = ['pink','red','orange','yellow','lightgreen','green','blue','indigo','violet','lightgray','darkgray','black'];
-let textcolors=['white','white','white','black','black','white','white','white','black','black','white','white'];
+let textcolors=['black','white','black','black','black','white','white','white','black','black','white','white'];
 let locatonids = ['r3e1','r3e2','r3e3','r3e4','r4e1','r4e2','r4e3','r4e4','r5e1','r5e2','r5e3','r5e4']
 
 async function filter(){

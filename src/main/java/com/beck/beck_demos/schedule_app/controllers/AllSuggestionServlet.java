@@ -56,9 +56,10 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
       results.put("searchError","Invalid search term");
     }
     String Appplication_Name = req.getParameter("App");
-    if (Appplication_Name==null){
+    req.setAttribute("App",Appplication_Name);
+    if (Appplication_Name==null|| Appplication_Name.isEmpty() ||Appplication_Name.equals("All")){
       Appplication_Name="";
-      session.setAttribute("App",Appplication_Name);
+      req.setAttribute("App","All");
     }
     int suggestioncount=0;
     int page_number=1;
@@ -79,6 +80,7 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
     Applications.add("Scheduling");
     Applications.add("Derby");
     Applications.add("Other");
+    Applications.add("All");
 
 
 
@@ -91,6 +93,7 @@ public class AllSuggestionServlet extends HttpServlet {private iSuggestionDAO su
       suggestions = new ArrayList<>();
     }
     int total_pages = (suggestion_count/page_size)+1;
+
     req.setAttribute("Applications",Applications);
     req.setAttribute("noOfPages", total_pages);
     req.setAttribute("Suggestions", suggestions);

@@ -9,21 +9,22 @@ Create the JSP  For Viewing All of The  Suggestion table
             <h1>All schedule_app Suggestions</h1>
             <p>There ${Suggestions.size() eq 1 ? "is" : "are"}&nbsp;${Suggestions.size()} Suggestion${Suggestions.size() ne 1 ? "s" : ""}</p>
             Add Suggestion   <a href="addSuggestion">Add</a>
-            <c:if test="${Suggestions.size() > 0}">
+
                 <div class="search-container">
                     <form action="all-Suggestions">
                         <input type="text" placeholder="Search.." id="searchBox" name="search">
 
                         <select   id="inputsuggestionApplication_Name" name="App" >
                             <c:forEach items="${Applications}" var="Application">
-                                <option value="${Application}">${Application}   </option>
+                            <option  <c:if test="${App eq Application}"> selected </c:if> value="${Application}">${Application}   </option>
                             </c:forEach>
                         </select>
+                        ${App}
                         <button type="submit"><i class="fa fa-search">search & filter</i></button>
 
                     </form>
                 </div>
-
+            <c:if test="${Suggestions.size() > 0}">
                 <div class="table-responsive"><table class="table table-bordered">
                     <thead>
                     <tr>
