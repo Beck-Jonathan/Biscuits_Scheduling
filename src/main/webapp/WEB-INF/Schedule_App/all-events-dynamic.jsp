@@ -9,7 +9,7 @@
     <input type="text" id="searchBox" onkeyup="filter()" placeholder="Search for names..">
 </div>
     <div class="col-3">
-
+        <button id="rainbow" onclick="rainbow()">rainbow</button>
     </div>
     <div class="col-1">
         <button id="noPokemon" onclick="noPokemon()">no Pokemon</button>

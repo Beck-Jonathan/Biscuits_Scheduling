@@ -26,6 +26,12 @@ let bgcolors = ['pink','red','orange','yellow','lightgreen','green','blue','indi
 let textcolors=['black','white','black','black','black','white','white','white','black','black','white','white'];
 let locatonids = ['r3e1','r3e2','r3e3','r3e4','r4e1','r4e2','r4e3','r4e4','r5e1','r5e2','r5e3','r5e4']
 
+
+const root = document.querySelector(":root"); //grabbing the root element
+for (i=0;i<bgcolors.length;i++) {
+    root.style.setProperty("--pseudo-backgroundcolor" + i, bgcolors[i]);
+}
+
 async function filter(){
 
 
@@ -59,6 +65,12 @@ function noPokemon(){
 
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes()
+}
+function rainbow(){
+    bgcolors = ['turquoise','limegreen','brown','black','gray','tan','BurlyWood','indigo','violet','aquamarine','deeppink','lavenderblush'];
+    for (i=0;i<bgcolors.length;i++) {
+        root.style.setProperty("--pseudo-backgroundcolor" + i, bgcolors[i]);
+    }
 }
 function Pokemon(){
     //var events = [];
@@ -365,7 +377,8 @@ function addEventsToBoxes(){
                         id = "day" + i + locatonids[j]
                         thing = document.getElementById(id)
                         thing.classList.add("box")
-                        thing.classList.add(bgcolors[j])
+                        thing.classList.add("box"+j)
+
                         var parent = (thing.parentElement.parentElement.parentElement);
                         var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
 

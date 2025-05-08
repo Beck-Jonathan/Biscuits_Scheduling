@@ -1,3 +1,20 @@
+:root{
+
+    --pseudo-backgroundcolor0: null;
+    --pseudo-backgroundcolor1: null;
+    --pseudo-backgroundcolor2: null;
+    --pseudo-backgroundcolor3: null;
+    --pseudo-backgroundcolor4: null;
+    --pseudo-backgroundcolor5: null;
+    --pseudo-backgroundcolor6: null;
+    --pseudo-backgroundcolor7: null;
+    --pseudo-backgroundcolor8: null;
+    --pseudo-backgroundcolor9: null;
+    --pseudo-backgroundcolor10: null;
+    --pseudo-backgroundcolor11: null;
+
+
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f6f9;
@@ -99,42 +116,45 @@ body {
     height:18px;
     width:12px;
 }
-.box.pink:before{
-    background-color:pink;
+.box0:before{
+    background-color:var(--pseudo-backgroundcolor0);
 }
-.box.red:before{
-    background-color:red;
+.box1:before{
+    background-color:var(--pseudo-backgroundcolor1);
 }
-.box.orange:before{
-    background-color:orange;
+.box2:before{
+    background-color:var(--pseudo-backgroundcolor2);
 }
-.box.yellow:before{
-    background-color:yellow;
+.box3:before{
+    background-color:var(--pseudo-backgroundcolor3);
 }
-.box.lightgreen:before{
-    background-color:lightgreen;
+.box4:before{
+    background-color:var(--pseudo-backgroundcolor4);
 }
-.box.green:before{
-    background-color:green;
+.box5:before{
+    background-color:var(--pseudo-backgroundcolor5);
 }
-.box.blue:before{
-    background-color:blue;
+.box6:before{
+    background-color:var(--pseudo-backgroundcolor6);
 }
-.box.indigo:before{
-    background-color:indigo;
+.box7:before{
+    background-color:var(--pseudo-backgroundcolor7);
 }
-.box.violet:before{
-    background-color:violet;
+.box8:before{
+    background-color:var(--pseudo-backgroundcolor8);
 }
-.box.lightgray:before{
-    background-color:lightgray;
+.box9:before{
+    background-color:var(--pseudo-backgroundcolor9);
 }
-.box.darkgray:before{
-    background-color:darkgray;
+.box10:before{
+    background-color:var(--pseudo-backgroundcolor10);
 }
-.box.black:before{
-    background-color:black;
+.box11:before{
+    background-color:var(--pseudo-backgroundcolor11);
 }
+
+
+
 .calday{
     border: lightgreen solid 1px;
 }
