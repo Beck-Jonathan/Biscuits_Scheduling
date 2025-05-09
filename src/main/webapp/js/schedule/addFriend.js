@@ -6,7 +6,8 @@ $(document).ready(function() {
     var User_One_input = document.getElementById("inputfriend_lineUser_One");
     User_One_input.value = '';
     User_One_input.addEventListener('keyup', function () {
-            if (User_One_input.value != "" &&isEmail(User_One_input.value)) {
+        User_One_input.value = User_One_input.value.trim();
+        if (User_One_input.value != "" &&isEmail(User_One_input.value)) {
                 $(User_One_input).addClass("ui-state-highlight");
                 $(User_One_input).removeClass("ui-state-error");
                 submitbutton.disabled=false;

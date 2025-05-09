@@ -113,6 +113,9 @@ public class AddEventFromFile extends HttpServlet {
     int NewEvents = 0;
     int oldEvents = 0;
     int totalEvents = events.size();
+    for (Event e :events){
+      e.setUser_ID(user.getUser_ID());
+    }
 
     try {
       NewEvents = eventDAO.addBatch(events);

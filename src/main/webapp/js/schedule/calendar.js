@@ -23,8 +23,19 @@ let pokemon_events=[];
 let pokemon_filtered = [];
 let pokemon_stored = [];
 let currentPalette= 0;
-let textcolors=['black','white','black','black','black','white','white','white','black','black','white','white'];
 let locatonids = ['r3e1','r3e2','r3e3','r3e4','r4e1','r4e2','r4e3','r4e4','r5e1','r5e2','r5e3','r5e4']
+let textPalettes = [];
+let textPalette0=['black','white','black','white','black','white','white','white','black','black','white','white'];
+let textPalette1=['black','white','black','white','black','white','white','white','black','black','white','white'];
+let textPalette2=['black','white','black','white','black','white','white','white','black','black','white','white'];
+let textPalette3=['black','white','black','white','black','white','white','white','black','black','white','white'];
+let textPalette4=['black','white','black','white','black','white','white','white','black','black','white','white'];
+textPalettes[0]=textPalette0;
+textPalettes[1]=textPalette1;
+textPalettes[2]=textPalette2;
+textPalettes[3]=textPalette3;
+textPalettes[4]=textPalette4;
+
 let palettes =[];
 let palette0 =['#F94939','#FE9925','#FFFB14','#93FF05','#1DF500','#00E64D','#00D6A8','#0098C7','#003AB8','#1600A8','#590099','#8A0085','A']
 let palette1 = ['#30CC14','#8CED31','#DAF467','#F9EB9F','#1430CC','#318CED','#67DAF4','#9FF9EB','#CC1430','#ED318C','#F467DA','#EB9FF9','B']
@@ -50,6 +61,7 @@ for(var i = 0; i < palettes.length; i++) {
 const root = document.querySelector(":root"); //grabbing the root element
 for (i=0;i<palettes[0].length;i++) {
     root.style.setProperty("--pseudo-backgroundcolor" + i, palettes[0][i]);
+    root.style.setProperty("--pseudo-textcolor" + i, textPalettes[0][i]);
 }
 
 async function filter(){
@@ -87,12 +99,14 @@ function noPokemon(){
     addEventsToBoxes()
 }
 function rainbow(){
-    var currentPalNo = PaletteSelect.options[PaletteSelect.selectedIndex].value;
+    var currentPalNo = PaletteSelect.value
     console.log(currentPalNo)
     currentPalette=currentPalNo;
 
     for (i=0;i<palettes[currentPalette].length;i++) {
         root.style.setProperty("--pseudo-backgroundcolor" + i, palettes[currentPalette][i]);
+        root.style.setProperty("--pseudo---pseudo-textcolor" + i, textPalettes[currentPalette][i]);
+
     }
 }
 function Pokemon(){
@@ -414,8 +428,27 @@ function addEventsToBoxes(){
 
                         thing.setAttribute("source",combined_events[i].events[j].source)
                         thing.setAttribute('href', "editEvent?eventid=" + combined_events[i].events[j].event_ID);
+                        thing.setAttribute('loop',j);
                         //thing.setAttribute('href', "eventid=" + combined_events[i].events[j].event_ID+"&viewmode=middle");
                         var href = thing.getAttribute("href");
+                        thing.addEventListener("mouseover",function(){
+                            var colorstring= "--pseudo-backgroundcolor"+this.getAttribute('loop')
+
+                            var root = document.querySelector(':root');
+                            var startcolor= root.style.getPropertyValue(colorstring);
+                            var darkercolor = LightenDarkenColor(startcolor, -50);
+                            var lightercolor = LightenDarkenColor(startcolor, 30);
+                            console.log(startcolor);
+                            console.log(darkercolor);
+                            console.log(lightercolor);
+
+                            root.style.setProperty("--pseudo-hovercolor", startcolor);
+                            root.style.setProperty("--pseudo-hovercolorlighter", lightercolor);
+                            root.style.setProperty("--pseudo-hovercolordarker", darkercolor);
+
+
+                        })
+
                         thing.addEventListener("click", function () {
                         });
                         thing.addEventListener("dblclick", function () {
@@ -440,14 +473,14 @@ function addEventsToBoxes(){
                                 //}})
                         });
                         backgroundColor = palettes[currentPalette][j];
-                        textColor = textcolors[j]
+                        textColor = textPalettes[currentPalette][j];
 
 
                     var time = combined_events[i].events[j].date;
                     var date = new Date(time).toLocaleTimeString();
 
 
-                    thing.innerHTML = "&nbsp<span style='color:" + textColor + "; background-color:" + backgroundColor + "' class='hiddendetails double-border' ><h3>" + combined_events[i].events[j].name
+                    thing.innerHTML = "&nbsp<span  ' class='hiddendetails hiddendetails"+j+" double-border' ><h3>" + combined_events[i].events[j].name
                         + "</h3></br>" + combined_events[i].events[j].description + "</br>" + date + "</br>" + combined_events[i].events[j].location+ "</span>";
 
                 }
@@ -538,4 +571,33 @@ function filterArray(array,search){
     }
 
     return result;
+}
+function LightenDarkenColor(col, amt) {
+
+    var usePound = false;
+
+    if (col[0] == "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    var num = parseInt(col,16);
+
+    var r = (num >> 16) + amt;
+
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+
+    var b = ((num >> 8) & 0x00FF) + amt;
+
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+
+    var g = (num & 0x0000FF) + amt;
+
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
 }
