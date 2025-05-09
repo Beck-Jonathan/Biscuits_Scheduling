@@ -60,6 +60,9 @@ public class ApproveFriendServlet extends HttpServlet {
     String mode = req.getParameter("mode");
 
     Integer result = 0;
+    if (mode==null||mode.isEmpty()){
+      mode = "";
+    }
     if (mode.equals("approve")){
       try{
         result = friendDAO.approveFriend(Friend_ID,user.getUser_ID());
