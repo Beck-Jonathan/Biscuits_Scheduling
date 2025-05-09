@@ -176,6 +176,29 @@ class AddFriendServletTest {
     assertEquals(200,responseStatus);
   }
 
+  @Test
+  public void TestUserCanNotAddThemselves() throws ServletException, IOException{
+    User user = new User();
+    user.setUser_ID("FDJFADKFJSA5412345DJFDKANFA215458123");
+    List<String> roles = new ArrayList<>();
+    roles.add("User");
+    user.setRoles(roles);
+    session.setAttribute("User_C",user);
+
+    request.setSession(session);
+    request.setParameter("inputfriend_lineUser_One","test@gmail.com");
+    servlet.doPost(request,response);
+    int responseStatus = response.getStatus();
+    Map<String, String> results = (Map<String, String>) request.getAttribute("results");
+    String User_OneError = results.get("friend_lineUser_Oneerror");
+
+    assertNotEquals("",User_OneError);
+    assertNotNull(User_OneError);
+
+    assertEquals(200,responseStatus);
+  }
+
+
   /**
    <p> Tests That We can add to the database if all input fields are validated  </p>
    */

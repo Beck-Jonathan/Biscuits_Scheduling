@@ -86,6 +86,9 @@ public class AddFriendServlet extends HttpServlet{
       String userID = user_DAO.getUserID(_User_One);
       if (userID!=null) {
         friend.setFriend(userID);
+        if (userID.equals(user.getUser_ID())) {
+          throw new Exception("You can't add yourself.");
+        }
       }
       else {
         throw new Exception("Unable to find user.");
