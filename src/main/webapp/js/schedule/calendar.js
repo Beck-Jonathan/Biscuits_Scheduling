@@ -38,7 +38,10 @@ palettes[1]=palette1;
 palettes[2]=palette2;
 palettes[3]=palette3;
 palettes[4]=palette4;
-
+const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
 
 
 for(var i = 0; i < palettes.length; i++) {
@@ -61,7 +64,8 @@ for (i=0;i<palettes[0].length;i++) {
 }
 
 async function filter(){
-
+    console.log(currentMonth);
+    console.log((currentYear))
 
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
@@ -94,6 +98,54 @@ function noPokemon(){
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes()
 }
+var myDate = new Date();
+var mymydate = ('0'+ (parseInt(myDate.getMonth())+1)).slice(-2)+ '-'+myDate.getFullYear()    ;
+$("#month").val(months[currentMonth]+" "+currentYear);
+var dateNow = new Date();
+//console.log("mymydate:"+mymydate);
+$(".monthPicker").datepicker({
+    valueDefault : dateNow,
+    dateFormat: 'MM yy',
+    changeMonth: true,
+    changeYear: true,
+    showButtonPanel: true,
+
+    onClose: function(dateText, inst) {
+
+        currentMonth = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val());
+
+        currentYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+        console.log(currentMonth);
+        console.log(currentYear)
+        $(this).val($.datepicker.formatDate('MM yy', new Date(currentYear, currentMonth,1)));
+        prevMonthBtn.disabled=true;
+        nextMonthBtn.disabled=true;
+        is_culvers=false;
+        culvers_filtered = [];
+
+
+        if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
+            $("#culvers").slideDown();
+        }
+        else {
+            $("#culvers").slideUp();
+        }
+        $("#noculvers").slideUp();
+
+        renderCalendar(currentMonth, currentYear);
+        callAjaxMonth(currentMonth+1,searchTerm);
+    }
+});
+
+$(".monthPicker").focus(function () {
+    $(".ui-datepicker-calendar").hide();
+    $("#ui-datepicker-div").position({
+        my: "center top",
+        at: "center bottom",
+        of: $(this)
+    });
+});
+
 function rainbow(){
     var currentPalNo = PaletteSelect.value
     console.log(currentPalNo)
@@ -193,14 +245,11 @@ function culvers(){
 }
 
 
-const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-];
+
 function renderCalendar(month, year) {
     calendarDates.innerHTML = '';
     boxMonth = currentMonth+1;
-    monthYear.innerHTML = "<a href='all-events?day="+"&month="+boxMonth+"&year="+currentYear+"'>"+months[month]+" "+year +"</a>";
+    //monthYear.innerHTML = "<a href='all-events?day="+"&month="+boxMonth+"&year="+currentYear+"'>"+months[month]+" "+year +"</a>";
 
 
     // Get the first day of the month
@@ -252,6 +301,7 @@ callAjaxMonth(currentMonth+1,"");
 prevMonthBtn.addEventListener('click', () => {
     prevMonthBtn.disabled=true;
     nextMonthBtn.disabled=true;
+
     is_culvers=false;
     culvers_filtered = [];
 
@@ -270,7 +320,7 @@ prevMonthBtn.addEventListener('click', () => {
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
-
+    $("#month").val(months[currentMonth]+" "+currentYear);
 
 
 });
@@ -278,6 +328,7 @@ prevMonthBtn.addEventListener('click', () => {
 nextMonthBtn.addEventListener('click', () => {
     prevMonthBtn.disabled=true;
     nextMonthBtn.disabled=true;
+
     is_culvers=false;
     culvers_filtered = [];
 
@@ -297,6 +348,8 @@ nextMonthBtn.addEventListener('click', () => {
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
+
+    $("#month").val(months[currentMonth]+" "+currentYear);
 
 
 });
@@ -628,3 +681,4 @@ function colorIsDarkAdvanced(bgColor) {
     let L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
     return L <= 0.179;
 }
+

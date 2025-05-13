@@ -29,13 +29,16 @@
 
 <div class="calendar" >
     <div class="calendar-header row">
-        <div class="col-4"></div>
+        <div class="col-3"></div>
         <div class="col-1"><button id="prev-month">‹</button></div>
 
-        <div class="col-1" id="month-year"></div>
+        <div class="col-3" id="month-year">
+            <label for="month">Month: </label>
+            <input type="text" id="month" name="month" class="monthPicker" />
+        </div>
 
         <div class="col-1"><button id="next-month">›</button></div>
-        <div class="col-4"></div>
+        <div class="col-3"></div>
     </div>
     <div class="calendar-body">
         <div class="calendar-weekdays">
