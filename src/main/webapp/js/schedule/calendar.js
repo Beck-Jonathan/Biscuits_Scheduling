@@ -249,6 +249,8 @@ $("#noPokemon").slideUp();
 renderCalendar(currentMonth, currentYear);
 callAjaxMonth(currentMonth+1,"");
 prevMonthBtn.addEventListener('click', () => {
+    prevMonthBtn.disabled=true;
+    nextMonthBtn.disabled=true;
     is_culvers=false;
     culvers_filtered = [];
 
@@ -273,6 +275,8 @@ prevMonthBtn.addEventListener('click', () => {
 });
 
 nextMonthBtn.addEventListener('click', () => {
+    prevMonthBtn.disabled=true;
+    nextMonthBtn.disabled=true;
     is_culvers=false;
     culvers_filtered = [];
 
@@ -512,6 +516,9 @@ async function callAjaxMonth(month,search){
             combine_array(events,culvers_filtered)
 
             addEventsToBoxes();
+            prevMonthBtn.disabled=false;
+            nextMonthBtn.disabled=false;
+            
         }
     });
 }
