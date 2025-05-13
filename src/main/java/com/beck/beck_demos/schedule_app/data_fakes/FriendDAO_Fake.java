@@ -30,13 +30,13 @@ public class FriendDAO_Fake implements iFriendDAO {
 
   Friend_VM friend_VM0= new Friend_VM(friend0);
     friend_VM0.setUser1(user1);
-    friend_VM0.setUser1(user2);
+    friend_VM0.setUser2(user2);
   Friend_VM friend_VM1= new Friend_VM(friend1);
     friend_VM1.setUser1(user2);
-    friend_VM1.setUser1(user1);
+    friend_VM1.setUser2(user1);
   Friend_VM friend_VM2= new Friend_VM(friend2);
-    friend_VM1.setUser1(user1);
-    friend_VM1.setUser1(user3);
+    friend_VM2.setUser1(user1);
+    friend_VM2.setUser2(user3);
 
 friendVMs.add(friend_VM0);
 friendVMs.add(friend_VM1);

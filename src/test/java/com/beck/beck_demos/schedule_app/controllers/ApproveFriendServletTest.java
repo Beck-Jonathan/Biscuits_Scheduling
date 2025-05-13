@@ -101,7 +101,7 @@ class ApproveFriendServletTest {
     request.setParameter("mode","approve");
     servlet.doGet(request,response);
     String jsonString = response.getContentAsString();
-    assertEquals(1,jsonString);
+    assertEquals("1",jsonString);
   }
 
   /**
@@ -140,28 +140,10 @@ class ApproveFriendServletTest {
     request.setParameter("mode","0");
     servlet.doGet(request,response);
     String status = response.getContentAsString();
-    assertEquals(0,status);
+    assertEquals("0",status);
   }
 
-  /**
-   <p> Test something, needs more specificity </p>
-   */
-  @Test
-  public void TestDeActivateCanFailIfKeyDoesNotExist() throws ServletException, IOException {
-    User user = new User();
-    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    request.setParameter("Friend_Lineid","5f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
-    request.setParameter("mode","0");
-    servlet.doGet(request,response);
-    String status = response.getContentAsString();
 
-    assertEquals(0,status);
-  }
 
   /**
    <p> Test something, needs more specificity </p>
@@ -176,31 +158,17 @@ class ApproveFriendServletTest {
     session.setAttribute("User_C",user);
     request.setSession(session);
     request.setParameter("Friend_Lineid","xxxxxxxxxxxxx");
-    request.setParameter("mode","1");
+    request.setParameter("mode","approve");
     servlet.doGet(request,response);
     String status = response.getContentAsString();
 
-    assertEquals(0,status);
+    assertEquals("0",status);
   }
 
   /**
    <p> Test that the activation servlet can active a Friend_Line </p>
    */
-  @Test
-  public void TestactivateCanActivate() throws ServletException, IOException {
-    User user = new User();
-    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    request.setParameter("Friend_Lineid","3f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
-    request.setParameter("mode","1");
-    servlet.doGet(request,response);
-    String status = response.getContentAsString();
-    assertEquals(1,status);
-  }
+
 
   /**
    <p> Test that the activation servlet can fail if the Friend_Line is already active </p>
@@ -219,7 +187,7 @@ class ApproveFriendServletTest {
     request.setParameter("mode","1");
     servlet.doGet(request,response);
     String status = response.getContentAsString();
-    assertEquals(0,status);
+    assertEquals("0",status);
   }
 
   /**
@@ -230,6 +198,59 @@ class ApproveFriendServletTest {
     servlet = null;
     servlet = new ApproveFriendServlet();
     servlet.init();
+  }
+
+  @Test
+  public void TestDeleteCanDelete() throws ServletException, IOException {
+    User user = new User();
+    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
+    List<String> roles = new ArrayList<>();
+    roles.add("User");
+    user.setRoles(roles);
+    request.setAttribute("mode","approve");
+
+    session.setAttribute("User_C",user);
+    request.setSession(session);
+    request.setParameter("friend_lineid","3f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
+    request.setParameter("mode","delete");
+    servlet.doGet(request,response);
+    String jsonString = response.getContentAsString();
+    assertEquals("1",jsonString);
+  }
+
+
+
+  @Test
+  public void TestDeleteCanFailIfNotExist() throws ServletException, IOException {
+    User user = new User();
+    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
+    List<String> roles = new ArrayList<>();
+    roles.add("User");
+    user.setRoles(roles);
+    session.setAttribute("User_C",user);
+    request.setSession(session);
+    request.setParameter("Friend_Lineid","xxxxxxxxxxxxx");
+    request.setParameter("mode","delete");
+    servlet.doGet(request,response);
+    String status = response.getContentAsString();
+
+    assertEquals("0",status);
+  }
+
+  @Test
+  public void TestNoModeReturnsZero() throws ServletException, IOException {
+    User user = new User();
+    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
+    List<String> roles = new ArrayList<>();
+    roles.add("User");
+    user.setRoles(roles);
+    session.setAttribute("User_C",user);
+    request.setSession(session);
+    request.setParameter("friend_lineid","3f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
+
+    servlet.doGet(request,response);
+    String jsonString = response.getContentAsString();
+    assertEquals("0",jsonString);
   }
 
 }

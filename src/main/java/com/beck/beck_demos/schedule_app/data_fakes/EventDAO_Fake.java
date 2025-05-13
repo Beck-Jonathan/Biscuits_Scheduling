@@ -138,7 +138,12 @@ public class EventDAO_Fake implements iEventDAO {
   public int addBatch(List<Event> _events) throws SQLException {
     int result = 0;
     for (Event event : _events) {
-      events.add(event);
+      if (event.getUser_ID()!=null || !event.getUser_ID().isEmpty()){
+        events.add(event);
+      }
+      else {
+        throw new SQLException("User ID can not be empty");
+      }
       result ++;
     }
     return result;

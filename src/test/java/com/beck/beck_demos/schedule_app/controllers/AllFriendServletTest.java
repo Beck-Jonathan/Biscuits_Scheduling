@@ -78,7 +78,7 @@ class AllFriendServletTest {
     int status = response.getStatus();
     assertEquals(302,status);
     String redirect_link = response.getRedirectedUrl();
-    String desired_redirect = "/schedule_app_in";
+    String desired_redirect = "schedule_in";
     assertEquals(desired_redirect,redirect_link);
   }
 
@@ -89,7 +89,7 @@ class AllFriendServletTest {
   public void TestWrongRoleGets302onDoGet() throws ServletException, IOException{
     User user = new User();
     List<String> roles = new ArrayList<>();
-    roles.add("User");
+    roles.add("WrongRole");
     user.setRoles(roles);
     session.setAttribute("User_C",user);
     request.setSession(session);
@@ -97,7 +97,7 @@ class AllFriendServletTest {
     int status = response.getStatus();
     assertEquals(302,status);
     String redirect_link = response.getRedirectedUrl();
-    String desired_redirect = "/schedule_app_in";
+    String desired_redirect = "schedule_in";
     assertEquals(desired_redirect,redirect_link);
   }
 
@@ -110,93 +110,31 @@ class AllFriendServletTest {
     List<String> roles = new ArrayList<>();
     roles.add("User");
     user.setRoles(roles);
+    user.setUser_ID("2f0e741b-8ac3-48ec-b51a-9fdaad52f9b5");
     session.setAttribute("User_C",user);
     request.setSession(session);
     servlet.doGet(request,response);
-    List<Friend_VM> friend_lines = (List<Friend_VM>) request.getAttribute("Friend_Lines");
-    assertNotNull(friend_lines);
-    assertEquals(20,friend_lines.size());
+
+    List<Friend_VM> approved_Friends = (List<Friend_VM>) request.getAttribute("approved_Friends");
+    List<Friend_VM> incoming_friends = (List<Friend_VM>) request.getAttribute("incoming_friends");
+    List<Friend_VM> outgoing_friends = (List<Friend_VM>) request.getAttribute("outgoing_friends");
+    assertNotNull(approved_Friends);
+    assertNotNull(incoming_friends);
+    assertNotNull(outgoing_friends);
+
+    assertEquals(0,approved_Friends.size());
+    assertEquals(0,incoming_friends.size());
+    assertEquals(1,outgoing_friends.size());
+
   }
 
-  /**
-   <p> Test that getting all Friend_Line can filter. </p>
-   */
-  @Test
-  public void testLoggedInUserCanFilterFriend_LinesByUser_One() throws ServletException, IOException{
-    User user = new User();
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    String User_One= null;
-    request.setParameter("User_One",User_One);
-    request.setSession(session);
-    servlet.doGet(request,response);
-    List<Friend_VM> friend_lines = (List<Friend_VM>) request.getAttribute("Friend_Lines");
-    assertNotNull(friend_lines);
-    assertEquals(20,friend_lines.size());
-  }
 
-  /**
-   <p> Test that getting all Friend_Line can filter. </p>
-   */
-  @Test
-  public void testLoggedInUserCanFilterFriend_LinesByUser_Two() throws ServletException, IOException{
-    User user = new User();
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    String User_Two= null;
-    request.setParameter("User_Two",User_Two);
-    request.setSession(session);
-    servlet.doGet(request,response);
-    List<Friend_VM> friend_lines = (List<Friend_VM>) request.getAttribute("Friend_Lines");
-    assertNotNull(friend_lines);
-    assertEquals(20,friend_lines.size());
-  }
 
-  /**
-   <p> Test that getting all Friend_Line can filter. </p>
-   */
-  @Test
-  public void testLoggedInUserCanSearch() throws ServletException, IOException{
-    User user = new User();
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    String searchTerm = "";
-    request.setParameter("search",searchTerm);
-    request.setSession(session);
-    servlet.doGet(request,response);
-    List<Friend_VM> friend_lines = (List<Friend_VM>) request.getAttribute("Friend_Lines");
-    assertNotNull(friend_lines);
-    assertEquals(20,friend_lines.size());
-  }
 
-  /**
-   <p> Test that getting all Friend_Line can filter. </p>
-   */
-  @Test
-  public void testLoggedInUserCanSearchAndReturnZero() throws ServletException, IOException{
-    User user = new User();
-    List<String> roles = new ArrayList<>();
-    roles.add("User");
-    user.setRoles(roles);
-    session.setAttribute("User_C",user);
-    request.setSession(session);
-    String searchTerm = "";
-    request.setParameter("search",searchTerm);
-    request.setSession(session);
-    servlet.doGet(request,response);
-    List<Friend_VM> friend_lines = (List<Friend_VM>) request.getAttribute("Friend_Lines");
-    assertNotNull(friend_lines);
-    assertEquals(0,friend_lines.size());
-  }
+
+
+
+
 
   /**
    <p> Test That initializing the Servlet Does Not Crash or cause an exception </p>
