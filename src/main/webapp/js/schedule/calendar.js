@@ -24,17 +24,7 @@ let pokemon_filtered = [];
 let pokemon_stored = [];
 let currentPalette= 0;
 let locatonids = ['r3e1','r3e2','r3e3','r3e4','r4e1','r4e2','r4e3','r4e4','r5e1','r5e2','r5e3','r5e4']
-let textPalettes = [];
-let textPalette0=['black','white','black','white','black','white','white','white','black','black','white','white'];
-let textPalette1=['black','white','black','white','black','white','white','white','black','black','white','white'];
-let textPalette2=['black','white','black','white','black','white','white','white','black','black','white','white'];
-let textPalette3=['black','white','black','white','black','white','white','white','black','black','white','white'];
-let textPalette4=['black','white','black','white','black','white','white','white','black','black','white','white'];
-textPalettes[0]=textPalette0;
-textPalettes[1]=textPalette1;
-textPalettes[2]=textPalette2;
-textPalettes[3]=textPalette3;
-textPalettes[4]=textPalette4;
+
 
 let palettes =[];
 let palette0 =['#F94939','#FE9925','#FFFB14','#93FF05','#1DF500','#00E64D','#00D6A8','#0098C7','#003AB8','#1600A8','#590099','#8A0085','A']
@@ -61,7 +51,13 @@ for(var i = 0; i < palettes.length; i++) {
 const root = document.querySelector(":root"); //grabbing the root element
 for (i=0;i<palettes[0].length;i++) {
     root.style.setProperty("--pseudo-backgroundcolor" + i, palettes[0][i]);
-    root.style.setProperty("--pseudo-textcolor" + i, textPalettes[0][i]);
+    if (colorIsDarkAdvanced(palettes[0][i])){
+        root.style.setProperty("--pseudo-textcolor" + i, '#FFFFFF');
+    }
+    else {
+        root.style.setProperty("--pseudo-textcolor" + i, '#000000');
+    }
+
 }
 
 async function filter(){
@@ -105,7 +101,12 @@ function rainbow(){
 
     for (i=0;i<palettes[currentPalette].length;i++) {
         root.style.setProperty("--pseudo-backgroundcolor" + i, palettes[currentPalette][i]);
-        root.style.setProperty("--pseudo---pseudo-textcolor" + i, textPalettes[currentPalette][i]);
+        if (colorIsDarkAdvanced(palettes[currentPalette][i])){
+            root.style.setProperty("--pseudo-textcolor" + i, '#FFFFFF');
+        }
+        else {
+            root.style.setProperty("--pseudo-textcolor" + i, '#000000');
+        }
 
     }
 }
@@ -442,9 +443,7 @@ function addEventsToBoxes(){
                             var startcolor= root.style.getPropertyValue(colorstring);
                             var darkercolor = LightenDarkenColor(startcolor, -50);
                             var lightercolor = LightenDarkenColor(startcolor, 30);
-                            console.log(startcolor);
-                            console.log(darkercolor);
-                            console.log(lightercolor);
+
 
                             root.style.setProperty("--pseudo-hovercolor", startcolor);
                             root.style.setProperty("--pseudo-hovercolorlighter", lightercolor);
@@ -477,7 +476,12 @@ function addEventsToBoxes(){
                                 //}})
                         });
                         backgroundColor = palettes[currentPalette][j];
-                        textColor = textPalettes[currentPalette][j];
+                if (colorIsDarkAdvanced(palettes[currentPalette][j])){
+                    root.style.setProperty("--pseudo-textcolor" + currentPalette, '#FFFFFF');
+                }
+                else {
+                    root.style.setProperty("--pseudo-textcolor" + currentPalette, '#000000');
+                }
 
 
                     var time = combined_events[i].events[j].date;
@@ -518,7 +522,7 @@ async function callAjaxMonth(month,search){
             addEventsToBoxes();
             prevMonthBtn.disabled=false;
             nextMonthBtn.disabled=false;
-            
+
         }
     });
 }
@@ -607,4 +611,20 @@ function LightenDarkenColor(col, amt) {
 
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 
+}
+
+function colorIsDarkAdvanced(bgColor) {
+    let color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+    let r = parseInt(color.substring(0, 2), 16); // hexToR
+    let g = parseInt(color.substring(2, 4), 16); // hexToG
+    let b = parseInt(color.substring(4, 6), 16); // hexToB
+    let uicolors = [r / 255, g / 255, b / 255];
+    let c = uicolors.map((col) => {
+        if (col <= 0.03928) {
+            return col / 12.92;
+        }
+        return Math.pow((col + 0.055) / 1.055, 2.4);
+    });
+    let L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+    return L <= 0.179;
 }
