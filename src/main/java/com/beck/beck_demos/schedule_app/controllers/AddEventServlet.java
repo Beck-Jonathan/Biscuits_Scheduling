@@ -308,6 +308,7 @@ public class AddEventServlet extends HttpServlet{
           e.setLength(event.getLength());
           e.setDecision(event.getDecision());
           e.setPaid(event.getPaid());
+          e.setUser_ID((user.getUser_ID()));
           events.add(e);
         }
         try {
