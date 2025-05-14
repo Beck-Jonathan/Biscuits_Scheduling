@@ -317,6 +317,8 @@ prevMonthBtn.addEventListener('click', () => {
         $("#culvers").slideUp();
     }
     $("#noculvers").slideUp();
+    $("#Pokemon").slideDown();
+    $("#noPokemon").slideUp();
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
@@ -344,6 +346,8 @@ nextMonthBtn.addEventListener('click', () => {
         $("#culvers").slideUp();
     }
     $("#noculvers").slideUp();
+    $("#Pokemon").slideDown();
+    $("#noPokemon").slideUp();
     let _events = "";
 
     renderCalendar(currentMonth, currentYear);
