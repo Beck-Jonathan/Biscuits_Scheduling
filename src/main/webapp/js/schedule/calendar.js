@@ -179,6 +179,7 @@ function Pokemon(){
             async: true,
             success: function (response) {
                 pokemon_events = response;
+
                 pokemon_filtered = response;
                 for (i=0;i<pokemon_events.length;i++){
                     for (j=0;j<pokemon_events[i].events.length;j++){
@@ -186,8 +187,8 @@ function Pokemon(){
                         pokemon_events[i].events[j].source="Pokemon"
                     }
                 }
-                console.log(pokemon_events)
-                pokemon_stored[currentMonth]=pokemon_events;
+
+
                 $("#datesToSlide").slideDown();
                 addEventsToBoxes()
             }
@@ -304,6 +305,7 @@ prevMonthBtn.addEventListener('click', () => {
 
     is_culvers=false;
     culvers_filtered = [];
+    pokemon_filtered=[];
 
     currentMonth--;
     if (currentMonth < 0) {
@@ -333,6 +335,7 @@ nextMonthBtn.addEventListener('click', () => {
 
     is_culvers=false;
     culvers_filtered = [];
+    pokemon_filtered=[];
 
     currentMonth++;
     if (currentMonth > 11) {
