@@ -43,7 +43,7 @@ Create the JSP  For Viewing All of The  Suggestion table
                             </td>
                             <td>${fn:escapeXml(suggestion.user.user_Name)}</td>
                             <td>${fn:escapeXml(suggestion.application_Name)}</td>
-                            <td>${fn:escapeXml(suggestion.content)}</td>
+                            <td>${suggestion.content}</td>
                             <td>
                                 <div>
                                 <button class="delButton" href="${suggestion.suggestion_ID}" >Delete</button>

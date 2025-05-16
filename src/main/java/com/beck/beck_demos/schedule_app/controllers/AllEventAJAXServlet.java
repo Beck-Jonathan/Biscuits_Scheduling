@@ -97,13 +97,13 @@ public class AllEventAJAXServlet extends HttpServlet {
 
     CalendarMonth month = new CalendarMonth();
     List<CalendarDay> days = new ArrayList<>();
-    for (int i =0;i<31;i++){
+    for (int i =0;i<32;i++){
       CalendarDay day1 = new CalendarDay();
       day1.setDay(i+1);
       days.add(day1);
     }
     for (Event event : events) {
-      for (int i =0;i<31;i++){
+      for (int i =0;i<32;i++){
         if (event.getDate().getDate()==i){
           days.get(i).addEvent(event);
         }

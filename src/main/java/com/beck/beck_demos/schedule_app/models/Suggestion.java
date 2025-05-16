@@ -115,7 +115,8 @@ public class Suggestion implements Comparable<Suggestion> {
    * throws IllegalArgumentException if content under 3 characters or longer than 1000 characters
    */
   public void setcontent(String content) {
-    content = content.replaceAll("[^.,!()A-Za-z0-9 - ]","");
+    content = content.replaceAll("[^\n.,!()A-Za-z0-9 - ]","");
+    content = content.replaceAll("\n","</br>");
     if(content.length()<4){
       throw new IllegalArgumentException("content is too short.");
     }

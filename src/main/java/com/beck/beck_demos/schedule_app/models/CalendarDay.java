@@ -38,7 +38,7 @@ public class CalendarDay implements Comparable<CalendarDay> {
   }
 
   public void setDay(Integer day) {
-    if (day<0||day>31){
+    if (day<0||day>32){
       throw new IllegalArgumentException("Day Can Not Be Negative");
     }
     this.Day = day;

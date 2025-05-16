@@ -466,6 +466,7 @@ function addEventsToBoxes(){
 
 
     for (i=0;i<combined_events.length;i++){
+
         if(combined_events[i].events.length>0){
             for (j=0;j<combined_events[i].events.length;j++) {
                 if (j >11) {
