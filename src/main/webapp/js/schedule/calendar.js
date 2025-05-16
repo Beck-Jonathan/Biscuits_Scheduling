@@ -64,8 +64,7 @@ for (i=0;i<palettes[0].length;i++) {
 }
 
 async function filter(){
-    console.log(currentMonth);
-    console.log((currentYear))
+
 
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
@@ -115,8 +114,7 @@ $(".monthPicker").datepicker({
         currentMonth = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val());
 
         currentYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-        console.log(currentMonth);
-        console.log(currentYear)
+
         $(this).val($.datepicker.formatDate('MM yy', new Date(currentYear, currentMonth,1)));
         prevMonthBtn.disabled=true;
         nextMonthBtn.disabled=true;
@@ -148,7 +146,7 @@ $(".monthPicker").focus(function () {
 
 function rainbow(){
     var currentPalNo = PaletteSelect.value
-    console.log(currentPalNo)
+
     currentPalette=currentPalNo;
 
     for (i=0;i<palettes[currentPalette].length;i++) {
@@ -211,7 +209,7 @@ function culvers(){
     $("#datesToSlide").slideUp();
     $("#culvers").slideUp();
     $("#noculvers").slideDown();
-    console.log(culvers_stored[currentMonth]);
+
     if (culvers_stored[currentMonth]==null) {
         $.ajax({
             url: 'AJAXCUULVERS',
@@ -277,6 +275,13 @@ function renderCalendar(month, year) {
         thisday.setDate(i);
         let dayofweek = thisday.getDay();
         day.setAttribute("dayofweek",dayofweek)
+        var lastSunday = findLastSunday(currentMonth,currentYear);
+        if (i>=lastSunday){
+            day.setAttribute("bottomWeek","true")
+        }
+        else {
+            day.setAttribute("bottomWeek","false")
+        }
 
 
         // Highlight today's date
@@ -484,12 +489,22 @@ function addEventsToBoxes(){
 
                         var parent = (thing.parentElement.parentElement.parentElement);
                         var parentdayofweek = parseInt(parent.getAttribute("dayofweek"));
-
+                        var lastweek = "true" === parent.getAttribute("bottomWeek");
                         if (parentdayofweek<4){
-                            thing.classList.add("HoverRight")
+                            if (!lastweek) {
+                                thing.classList.add("HoverRight")
+                            } else {
+                                thing.classList.add("HoverTopRight")
+                            }
                         }
                         else {
-                            thing.classList.add("HoverLeft")
+                            if (!lastweek){
+                                thing.classList.add("HoverLeft")
+                            }
+                            else {
+                                thing.classList.add("HoverTopLeft")
+                            }
+
                         }
 
                         thing.setAttribute("source",combined_events[i].events[j].source)
@@ -576,7 +591,7 @@ async function callAjaxMonth(month,search){
                     events[i].events[j].source="Personal"
                 }
             }
-            console.log(events);
+
 
             combine_array(events,culvers_filtered)
 
@@ -688,5 +703,22 @@ function colorIsDarkAdvanced(bgColor) {
     });
     let L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
     return L <= 0.179;
+}
+function findLastSunday(currentMonth,currentYear){
+    var days_in_month = daysInMonth(currentMonth, currentYear);
+
+    while(true){
+        var dayofweek = new Date(currentYear,currentMonth,days_in_month).getDay()
+
+        days_in_month--;
+        if (dayofweek===0){
+            console.log(days_in_month)
+            return days_in_month+1;
+        }
+    }
+}
+function daysInMonth(iMonth, iYear)
+{
+    return 32 - new Date(iYear, iMonth, 32).getDate();
 }
 
