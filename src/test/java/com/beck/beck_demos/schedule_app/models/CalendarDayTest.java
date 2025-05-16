@@ -70,7 +70,7 @@ class CalendarDayTest {
    */
   @Test
   public void testCalendarDayThrowsIllegalArgumentExceptionIfDayTooBig(){
-    int Day = 32;
+    int Day = 33;
     Assertions.assertThrows(IllegalArgumentException.class, () -> {_calendarday.setDay(Day);});
   }
 
