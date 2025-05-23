@@ -14,6 +14,9 @@ Create the JSP  For adding to The  Suggestion table
                 <option value="Homepage">Homepage</option>
                 <option value="Scheduling" selected>Scheduling</option>
                 <option value="Derby">CRRD Site</option>
+                <option value="Warriors" >Fire emblem app</option>
+                <option value="Generator">My Code Gen</option>
+
                 <option value="Other">Other (Please Explain)</option>
             </select>
         </div>
