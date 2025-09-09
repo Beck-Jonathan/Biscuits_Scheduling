@@ -178,6 +178,11 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
+  public List<Event> getFoodMenu(List<String> Schools, int month) throws Exception {
+    return List.of();
+  }
+
+  @Override
   public List<Event> getPokemonEvents(int month, int year) throws Exception {
     return List.of();
   }

@@ -2,7 +2,12 @@ const calendarDates = document.querySelector('.calendar-dates');
 const monthYear = document.getElementById('month-year');
 const prevMonthBtn = document.getElementById('prev-month');
 const nextMonthBtn = document.getElementById('next-month');
-
+const btn_lunch=document.getElementById('Lunch');
+const btn_pokemon = document.getElementById('Pokemon');
+const btn_culvers=document.getElementById('culvers');
+const btn_allowYes = document.getElementById('dec_Yes');
+const btn_allowMaybe = document.getElementById('dec_Maybe');
+const btn_allowNo = document.getElementById('dec_No');
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let anchorMonth = currentDate.getMonth();
@@ -15,15 +20,25 @@ let backup_events = [];
 let culvers_events = []
 let is_culvers = false;
 let is_pokemon =false;
+let is_lunch=false;
+let done_pkmn=true;
+let done_culvers=true;
+let done_lunch=true;
 let modified=false;
 let combined_events = [];
 let culvers_filtered=[];
 let culvers_stored = [];
 let pokemon_events=[];
 let pokemon_filtered = [];
+let lunch_events=[];
+let lunch_filtered = [];
 let pokemon_stored = [];
 let currentPalette= 0;
 let locatonids = ['r3e1','r3e2','r3e3','r3e4','r4e1','r4e2','r4e3','r4e4','r5e1','r5e2','r5e3','r5e4']
+let checkboxes=document.getElementsByClassName("EventSlider");
+let allowYes=true;
+let allowNo=true;
+let allowMaybe=true;
 
 
 let palettes =[];
@@ -65,24 +80,24 @@ for (i=0;i<palettes[0].length;i++) {
 
 async function filter(){
 
-
     searchBox = document.getElementById("searchBox")
     searchTerm= searchBox.value;
     culvers_filtered = filterArray(culvers_events,searchTerm);
     pokemon_filtered = filterArray(pokemon_events,searchTerm)
+    lunch_filtered=filterArray(lunch_events,searchTerm)
 
     var x =  await callAjaxMonth(currentMonth + 1, searchTerm);
 
 
     combined_events = combine_array(events,culvers_filtered);
     combined_events = combine_array(combined_events,pokemon_filtered)
+    combined_events = combine_array(combined_events,lunch_filtered)
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes();
 }
 function noculvers(){
     is_culvers=false;
-    $("#culvers").slideDown();
-    $("#noculvers").slideUp();
+    done_culvers=true;
     culvers_filtered=[];
 
     renderCalendar(currentMonth, currentYear);
@@ -90,9 +105,16 @@ function noculvers(){
 }
 function noPokemon(){
     is_pokemon=false;
-    $("#Pokemon").slideDown();
-    $("#noPokemon").slideUp();
+    done_pkmn=true;
     pokemon_filtered=[];
+
+    renderCalendar(currentMonth, currentYear);
+    addEventsToBoxes()
+}
+function noLunch(){
+    is_lunch=false;
+    done_lunch=true;
+    lunch_filtered=[];
 
     renderCalendar(currentMonth, currentYear);
     addEventsToBoxes()
@@ -119,16 +141,17 @@ $(".monthPicker").datepicker({
         prevMonthBtn.disabled=true;
         nextMonthBtn.disabled=true;
         is_culvers=false;
+        is_lunch=false;
+        is_pokemon=false;
         culvers_filtered = [];
+        lunch_filtered=[];
+        pokemon_filtered=[];
+        for(i=0;i<checkboxes.length;i++){
+            checkboxes[i].checked=false;
+        }
 
 
-        if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
-            $("#culvers").slideDown();
-        }
-        else {
-            $("#culvers").slideUp();
-        }
-        $("#noculvers").slideUp();
+
 
         renderCalendar(currentMonth, currentYear);
         callAjaxMonth(currentMonth+1,searchTerm);
@@ -161,23 +184,21 @@ function rainbow(){
     }
 }
 function Pokemon(){
-    //var events = [];
-    is_pokemon=true;
+        is_pokemon=true;
+    if (done_pkmn&&done_culvers&&done_lunch){
+        $("#datesToSlide").slideUp();
+    }
 
-    $("#datesToSlide").slideUp();
-    $("#Pokemon").slideUp();
-    $("#noPokemon").slideDown();
+    done_pkmn=false;
+
     var month = currentMonth;
-
-    //if (culvers_stored[currentMonth]==null) {
-        $.ajax({
+           $.ajax({
             url: 'AJAXPOKEMON',
             data: "month=" + month + "&year=" + currentYear,
             type: 'get',
             async: true,
             success: function (response) {
                 pokemon_events = response;
-
                 pokemon_filtered = response;
                 for (i=0;i<pokemon_events.length;i++){
                     for (j=0;j<pokemon_events[i].events.length;j++){
@@ -185,30 +206,60 @@ function Pokemon(){
                         pokemon_events[i].events[j].source="Pokemon"
                     }
                 }
+                done_pkmn=true;
+                if (done_pkmn&&done_culvers&&done_lunch){
+                    $("#datesToSlide").slideDown();
+                }
 
-
-                $("#datesToSlide").slideDown();
                 addEventsToBoxes()
             }
-
-
         });
-    //} else {
+}
+function Lunch(){
+    if (done_pkmn&&done_culvers&&done_lunch){
+        $("#datesToSlide").slideUp();
+    }
+    done_lunch=false;
+    is_lunch=true;
+    $("#datesToSlide").slideUp();
 
-//culvers_events = culvers_stored[currentMonth];
-      //  culvers_filtered = culvers_stored[currentMonth];
-     //   $("#datesToSlide").slideDown();
-       // addEventsToBoxes()
-   // }
+    var month = currentMonth;
+    $.ajax({
+        url: 'AJAXSCHOOL',
+        data: "month=" + month + "&year=" + currentYear,
+        type: 'get',
+        async: true,
+        success: function (response) {
+            lunch_events = response;
+            lunch_filtered = response;
+            //console.log(lunch_events)
+            for (i=0;i<lunch_events.length;i++){
+                for (j=0;j<lunch_events[i].events.length;j++){
+                    lunch_events[i].events[j].source="Lunch"
 
+                    lunch_events[i].events[j].description=lunch_events[i].events[j].description.replaceAll("  ","\n")
+
+                    //pokemon_events[i].events[j].source="Pokemon"
+                }
+            }
+            done_lunch=true;
+            if (done_pkmn&&done_culvers&&done_lunch){
+                $("#datesToSlide").slideDown();
+            }
+            addEventsToBoxes()
+        }
+    });
 }
 function culvers(){
+    if (done_pkmn&&done_culvers&&done_lunch){
+        $("#datesToSlide").slideUp();
+    }
+    done_culvers=false;
     //var events = [];
     is_culvers=true;
     var month = currentMonth
     $("#datesToSlide").slideUp();
-    $("#culvers").slideUp();
-    $("#noculvers").slideDown();
+
 
     if (culvers_stored[currentMonth]==null) {
         $.ajax({
@@ -227,7 +278,10 @@ function culvers(){
                 }
 
                 culvers_stored[currentMonth]=culvers_events;
-                $("#datesToSlide").slideDown();
+                done_culvers=true;
+                if (done_pkmn&&done_culvers&&done_lunch){
+                    $("#datesToSlide").slideDown();
+                }
                 addEventsToBoxes()
             }
 
@@ -300,32 +354,102 @@ function renderCalendar(month, year) {
 
 }
 
-$("#noculvers").slideUp();
-$("#noPokemon").slideUp();
+
+for(i=0;i<checkboxes.length;i++){
+    checkboxes[i].checked=false;
+}
 renderCalendar(currentMonth, currentYear);
 callAjaxMonth(currentMonth+1,"");
+
+btn_allowYes.addEventListener('click', () => {
+    console.log("hi")
+    allowYes = !allowYes;
+        filterDecision();
+        renderCalendar(currentMonth, currentYear)
+        addEventsToBoxes()
+
+}
+)
+btn_allowMaybe.addEventListener('click', () => {
+        console.log("hi")
+        allowMaybe = !allowMaybe;
+        filterDecision();
+    renderCalendar(currentMonth, currentYear)
+    addEventsToBoxes()
+
+    }
+)
+btn_allowNo.addEventListener('click', () => {
+        console.log("hi")
+        allowNo = !allowNo;
+        console.log(allowNo)
+
+        filterDecision();
+
+    renderCalendar(currentMonth, currentYear)
+    addEventsToBoxes()
+
+
+    }
+)
+
+btn_pokemon.addEventListener('click', () => {
+    if(btn_pokemon.checked){
+        //btn_pokemon.checked=true;
+        Pokemon();
+    }
+    else {
+        //btn_pokemon.checked=false;
+        noPokemon();
+    }
+    }
+)
+
+btn_lunch.addEventListener('click', () => {
+    if(btn_lunch.checked){
+        //btn_pokemon.checked=true;
+        Lunch();
+    }
+    else {
+        //btn_pokemon.checked=false;
+        noLunch();
+    }
+    }
+)
+
+btn_culvers.addEventListener('click', () => {
+    if(btn_culvers.checked){
+        //btn_pokemon.checked=true;();
+        culvers();
+    }
+    else {
+        //btn_pokemon.checked=false;
+        noculvers();
+    }
+    }
+)
+
 prevMonthBtn.addEventListener('click', () => {
+    for(i=0;i<checkboxes.length;i++){
+        checkboxes[i].checked=false;
+    }
     prevMonthBtn.disabled=true;
     nextMonthBtn.disabled=true;
 
     is_culvers=false;
+    is_lunch=false;
+    is_pokemon=false;
     culvers_filtered = [];
     pokemon_filtered=[];
+    lunch_filtered=[];
 
     currentMonth--;
     if (currentMonth < 0) {
         currentMonth = 11;
         currentYear--;
     }
-    if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
-        $("#culvers").slideDown();
-    }
-    else {
-        $("#culvers").slideUp();
-    }
-    $("#noculvers").slideUp();
-    $("#Pokemon").slideDown();
-    $("#noPokemon").slideUp();
+
+
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
@@ -337,26 +461,25 @@ prevMonthBtn.addEventListener('click', () => {
 nextMonthBtn.addEventListener('click', () => {
     prevMonthBtn.disabled=true;
     nextMonthBtn.disabled=true;
+    for(i=0;i<checkboxes.length;i++){
+        checkboxes[i].checked=false;
+    }
 
     is_culvers=false;
+    is_pokemon=false;
+    is_lunch=false;
     culvers_filtered = [];
     pokemon_filtered=[];
+    lunch_filtered=[];
 
     currentMonth++;
     if (currentMonth > 11) {
         currentMonth = 0;
         currentYear++;
     }
-    if(currentMonth-anchorMonth==1||currentMonth-anchorMonth==0||currentMonth-anchorMonth==-11) {
-        $("#culvers").slideDown();
-    }
-    else {
-        $("#culvers").slideUp();
-    }
-    $("#noculvers").slideUp();
-    $("#Pokemon").slideDown();
-    $("#noPokemon").slideUp();
+
     let _events = "";
+
 
     renderCalendar(currentMonth, currentYear);
     callAjaxMonth(currentMonth+1,searchTerm);
@@ -468,7 +591,14 @@ var boxMonth=currentMonth+1;
 function addEventsToBoxes(){
     combined_events = combine_array(events,culvers_filtered);
     combined_events = combine_array(combined_events,pokemon_filtered)
+    combined_events=combine_array(combined_events,lunch_filtered)
+    for (i=0;i<combined_events.length;i++){
 
+            combined_events[i].events.sort((a, b) => a.date - b.date)
+        }
+
+
+    combined_events.sort((a, b) => b.date - a.date)
 
     for (i=0;i<combined_events.length;i++){
 
@@ -575,9 +705,14 @@ function addEventsToBoxes(){
 }
 
 async function callAjaxMonth(month,search){
+    let allowYes=false;
+    let allowNo=false;
+    let allowMaybe=false;
     $("#datesToSlide").slideUp();
 
+
     $.ajax   ({
+
         url: 'AJAXCALENDAR',
         data: "month="+month+"&year="+currentYear+"&search="+search,
         type: 'get',
@@ -587,12 +722,23 @@ async function callAjaxMonth(month,search){
 
             events = response;
             for (i=0;i<events.length;i++){
+                let yesEvents = [];
+                let noEvents=[];
+                let maybeEvents = [];
+
+                yesEvents = events[i].events.filter(event =>event.decision ==="Going")
+                noEvents = events[i].events.filter(event =>event.decision ==="Skipping")
+                maybeEvents = events[i].events.filter(event =>event.decision ==="Maybe")
+                events[i]._yesEvents=yesEvents;
+                events[i]._noEvents=noEvents;
+                events[i]._maybeEvents=maybeEvents;
+                //console.log(events[i]);
                 for (j=0;j<events[i].events.length;j++){
                     events[i].events[j].source="Personal"
                 }
             }
 
-
+            filterDecision();
             combine_array(events,culvers_filtered)
 
             addEventsToBoxes();
@@ -722,3 +868,30 @@ function daysInMonth(iMonth, iYear)
     return 32 - new Date(iYear, iMonth, 32).getDate();
 }
 
+function filterDecision () {
+
+    for (i = 0; i < events.length;i++) {
+        let filteredEvents = [];
+
+        if (allowYes) {
+
+            for (j = 0; j < events[i]._yesEvents.length; j++) {
+                console.log("add");
+                filteredEvents.push(events[i]._yesEvents[j])
+            }
+        }
+        if (allowNo) {
+            for (j = 0; j < events[i]._noEvents.length; j++) {
+                console.log("add1");
+                filteredEvents.push(events[i]._noEvents[j])
+            }
+        }
+        if (allowMaybe) {
+            for (j = 0; j < events[i]._maybeEvents.length; j++) {
+                console.log("add2");
+                filteredEvents.push(events[i]._maybeEvents[j])
+            }
+        }
+    events[i].events=filteredEvents;
+    }
+}
