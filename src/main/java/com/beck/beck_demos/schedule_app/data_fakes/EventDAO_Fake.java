@@ -2,6 +2,7 @@ package com.beck.beck_demos.schedule_app.data_fakes;
 
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
+import com.beck.beck_demos.schedule_app.models.Culvers;
 import com.beck.beck_demos.schedule_app.models.Event;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -173,7 +174,7 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
-  public List<Event> getCulversFlavors(List<String> Culvers, int month) throws Exception {
+  public List<Event> getCulversFlavors(List<Culvers> Culvers, int month) throws Exception {
     return List.of();
   }
 

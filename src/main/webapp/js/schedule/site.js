@@ -51,6 +51,11 @@ $(document).ready(function() {
 	$( "#friends" ).button( "option", "label", "Friends" );
 
 
+	$("#_culvers").button();
+	$( "#_culvers" ).button( "option", "icon", "ui-icon-check" );
+	$( "#_culvers" ).button( "option", "showIcon", "true" );
+	$( "#_culvers" ).button( "option", "label", "Culvers" );
+
 
 
 

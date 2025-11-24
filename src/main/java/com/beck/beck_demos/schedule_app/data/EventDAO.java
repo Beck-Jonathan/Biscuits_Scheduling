@@ -2,6 +2,7 @@ package com.beck.beck_demos.schedule_app.data;
 
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
+import com.beck.beck_demos.schedule_app.models.Culvers;
 import com.beck.beck_demos.schedule_app.models.Event;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
@@ -246,11 +247,11 @@ public class EventDAO implements iEventDAO {
 
 
   @Override
-  public List<Event> getCulversFlavors(List<String> Cities, int month) throws Exception {
+  public List<Event> getCulversFlavors(List<Culvers> Cities, int month) throws Exception {
     List<Event> flavors = new ArrayList<>();
     String result = "";
-    for (String location : Cities) {
-      String uril = "https://www.culvers.com/restaurants/" + location + "?tab=next";
+    for (Culvers c : Cities) {
+      String uril = c.getWebAddress();
       try {
         try (Scanner scanner = new Scanner(new URL(uril).openStream(),
             StandardCharsets.UTF_8.toString())) {
@@ -271,21 +272,22 @@ public class EventDAO implements iEventDAO {
             JSONObject flavor = (JSONObject) o;
             String date = flavor.getString("onDate");
             date = date.substring(0, date.indexOf('T'));
-            String Name = "Culvers in " + location + ".";
+            String Name = "Culvers in " + c.getName() + ".";
             SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
             Date Date_Time = Simple.parse(date);
             String Description = flavor.getString("title");
             Double Length = 1d;
             String Decision = "Maybe";
             String Paid = "No";
-            Event _event = new Event("","", Name, Date_Time, location, Description, Length, Decision, Paid);
+            Event _event = new Event("","", Name, Date_Time, c.getName(), Description, Length, Decision, Paid);
             if (_event.getDate().getMonth() == month) {
               flavors.add(_event);
             }
           }
         } catch (Exception e) {
-          flavors = new ArrayList<>();
-          return flavors;
+          continue;
+          //flavors = new ArrayList<>();
+          //return flavors;
         }
       } catch (Exception e) {
         flavors = new ArrayList<>();

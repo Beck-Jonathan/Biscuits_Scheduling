@@ -1,6 +1,7 @@
 package com.beck.beck_demos.schedule_app.iData;
 
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
+import com.beck.beck_demos.schedule_app.models.Culvers;
 import com.beck.beck_demos.schedule_app.models.Event;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public interface iEventDAO {
 
   int deleteEvent(String eventID) throws SQLException;
 
-  List<Event> getCulversFlavors(List<String> Culvers, int month) throws Exception;
+  List<Event> getCulversFlavors(List<Culvers> Culvers, int month) throws Exception;
   List<Event> getFoodMenu(List<String> Schools, int month) throws Exception;
 
   List<Event> getPokemonEvents(int month, int year) throws Exception;

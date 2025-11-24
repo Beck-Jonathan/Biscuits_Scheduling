@@ -254,6 +254,7 @@ function culvers(){
     if (done_pkmn&&done_culvers&&done_lunch){
         $("#datesToSlide").slideUp();
     }
+    console.log("click")
     done_culvers=false;
     //var events = [];
     is_culvers=true;
@@ -406,6 +407,7 @@ btn_pokemon.addEventListener('click', () => {
 )
 
 btn_lunch.addEventListener('click', () => {
+    console.log("lunch")
     if(btn_lunch.checked){
         //btn_pokemon.checked=true;
         Lunch();
@@ -418,6 +420,7 @@ btn_lunch.addEventListener('click', () => {
 )
 
 btn_culvers.addEventListener('click', () => {
+        console.log("wtf");
     if(btn_culvers.checked){
         //btn_pokemon.checked=true;();
         culvers();
@@ -488,6 +491,8 @@ nextMonthBtn.addEventListener('click', () => {
 
 
 });
+
+
 
 
 

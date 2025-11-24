@@ -1,15 +1,14 @@
 package com.beck.beck_demos.schedule_app.controllers;
 
-import com.beck.beck_demos.schedule_app.models.CalendarMonth;
+import com.beck.beck_demos.schedule_app.data.CulversDAO;
+import com.beck.beck_demos.schedule_app.iData.iCulversDAO;
+import com.beck.beck_demos.schedule_app.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.beck.beck_demos.schedule_app.data.EventDAO;
-import com.beck.beck_demos.schedule_app.models.CalendarDay;
-import com.beck.beck_demos.schedule_app.models.Event;
-import com.beck.beck_demos.schedule_app.models.User;
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpSession;
@@ -22,12 +21,15 @@ import java.util.List;
 @WebServlet("/AJAXCUULVERS")
 public class AllCulversAJAXServlet extends HttpServlet {
   private iEventDAO eventDAO;
+  private iCulversDAO culversDAO;
   @Override
   public void init() {
     eventDAO = new EventDAO();
+    culversDAO = new CulversDAO();
   }
-  public void init(iEventDAO eventDAO){
+  public void init(iEventDAO eventDAO , iCulversDAO culversDAO){
     this.eventDAO = eventDAO;
+    this.culversDAO = culversDAO;
   }
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -78,9 +80,11 @@ public class AllCulversAJAXServlet extends HttpServlet {
 
 
     List<Event> events = new ArrayList<>();
+    List<Culvers> culvers= new ArrayList<>();
     if (errors==0) {
       try {
-        events = eventDAO.getCulversFlavors(locations, _cal_month);
+        culvers = culversDAO.getActiveCulversByUserID(user.getUser_ID());
+        events = eventDAO.getCulversFlavors(culvers, _cal_month);
       } catch (Exception e) {
         events = new ArrayList<>();
       }
