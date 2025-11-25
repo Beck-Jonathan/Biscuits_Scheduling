@@ -621,3 +621,235 @@ WHERE (User_One=User_One_param AND User_Two=User_Two_param) or (User_One=User_Tw
  DELIMITER ;
 
 
+/******************
+Create the update script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_update_Culvers;
+ DELIMITER $$
+CREATE PROCEDURE sp_update_Culvers
+(oldCulvers_ID nvarchar(36)
+,oldUser_ID nvarchar(36)
+,oldName nvarchar(255)
+,newName nvarchar(255)
+,oldWebAddress nvarchar(255)
+,newWebAddress nvarchar(255)
+)
+begin 
+UPDATE Culvers
+set Name = newName
+,WebAddress = newWebAddress
+WHERE Culvers_ID= oldCulvers_ID
+AND User_ID= oldUser_ID
+AND Name= oldName
+AND WebAddress= oldWebAddress
+
+ ; end $$
+ DELIMITER ;
+ 
+ /******************
+Create the delete script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_deactivate_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_deactivate_Culvers
+(Culvers_ID_param nvarchar(36)
+)
+BEGIN
+UPDATE Culvers
+   set is_active=0
+WHERE Culvers_ID=Culvers_ID_param
+
+ ; END $$
+ DELIMITER ;
+ 
+  /******************
+Create the delete script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_activate_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_activate_Culvers
+(Culvers_ID_param nvarchar(36)
+)
+BEGIN
+UPDATE Culvers
+   set is_active=1
+WHERE Culvers_ID=Culvers_ID_param
+
+ ; END $$
+ DELIMITER ;
+ 
+ /******************
+Create the retrieve by key script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retrieve_by_pk_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_retrieve_by_pk_Culvers
+(
+Culvers_ID_param nvarchar(36)
+)
+ Begin 
+ select 
+
+Culvers.Culvers_ID as 'Culvers_Culvers_ID',
+Culvers.User_ID as 'Culvers_User_ID',
+Culvers.Name as 'Culvers_Name',
+Culvers.WebAddress as 'Culvers_WebAddress',
+Culvers.Is_Active as 'Culvers_Is_Active',
+User.User_ID as 'User_User_ID',
+User.User_Name as 'User_User_Name',
+User.User_PW as 'User_User_PW',
+User.Email as 'User_Email'
+ FROM Culvers
+join User on Culvers.User_ID = User.User_ID
+where Culvers_ID=Culvers_ID_param
+ ; END $$
+ DELIMITER ;
+ 
+ /******************
+Create the insert script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_insert_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_insert_Culvers(
+in User_ID_param nvarchar(36)
+,in Name_param nvarchar(255)
+,in WebAddress_param nvarchar(255)
+)
+begin 
+INSERT INTO Culvers
+(User_ID,Name,WebAddress)
+ values 
+(User_ID_param
+,Name_param
+,WebAddress_param
+)
+ ; END $$
+ DELIMITER ;
+
+
+/******************
+Create the retrieve by all script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retrieve_by_all_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_retrieve_by_all_Culvers(
+offset_param int ,
+limit_param int ,
+ 
+search_param nvarchar(100)
+,
+User_ID_param nvarchar(36)
+)
+begin 
+ SELECT 
+
+Culvers.Culvers_ID as 'Culvers_Culvers_ID',
+Culvers.User_ID as 'Culvers_User_ID',
+Culvers.Name as 'Culvers_Name',
+Culvers.WebAddress as 'Culvers_WebAddress',
+Culvers.Is_Active as 'Culvers_Is_Active',
+User.User_ID as 'User_User_ID',
+User.User_Name as 'User_User_Name',
+User.User_PW as 'User_User_PW',
+User.Email as 'User_Email'
+ FROM Culvers
+join User on Culvers.User_ID = User.User_ID
+WHERE
+(
+case when 
+User_ID_param ='' then 1=1
+else Culvers.User_ID=User_ID_param
+end
+)
+and
+case 
+when search_param="" then 0=0
+when search_param!='' then Culvers.Culvers_ID LIKE CONCAT('%',search_param,'%')
+ OR Culvers.User_ID LIKE CONCAT('%',search_param,'%')
+ OR Culvers.Name LIKE CONCAT('%',search_param,'%')
+ OR Culvers.WebAddress LIKE CONCAT('%',search_param,'%')
+ OR Culvers.Is_Active LIKE CONCAT('%',search_param,'%')
+ end
+
+ORDER BY Culvers_ID
+limit limit_param
+offset offset_param
+
+ ;
+ END $$ 
+ DELIMITER ;
+ 
+ /******************
+Create the retrieve by all script for the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_count_by_all_Culvers;
+DELIMITER $$
+CREATE PROCEDURE sp_count_by_all_Culvers(
+search_param nvarchar(100)
+,
+User_ID_param nvarchar(36)
+)
+begin 
+ SELECT 
+count(*)
+
+ FROM Culvers
+WHERE
+(
+case when 
+User_ID_param ='' then 1=1
+else Culvers.User_ID=User_ID_param
+end
+)
+and
+case 
+when search_param="" then 0=0
+when search_param!='' then
+ Culvers.Culvers_ID LIKE CONCAT('%',search_param,'%')
+ OR Culvers.User_ID LIKE CONCAT('%',search_param,'%')
+ OR Culvers.Name LIKE CONCAT('%',search_param,'%')
+ OR Culvers.WebAddress LIKE CONCAT('%',search_param,'%')
+ OR Culvers.Is_Active LIKE CONCAT('%',search_param,'%')
+
+END ;
+ END $$ 
+ DELIMITER ;
+
+/******************
+ 
+ Created By Jonathan Beck 11/21/2025
+***************/
+DROP PROCEDURE IF EXISTS sp_retrieve_Culvers_by_User;
+DELIMITER $$
+CREATE PROCEDURE sp_retrieve_Culvers_by_User 
+(
+User_ID_param nvarchar(36)
+)
+ Begin 
+ select 
+
+Culvers.Culvers_ID as 'Culvers_Culvers_ID',
+Culvers.User_ID as 'Culvers_User_ID',
+Culvers.Name as 'Culvers_Name',
+Culvers.WebAddress as 'Culvers_WebAddress',
+Culvers.Is_Active as 'Culvers_Is_Active',
+User.User_ID as 'User_User_ID',
+User.User_Name as 'User_User_Name',
+User.User_PW as 'User_User_PW',
+User.Email as 'User_Email'
+ FROM Culvers
+join User on Culvers.User_ID = User.User_ID
+where Culvers.User_ID=User_ID_param
+and Culvers.Is_Active = true
+
+ORDER BY Culvers_ID
+
+ ; END $$
+ DELIMITER ;

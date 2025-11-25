@@ -145,3 +145,25 @@ CONSTRAINT Friend_Line_PK PRIMARY KEY (User_One , User_Two),
 CONSTRAINT fk_Friend_Line_User0 foreign key (User_One) references User (User_ID),
 CONSTRAINT fk_Friend_Line_User1 foreign key (User_Two) references User (User_ID)
 );
+
+
+/******************
+Create the Culvers table
+ Created By Jonathan Beck 11/21/2025
+***************/
+
+
+DROP TABLE IF EXISTS Culvers;
+CREATE TABLE Culvers(
+
+Culvers_ID	nvarchar(36)	DEFAULT (uuid())  not null	comment '',
+User_ID	nvarchar(36)	not null	comment '',
+Name	nvarchar(255)	not null	comment '',
+WebAddress	nvarchar(255)	not null	comment '',
+Is_Active	bool	DEFAULT TRUE	not null	comment '',
+
+CONSTRAINT Culvers_PK PRIMARY KEY (Culvers_ID),
+
+CONSTRAINT fk_Culvers_User0 foreign key (User_ID) references User (User_ID)
+);
+

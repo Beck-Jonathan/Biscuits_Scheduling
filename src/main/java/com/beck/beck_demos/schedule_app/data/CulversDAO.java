@@ -121,15 +121,14 @@ public class CulversDAO implements iCulversDAO {
     int result = 0;
     try (Connection connection = getConnection()) {
       if (connection != null) {
-        try (CallableStatement statement = connection.prepareCall("{CALL sp_update_Culvers(? ,?,?,?,?,?,?,?)}")) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_update_Culvers(? ,?,?,?,?,?)}")) {
           statement.setString(1, oldCulvers.getCulvers_ID());
           statement.setString(2, oldCulvers.getUser_ID());
           statement.setString(3, oldCulvers.getName());
           statement.setString(4, newCulvers.getName());
           statement.setString(5, oldCulvers.getWebAddress());
           statement.setString(6, newCulvers.getWebAddress());
-          statement.setBoolean(7, oldCulvers.getIs_Active());
-          statement.setBoolean(8, newCulvers.getIs_Active());
+
           result = statement.executeUpdate();
         } catch (SQLException e) {
           throw new RuntimeException("Could not update Culvers . Try again later");

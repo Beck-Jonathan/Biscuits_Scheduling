@@ -141,14 +141,11 @@ public class EditCulversServlet extends HttpServlet{
     if (_WebAddress!=null){
       _WebAddress=_WebAddress.trim();
     }
-    String _Is_Active = req.getParameter("inputculversIs_Active");
-    if (_Is_Active!=null){
-      _Is_Active=_Is_Active.trim();
-    }
+
 
     results.put("Name",_Name);
     results.put("WebAddress",_WebAddress);
-    results.put("Is_Active",_Is_Active);
+
     Culvers _newCulvers = new Culvers();
     int errors =0;
 
@@ -167,11 +164,7 @@ public class EditCulversServlet extends HttpServlet{
     } catch(Exception e) {results.put("culversWebAddresserror", e.getMessage());
       errors++;
     }
-    try {
-      _newCulvers.setIs_Active(Boolean.parseBoolean(_Is_Active));
-    } catch(Exception e) {results.put("culversIs_Activeerror", e.getMessage());
-      errors++;
-    }
+
 //to update the database
     int result=0;
     if (errors==0){
