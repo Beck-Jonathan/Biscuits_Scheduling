@@ -9,12 +9,12 @@ Create the JSP  For Viewing All of The  Event table
             Add Event   <a href="addEvent?day=${results.day}&month=${results.month}&year=${results.year}">Add</a>
 
             <c:if test="${Events.size() > 0}">
-                Export Event   <a href="exportEvent?mode=export">Export</a>
-                Write To SQL File Event   <a href="exportEvent?mode=SQL">SQL</a>
+               <br> Export Event   <a href="exportEvent?mode=export">Export</a>
+                <br> Write To SQL File Event   <a href="exportEvent?mode=SQL">SQL</a>
                 <div class="search-container">
                     <form action="all-events">
                         <input type="text" placeholder="Search.." id="searchBox" name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                        <button id="search" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
             </c:if>

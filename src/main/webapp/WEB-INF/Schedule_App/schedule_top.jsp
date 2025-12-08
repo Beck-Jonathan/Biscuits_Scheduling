@@ -34,12 +34,12 @@
             <c:if test="${empty User_C}">
                 <a href="schedulewithus">   <button type="button" value="SignUp" id="SignUp" ></button></a>
             </c:if>
-            <c:if test="${not empty User_C}">
+            <!-- <c:if test="${not empty User_C}">
 
                 <a href="schedule-dash">   <button type="button" value="User Dashboard" id="user-dash" ></button></a>
                 ${User_C.email}
 
-            </c:if>
+            </c:if> !-->
         </div>
 
 

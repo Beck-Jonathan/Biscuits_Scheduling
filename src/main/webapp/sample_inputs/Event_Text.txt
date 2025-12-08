@@ -1,0 +1,5 @@
+ Name , Date , Location , Description , Length , Decision , Paid 
+  Dinner With Friends, 6:15 pm 8/22/2002 ,  Taco Depot,  Catching up with friends, 25.66 ,  no,  N/A
+  Dentist, 10:33 am 5/11/2002 ,  Blair Ridge,  Getting a filling, 56.02 ,  yes,  no
+ 
+

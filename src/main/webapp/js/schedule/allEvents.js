@@ -63,4 +63,10 @@ $(document).ready(function() {
     function deleteEvent(_id) {
         document.getElement.ID(_id + "Status").innerHTML = "<h5>&#9202</h5>"
     }
+
+
+    $("#search").button();
+    $( "#search" ).button( "option", "icon", "ui-icon-search" );
+    $( "#search" ).button( "option", "showIcon", "true" );
+    $( "#search" ).button( "option", "label", "Search" );
 })
