@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import com.beck.beck_demos.schedule_app.data_fakes.EventDAO_Fake;
+import com.beck.beck_demos.schedule_app.data_fakes.PaletteDAO_Fake;
 import com.beck.beck_demos.schedule_app.models.Event;
 import com.beck.beck_demos.schedule_app.models.Event_VM;
 import com.beck.beck_demos.schedule_app.models.User;
@@ -29,10 +30,10 @@ class AllEventServletTest {
    <p> setup the tests by creating a new instance of the servlet and setting some standard variablges </p>
    */
   @BeforeEach
-  public void setup() throws ServletException, ParseException {
+  public void setup() throws Exception {
 
     servlet = new AllEventServlet();
-    servlet.init(new EventDAO_Fake());
+    servlet.init(new EventDAO_Fake(), new PaletteDAO_Fake());
     request =  new MockHttpServletRequest();
     response = new MockHttpServletResponse();
     session = new MockHttpSession();

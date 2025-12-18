@@ -1,8 +1,9 @@
 package com.beck.beck_demos.schedule_app.controllers;
+import com.beck.beck_demos.schedule_app.data.CulversDAO;
 import com.beck.beck_demos.schedule_app.data.EventDAO;
-import com.beck.beck_demos.schedule_app.models.CalendarDay;
-import com.beck.beck_demos.schedule_app.models.Event;
-import com.beck.beck_demos.schedule_app.models.User;
+import com.beck.beck_demos.schedule_app.data.PaletteDAO;
+import com.beck.beck_demos.schedule_app.iData.iPaletteDAO;
+import com.beck.beck_demos.schedule_app.models.*;
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,12 +24,18 @@ import java.util.*;
 @WebServlet("/all-events")
 public class AllEventServlet extends HttpServlet {
   private iEventDAO eventDAO;
+  private CulversDAO culversDAO;
+  private iPaletteDAO paletteDAO;
   @Override
   public void init() {
     eventDAO = new EventDAO();
+    culversDAO = new CulversDAO();
+    paletteDAO = new PaletteDAO();
   }
-  public void init(iEventDAO eventDAO){
+  public void init(iEventDAO eventDAO,iPaletteDAO paletteDAO){
     this.eventDAO = eventDAO;
+    this.culversDAO = new CulversDAO();
+    this.paletteDAO = paletteDAO;
   }
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -91,9 +98,15 @@ public class AllEventServlet extends HttpServlet {
       results.put("searchError","Invalid search term");
     }
     List<Event> events = new ArrayList<>();
+    List<Culvers> culvers = new ArrayList<>();
+    List<Palette> palettes = new ArrayList<>();
     if (errors ==0) {
       try {
         events = eventDAO.getAllEvent(day,search_term, user.getUser_ID());
+        culvers = culversDAO.getActiveCulversByUserID(user.getUser_ID());
+        palettes = paletteDAO.getPalettebyUser(user.getUser_ID());
+        user.setCulvers(culvers);
+        user.setPalettes(palettes);
       } catch (Exception e) {
         events = new ArrayList<>();
       }

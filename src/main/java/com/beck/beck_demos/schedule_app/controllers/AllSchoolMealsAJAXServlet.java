@@ -1,5 +1,7 @@
 package com.beck.beck_demos.schedule_app.controllers;
 
+import com.beck.beck_demos.schedule_app.data.PaletteDAO;
+import com.beck.beck_demos.schedule_app.iData.iPaletteDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarMonth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;

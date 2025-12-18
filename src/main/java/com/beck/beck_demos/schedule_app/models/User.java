@@ -31,6 +31,8 @@ public class User implements Comparable<User>{
   private char[] User_PW;
   private String Email;
   private List<String> roles;
+  private List<Culvers> culvers;
+  private List<Palette> palettes;
 
   public User(){}
 
@@ -137,6 +139,22 @@ public class User implements Comparable<User>{
   public void setRoles(List<String> roles) {
     this.roles = roles;
   }
+
+  public List<Palette> getPalettes(){
+    return palettes;
+  }
+  public void setPalettes(List<Palette> palettes) {
+    this.palettes = palettes;
+  }
+
+  public List<Culvers> getCulvers(){
+    return culvers;
+  }
+  public void setCulvers(List<Culvers> culvers) {
+    this.culvers = culvers;
+  }
+
+
 
 
   @Override
