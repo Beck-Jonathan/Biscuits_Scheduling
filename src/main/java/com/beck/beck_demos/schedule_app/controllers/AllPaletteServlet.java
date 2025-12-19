@@ -84,7 +84,7 @@ public class AllPaletteServlet extends HttpServlet {
     req.setAttribute("Palettes", palettes);
     req.setAttribute("pageTitle", "All Palettes");
 
-    req.getRequestDispatcher("WEB-INF/schedule_app/all-Palettes.jsp").forward(req,resp);
+    req.getRequestDispatcher("WEB-INF/Schedule_App/all-Palettes.jsp").forward(req,resp);
 
   }
 }

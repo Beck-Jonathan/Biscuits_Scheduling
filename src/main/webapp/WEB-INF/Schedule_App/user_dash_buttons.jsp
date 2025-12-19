@@ -24,6 +24,10 @@
         <a href="all-Culvers">   <button type="button" value="View" id="_culvers" ></button></a>
 
     </div>
+    <div class="col col-md-1">
+        <a href="all-Palettes">   <button type="button" value="View" id="_palettes" ></button></a>
+
+    </div>
 
 
     <div class="col col-md-8">

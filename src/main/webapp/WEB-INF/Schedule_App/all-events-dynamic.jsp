@@ -141,7 +141,50 @@
 </div>
 </div>
 
+<div style="visibility: collapse"><table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col"> Details </th>
+
+        <th scope="col">LineNo</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${User_C.palettes}" var="palette">
+        <tr class="PR" id="${palette.palette_ID}row">
+            <td>${fn:escapeXml(palette.color1.code)} </td>
+            <td>${fn:escapeXml(palette.color2.code)}  </td>
+            <td>${fn:escapeXml(palette.color3.code)}  </td>
+            <td>${fn:escapeXml(palette.color4.code)}  </td>
+            <td>${fn:escapeXml(palette.color5.code)}  </td>
+            <td>${fn:escapeXml(palette.color6.code)}  </td>
+            <td>${fn:escapeXml(palette.color7.code)}  </td>
+            <td>${fn:escapeXml(palette.color8.code)}  </td>
+            <td>${fn:escapeXml(palette.color9.code)}  </td>
+            <td>${fn:escapeXml(palette.color10.code)}  </td>
+            <td>${fn:escapeXml(palette.color11.code)}  </td>
+            <td>${fn:escapeXml(palette.color12.code)}  </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+</div>
 </body>
+
 
 
 

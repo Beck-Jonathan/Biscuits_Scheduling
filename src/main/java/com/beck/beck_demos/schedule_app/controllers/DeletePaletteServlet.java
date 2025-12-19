@@ -26,7 +26,7 @@ import java.util.Map;
  doPost to delete an event
  Created By Jonathan Beck 4/9/2025 <br/>
  **************  */
-@WebServlet("/deleteEvent")
+@WebServlet("/deletePalette")
 public class DeletePaletteServlet extends HttpServlet {
   private iPaletteDAO paletteDAO;
   @Override

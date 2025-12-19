@@ -78,7 +78,7 @@ public class AddPaletteServlet extends HttpServlet{
     }
     session.setAttribute("currentPage",req.getRequestURL());
     req.setAttribute("pageTitle", "Add Palette");
-    req.getRequestDispatcher("WEB-INF/schedule_app/AddPalette.jsp").forward(req, resp);
+    req.getRequestDispatcher("WEB-INF/Schedule_App/AddPalette.jsp").forward(req, resp);
   }
 
   @Override
@@ -268,7 +268,7 @@ public class AddPaletteServlet extends HttpServlet{
     
     req.setAttribute("results", results);
     req.setAttribute("pageTitle", "Add Palette");
-    req.getRequestDispatcher("WEB-INF/schedule_app/AddPalette.jsp").forward(req, resp);
+    req.getRequestDispatcher("WEB-INF/Schedule_App/AddPalette.jsp").forward(req, resp);
 
   }
 }

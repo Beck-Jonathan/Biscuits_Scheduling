@@ -106,7 +106,7 @@ public class EditPaletteServlet extends HttpServlet{
     session.setAttribute("currentPage",req.getRequestURL());
     req.setAttribute("pageTitle", "Edit Palette");
 
-    req.getRequestDispatcher("WEB-INF/schedule_app/EditPalette.jsp").forward(req, resp);
+    req.getRequestDispatcher("WEB-INF/Schedule_App/EditPalette.jsp").forward(req, resp);
   }
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -287,7 +287,7 @@ public class EditPaletteServlet extends HttpServlet{
 //standard
     req.setAttribute("results", results);
     req.setAttribute("pageTitle", "Edit Palette");
-    req.getRequestDispatcher("WEB-INF/schedule_app/EditPalette.jsp").forward(req, resp);
+    req.getRequestDispatcher("WEB-INF/Schedule_App/EditPalette.jsp").forward(req, resp);
   }
 }
 

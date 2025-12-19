@@ -42,17 +42,39 @@ let allowMaybe=true;
 
 
 let palettes =[];
-let palette0 =['#F94939','#FE9925','#FFFB14','#93FF05','#1DF500','#00E64D','#00D6A8','#0098C7','#003AB8','#1600A8','#590099','#8A0085','A']
-let palette1 = ['#30CC14','#8CED31','#DAF467','#F9EB9F','#1430CC','#318CED','#67DAF4','#9FF9EB','#CC1430','#ED318C','#F467DA','#EB9FF9','B']
-let palette2 = ['#70CC14','#CEED31','#F4DC67','#F9CC9F','#1470CC','#31CEED','#67F4DC','#9FF9CC','#CC1470','#ED31CE','#DC67F4','#CC9FF9','C']
-let palette3 = ['#1417CC','#3173ED','#67C7F4','#9FF9F7','#CC1417','#ED3173','#F467C7','#F79FF9','#1ACC14','#76ED31','#C9F467','#F9F69F','D']
-let palette4 =['#CC2414','#9D1545','#71145E','#391047','#14CC24','#479D15','#607114','#473810','#2414CC','#15479D','#146071','#104738','E']
+var dynamicPals = document.getElementsByClassName("PR");
+//console.log(dynamicPals)
+for (p=0;p<dynamicPals.length;p++){
+    let palette =
+        [   dynamicPals.item(p).children.item(0).innerHTML,
+            dynamicPals.item(p).children.item(1).innerHTML,
+            dynamicPals.item(p).children.item(2).innerHTML,
+            dynamicPals.item(p).children.item(3).innerHTML,
+            dynamicPals.item(p).children.item(4).innerHTML,
+            dynamicPals.item(p).children.item(5).innerHTML,
+            dynamicPals.item(p).children.item(6).innerHTML,
+            dynamicPals.item(p).children.item(7).innerHTML,
+            dynamicPals.item(p).children.item(8).innerHTML,
+            dynamicPals.item(p).children.item(9).innerHTML,
+            dynamicPals.item(p).children.item(10).innerHTML,
+            dynamicPals.item(p).children.item(11).innerHTML
+
+        ]
+
+    palettes[p]=palette;
+    console.log(palettes[p])
+}
+//let palette0 =['#F94939','#FE9925','#FFFB14','#93FF05','#1DF500','#00E64D','#00D6A8','#0098C7','#003AB8','#1600A8','#590099','#8A0085','A']
+//let palette1 = ['#30CC14','#8CED31','#DAF467','#F9EB9F','#1430CC','#318CED','#67DAF4','#9FF9EB','#CC1430','#ED318C','#F467DA','#EB9FF9','B']
+//let palette2 = ['#70CC14','#CEED31','#F4DC67','#F9CC9F','#1470CC','#31CEED','#67F4DC','#9FF9CC','#CC1470','#ED31CE','#DC67F4','#CC9FF9','C']
+//let palette3 = ['#1417CC','#3173ED','#67C7F4','#9FF9F7','#CC1417','#ED3173','#F467C7','#F79FF9','#1ACC14','#76ED31','#C9F467','#F9F69F','D']
+//let palette4 =['#CC2414','#9D1545','#71145E','#391047','#14CC24','#479D15','#607114','#473810','#2414CC','#15479D','#146071','#104738','E']
 let PaletteSelect = document.getElementById("selectPalette");
-palettes[0]=palette0;
-palettes[1]=palette1;
-palettes[2]=palette2;
-palettes[3]=palette3;
-palettes[4]=palette4;
+//palettes[0]=palette0;
+//palettes[1]=palette1;
+//palettes[2]=palette2;
+//palettes[3]=palette3;
+//palettes[4]=palette4;
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -60,9 +82,9 @@ const months = [
 
 
 for(var i = 0; i < palettes.length; i++) {
-    var opt = palettes[i][12];
+    //var opt = palettes[i][12];
     var el = document.createElement("option");
-    el.textContent = opt;
+    el.textContent = i;
     el.value = i;
     PaletteSelect.appendChild(el);
 }

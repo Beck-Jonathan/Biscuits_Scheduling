@@ -63,6 +63,13 @@
     <script src="js/schedule/addCulvers.js"></script>
 </c:if>
 
+<c:if test="${pageTitle eq 'All Palettes'}">
+    <script src="js/schedule/allPalettes.js"></script>
+</c:if>
+
+<c:if test="${pageTitle eq 'Add Palette'|| pageTitle eq 'Edit Palette'}">
+    <script src="js/schedule/addPalette.js"></script>
+</c:if>
 
 
 </body>

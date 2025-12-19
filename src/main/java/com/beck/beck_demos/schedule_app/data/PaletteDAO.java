@@ -96,37 +96,37 @@ public class PaletteDAO implements iPaletteDAO {
     int result = 0;
     try (Connection connection = getConnection()) {
       if (connection !=null){
-        try(CallableStatement statement = connection.prepareCall("{CALL sp_update_Palette(? ,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"))
+        try(CallableStatement statement = connection.prepareCall("{CALL sp_update_Palette(? ,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"))
         {
           statement.setString(1,oldPalette.getPalette_ID());
           statement.setString(2,oldPalette.getUser_ID());
-          statement.setString(3,newPalette.getUser_ID());
-          statement.setInt(4,oldPalette.getLineNo());
-          statement.setInt(5,newPalette.getLineNo());
-          statement.setString(6,oldPalette.getColor1().getCode());
-          statement.setString(7,newPalette.getColor1().getCode());
-          statement.setString(8,oldPalette.getColor2().getCode());
-          statement.setString(9,newPalette.getColor2().getCode());
-          statement.setString(10,oldPalette.getColor3().getCode());
-          statement.setString(11,newPalette.getColor3().getCode());
-          statement.setString(12,oldPalette.getColor4().getCode());
-          statement.setString(13,newPalette.getColor4().getCode());
-          statement.setString(14,oldPalette.getColor5().getCode());
-          statement.setString(15,newPalette.getColor5().getCode());
-          statement.setString(16,oldPalette.getColor6().getCode());
-          statement.setString(17,newPalette.getColor6().getCode());
-          statement.setString(18,oldPalette.getColor7().getCode());
-          statement.setString(19,newPalette.getColor7().getCode());
-          statement.setString(20,oldPalette.getColor8().getCode());
-          statement.setString(21,newPalette.getColor8().getCode());
-          statement.setString(22,oldPalette.getColor9().getCode());
-          statement.setString(23,newPalette.getColor9().getCode());
-          statement.setString(24,oldPalette.getColor10().getCode());
-          statement.setString(25,newPalette.getColor10().getCode());
-          statement.setString(26,oldPalette.getColor11().getCode());
-          statement.setString(27,newPalette.getColor11().getCode());
-          statement.setString(28,oldPalette.getColor12().getCode());
-          statement.setString(29,newPalette.getColor12().getCode());
+
+          statement.setInt(3,oldPalette.getLineNo());
+          statement.setInt(4,newPalette.getLineNo());
+          statement.setString(5,oldPalette.getColor1().getCode());
+          statement.setString(6,newPalette.getColor1().getCode());
+          statement.setString(7,oldPalette.getColor2().getCode());
+          statement.setString(8,newPalette.getColor2().getCode());
+          statement.setString(9,oldPalette.getColor3().getCode());
+          statement.setString(10,newPalette.getColor3().getCode());
+          statement.setString(11,oldPalette.getColor4().getCode());
+          statement.setString(12,newPalette.getColor4().getCode());
+          statement.setString(13,oldPalette.getColor5().getCode());
+          statement.setString(14,newPalette.getColor5().getCode());
+          statement.setString(15,oldPalette.getColor6().getCode());
+          statement.setString(16,newPalette.getColor6().getCode());
+          statement.setString(17,oldPalette.getColor7().getCode());
+          statement.setString(18,newPalette.getColor7().getCode());
+          statement.setString(19,oldPalette.getColor8().getCode());
+          statement.setString(20,newPalette.getColor8().getCode());
+          statement.setString(21,oldPalette.getColor9().getCode());
+          statement.setString(22,newPalette.getColor9().getCode());
+          statement.setString(23,oldPalette.getColor10().getCode());
+          statement.setString(24,newPalette.getColor10().getCode());
+          statement.setString(25,oldPalette.getColor11().getCode());
+          statement.setString(26,newPalette.getColor11().getCode());
+          statement.setString(27,oldPalette.getColor12().getCode());
+          statement.setString(28,newPalette.getColor12().getCode());
           result=statement.executeUpdate();
         } catch (SQLException e) {
           throw new RuntimeException("Could not update Palette . Try again later");

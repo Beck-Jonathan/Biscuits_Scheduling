@@ -70,7 +70,7 @@ public class Palette  implements Comparable<Palette > {
    * throws IllegalArgumentException if Palette_ID under 3 characters or longer than 36 characters
    */
   public void setPalette_ID(String Palette_ID) {
-    Palette_ID = Palette_ID.replaceAll("[^.,!()A-Za-z0-9 - ]","");
+
     if(Palette_ID.length()<4){
       throw new IllegalArgumentException("Palette_ID is too short.");
     }

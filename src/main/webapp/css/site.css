@@ -106,6 +106,52 @@ form .error {
 	font-style: italic;
   }
 
+/* Color tile styling */
+.previewBox {
+	width: 64px;
+	height: 64px;
+	padding: 0;
+	border: none;
+	cursor: pointer;
+	border-radius: 14px;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+
+.previewBox:hover {
+	transform: scale(1.15) rotate(2deg);
+	box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+}
+
+/* Click feedback */
+.previewBox:active {
+	transform: scale(0.95);
+}
+
+/* Remove default color input chrome */
+.previewBox::-webkit-color-swatch {
+	border: none;
+	border-radius: 14px;
+}
+.previewBox::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+/* Palette gradient preview */
+#palettePreview {
+	margin: 18px 0;
+	height: 60px;
+	border-radius: 16px;
+	background: linear-gradient(to right, #000, #fff);
+	box-shadow: inset 0 0 0 2px rgba(255,255,255,0.15);
+	transition: background 0.4s ease;
+}
+
+/* Random button */
+#randomizeBtn {
+	margin-bottom: 12px;
+}
+
 
 @media screen and (max-width: 900px){ html,body {min-width:900px} }
 

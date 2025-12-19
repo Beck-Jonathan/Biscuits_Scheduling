@@ -57,6 +57,10 @@ $(document).ready(function() {
 	$( "#_culvers" ).button( "option", "label", "Culvers" );
 
 
+	$("#_palettes").button();
+	$( "#_palettes" ).button( "option", "icon", "ui-icon-check" );
+	$( "#_palettes" ).button( "option", "showIcon", "true" );
+	$( "#_palettes" ).button( "option", "label", "Palettes" );
 
 
 
