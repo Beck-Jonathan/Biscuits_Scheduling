@@ -9,62 +9,54 @@ Create the JSP  For Viewing All of The  Palette table
             <h1>All schedule_app Palettes</h1>
 
             Add Palette   <a href="addPalette">Add</a>
+            <br>
             <c:if test="${Palettes.size() > 0}">
 
 
-                <div class="table-responsive"><table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col"> Details </th>
 
-                        <th scope="col">LineNo</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
                     <c:forEach items="${Palettes}" var="palette">
-                        <tr id="${palette.palette_ID}row">
-                            <td><a href = "editPalette?paletteid=${palette.palette_ID}&mode=view"> Details </a></td>
 
-                            <td>${fn:escapeXml(palette.lineNo)}</td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color1.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color2.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color3.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color4.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color5.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color6.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color7.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color8.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color9.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color10.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color11.code)} "> </div> </td>
-                            <td><div class="color-tile sm " style="background-color:${fn:escapeXml(palette.color12.code)} "> </div> </td>
+                        <span id="${palette.palette_ID}_card" class="card paletteCard">
 
-                            <td><a href = "editPalette?paletteid=${palette.palette_ID}&mode=edit" > Edit </a></td>
 
-                            <td>
-                                <div>
-                                    <button class="delButton" href="${palette.palette_ID}" >Delete</button> </div>
-                                <div style="display: none;" id="palette.palette_IDStatus"></div>
-                            </td>
-                        </tr>
+    <p>${fn:escapeXml(palette.lineNo)}</p>
+                            <div class="row">
+                               <div id="${palette.palette_ID}_1" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color1.code)} "> </div>
+                                <div id="${palette.palette_ID}_2" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color2.code)} "> </div>
+                                <div id="${palette.palette_ID}_3" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color3.code)} "> </div>
+                                <div id="${palette.palette_ID}_4" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color4.code)} "> </div>
+                            </div>
+                            <div class="row">
+                               <div id="${palette.palette_ID}_5" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color5.code)} "> </div>
+                                <div id="${palette.palette_ID}_6" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color6.code)} "> </div>
+                                <div id="${palette.palette_ID}_7" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color7.code)} "> </div>
+                                <div id="${palette.palette_ID}_8" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color8.code)} "> </div>
+
+                            </div>
+                            <div class="row">
+                               <div id="${palette.palette_ID}_9" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color9.code)} "> </div>
+                                <div id="${palette.palette_ID}_10" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color10.code)} "> </div>
+                                <div id="${palette.palette_ID}_11" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color11.code)} "> </div>
+                                <div id="${palette.palette_ID}_12" class="color-tile sm col-2" style="background-color:${fn:escapeXml(palette.color12.code)} "> </div>
+
+                            </div>
+        <div class="row">
+            <div class="col-2">
+                    <a  class="delButton" href="${palette.palette_ID}">❌</a>
+            </div>
+            <div class="col-5"></div>
+            <div class="col-2 ">
+                    <a href = "editPalette?paletteid=${palette.palette_ID}&mode=edit"> ⚙️ </a>
+            </div>
+            <div class="col-2"><a href = "editPalette?paletteid=${palette.palette_ID}&mode=view"> 🔎 </a></div>
+            <div class="col-1"></div>
+        </div>
+    </span>
+
                     </c:forEach>
-                    </tbody>
-                </table>
-                </div>
+
+
+
             </c:if>
         </div>
     </div>
@@ -73,6 +65,10 @@ Create the JSP  For Viewing All of The  Palette table
 
 <div id="dialog" title="Confirmation Required">
     Are you sure about this?
+</div>
+<div id="colorPicker">
+    <canvas id="slCanvas"></canvas>
+    <input type="range" id="hue" min="0" max="360">
 </div>
 </main>
 <%@include file="/WEB-INF/Schedule_App/schedule_bottom.jsp"%>

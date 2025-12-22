@@ -40,4 +40,5 @@ public interface iPaletteDAO {
    * @author Jonathan Beck
    */
   Palette getPaletteByPrimaryKey(Palette _palette) throws SQLException;
+  int updateSingleColor(Palette _palette,int index ) throws SQLException;
 }

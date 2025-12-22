@@ -1,6 +1,7 @@
 package com.beck.beck_demos.schedule_app.data;
 
 import com.beck.beck_demos.schedule_app.iData.iPaletteDAO;
+import com.beck.beck_demos.schedule_app.models.Color;
 import com.beck.beck_demos.schedule_app.models.Palette;
 
 import java.sql.SQLException;
@@ -100,7 +101,6 @@ public class PaletteDAO implements iPaletteDAO {
         {
           statement.setString(1,oldPalette.getPalette_ID());
           statement.setString(2,oldPalette.getUser_ID());
-
           statement.setInt(3,oldPalette.getLineNo());
           statement.setInt(4,newPalette.getLineNo());
           statement.setString(5,oldPalette.getColor1().getCode());
@@ -190,6 +190,73 @@ public class PaletteDAO implements iPaletteDAO {
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    }
+    return result;
+  }
+
+  @Override
+  public int updateSingleColor(Palette _palette, int index) throws SQLException {
+    int result = 0;
+    Color color = null;
+    switch (index) {
+      case 1:
+        color = _palette.getColor1();
+        break;
+      case 2:
+        color = _palette.getColor2();
+        break;
+      case 3:
+        color = _palette.getColor3();
+        break;
+      case 4:
+        color = _palette.getColor4();
+        break;
+      case 5:
+        color = _palette.getColor5();
+        break;
+      case 6:
+        color = _palette.getColor6();
+        break;
+      case 7:
+        color = _palette.getColor7();
+        break;
+      case 8:
+        color = _palette.getColor8();
+        break;
+      case 9:
+        color = _palette.getColor9();
+        break;
+      case 10:
+        color = _palette.getColor10();
+        break;
+      case 11:
+        color = _palette.getColor11();
+        break;
+      case 12:
+        color = _palette.getColor12();
+        break;
+      default:
+        color = null; // or some fallback color
+        break;
+    }
+    if (color ==null){
+      return 0;
+    }
+
+    try (Connection connection = getConnection()) {
+      if (connection !=null){
+        try(CallableStatement statement = connection.prepareCall("{CALL sp_update_single_Color(?,?,?,?)}"))
+        {
+          statement.setString(1,_palette.getPalette_ID());
+          statement.setString(2,_palette.getUser_ID());
+          statement.setInt(3,index);
+          statement.setString(4,color.getCode());
+
+          result=statement.executeUpdate();
+        } catch (SQLException e) {
+          throw new RuntimeException("Could not update Palette . Try again later");
+        }
+      }
     }
     return result;
   }

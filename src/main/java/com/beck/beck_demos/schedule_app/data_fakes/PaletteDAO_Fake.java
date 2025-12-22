@@ -1,6 +1,7 @@
 package com.beck.beck_demos.schedule_app.data_fakes;
 
 import com.beck.beck_demos.schedule_app.iData.iPaletteDAO;
+import com.beck.beck_demos.schedule_app.models.Color;
 import com.beck.beck_demos.schedule_app.models.Palette;
 
 import java.sql.SQLException;
@@ -188,10 +189,87 @@ public class PaletteDAO_Fake implements iPaletteDAO {
     return result;
   }
 
+  @Override
+  public int updateSingleColor(Palette _palette, int index) throws SQLException {
+    Palette result = null;
+    if (exceptionKey(_palette)){
+      throw new SQLException("");
+    }
+    for (Palette palette : paletteVMs) {
+      if (palette.getPalette_ID().equals(_palette.getPalette_ID())){
+        result = palette;
+        break;
+      }
+    }
+    if (result ==null){
+    return 0;
+    }
+
+    Color color = null;
+    switch (index) {
+      case 1:
+        color = _palette.getColor1();
+        result.setColor1(color);
+        break;
+      case 2:
+        color = _palette.getColor2();
+        result.setColor2(color);
+        break;
+      case 3:
+        color = _palette.getColor3();
+        result.setColor3(color);
+        break;
+      case 4:
+        color = _palette.getColor4();
+        result.setColor4(color);
+        break;
+      case 5:
+        color = _palette.getColor5();
+        result.setColor5(color);
+        break;
+      case 6:
+        color = _palette.getColor6();
+        result.setColor6(color);
+        break;
+      case 7:
+        color = _palette.getColor7();
+        result.setColor7(color);
+        break;
+      case 8:
+        color = _palette.getColor8();
+        result.setColor8(color);
+        break;
+      case 9:
+        color = _palette.getColor9();
+        result.setColor9(color);
+        break;
+      case 10:
+        color = _palette.getColor10();
+        result.setColor10(color);
+        break;
+      case 11:
+        color = _palette.getColor11();
+        result.setColor11(color);
+        break;
+      case 12:
+        color = _palette.getColor12();
+        result.setColor12(color);
+        break;
+      default:
+        color = null; // or some fallback color
+        break;
+    }
+    if (color ==null){
+      return 0;
+    }
+
+    return 1;
+  }
+
   private boolean duplicateKey(Palette _palette){
     return _palette.getColor1().getCode().equals("#AAAAAA") &&_palette.getColor2().getCode().equals("#BBBBBB");
   }
   private boolean exceptionKey(Palette _palette){
-    return _palette.getColor1().getCode().equals("#CCCCCC") &&_palette.getColor2().getCode().equals("#DDDDDD");
+    return _palette.getColor1().getCode().equals("#CCCCCC") ;
   }
 }
