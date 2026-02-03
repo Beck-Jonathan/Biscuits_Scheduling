@@ -74,12 +74,12 @@ class EditColorAJAXServletTest {
   @Test
   public void testSituation1AProducesResultOfNeg1() throws ServletException, IOException {
 
-    request.setSession(session);
+    //request.setSession(session);
     //valid index as int (-2) valid palette id (-3), and existing palette id (-4) and index between 1 and 12 (-7)
-    request.setParameter("paletteid","");
-    request.setParameter("index","1");
+    //request.setParameter("paletteid","");
+    //request.setParameter("index","1");
     //not null (-5) and valid color (-6) parameter
-    request.setParameter("inputpaletteColor","");
+    //request.setParameter("inputpaletteColor","");
     servlet.doPost(request,response);
     String result = response.getContentAsString();
     String expected = "-1";

@@ -748,14 +748,16 @@ async function callAjaxMonth(month,search){
             $("#datesToSlide").slideDown();
 
             events = response;
+            console.log("events");
+            console.log(events);
             for (i=0;i<events.length;i++){
                 let yesEvents = [];
                 let noEvents=[];
                 let maybeEvents = [];
 
-                yesEvents = events[i].events.filter(event =>event.decision ==="Going")
-                noEvents = events[i].events.filter(event =>event.decision ==="Skipping")
-                maybeEvents = events[i].events.filter(event =>event.decision ==="Maybe")
+                yesEvents = events[i].events.filter(event =>event.decision ==="going")
+                noEvents = events[i].events.filter(event =>event.decision ==="skipping")
+                maybeEvents = events[i].events.filter(event =>event.decision ==="maybe")
                 events[i]._yesEvents=yesEvents;
                 events[i]._noEvents=noEvents;
                 events[i]._maybeEvents=maybeEvents;

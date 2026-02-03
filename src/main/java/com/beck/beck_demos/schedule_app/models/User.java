@@ -133,6 +133,11 @@ public class User implements Comparable<User>{
     this.Email = Email;
   }
   public List<String> getRoles() {
+    for (int i =0;i<roles.size();i++){
+      String role = roles.get(i);
+          role=role.substring(0, 1).toUpperCase() + role.substring(1);
+          roles.set(i,role);
+    }
     return roles;
   }
 
