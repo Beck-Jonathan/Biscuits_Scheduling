@@ -755,9 +755,9 @@ async function callAjaxMonth(month,search){
                 let noEvents=[];
                 let maybeEvents = [];
 
-                yesEvents = events[i].events.filter(event =>event.decision ==="going")
-                noEvents = events[i].events.filter(event =>event.decision ==="skipping")
-                maybeEvents = events[i].events.filter(event =>event.decision ==="maybe")
+                yesEvents = events[i].events.filter(event =>event.decision?.toLowerCase() ==="going")
+                noEvents = events[i].events.filter(event =>event.decision?.toLowerCase() ==="skipping")
+                maybeEvents = events[i].events.filter(event =>event.decision?.toLowerCase() ==="maybe")
                 events[i]._yesEvents=yesEvents;
                 events[i]._noEvents=noEvents;
                 events[i]._maybeEvents=maybeEvents;
