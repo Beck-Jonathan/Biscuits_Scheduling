@@ -328,7 +328,7 @@ public class AddEventServlet extends HttpServlet{
       }
     }
     req.setAttribute("results", results);
-    req.setAttribute("pageTitle", "Create a Event ");
+    req.setAttribute("pageTitle", "Add Event");
     req.getRequestDispatcher("WEB-INF/Schedule_App/AddEvent.jsp").forward(req, resp);
 
   }
