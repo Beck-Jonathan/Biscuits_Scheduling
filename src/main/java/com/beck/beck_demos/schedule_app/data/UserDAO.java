@@ -289,5 +289,29 @@ public class UserDAO implements iUserDAO {
     return result;
   }
 
+  @Override
+  public List<User> getAllUsers() {
+    List<User> result = new ArrayList<>();
+    try (Connection connection = getConnection()) {
+      if (connection != null) {
+        try(CallableStatement statement = connection.prepareCall("{CALL sp_retrieve_by_all_User()}")) {
+
+          try(ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+              String User_ID = resultSet.getString("User_User_ID");
+              String User_Name = resultSet.getString("User_User_Name");
+              //String User_PW = resultSet.getString("User_User_PW");
+              String Email = resultSet.getString("User_Email");
+              User _user = new User( User_ID, User_Name, null, Email);
+              result.add(_user);
+            }
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not retrieve Users. Try again later");
+    }
+    return result;
+  }
 
 }

@@ -26,6 +26,11 @@
                 <artifactId>annotations</artifactId>
                 <version>26.0.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>jakarta.mail</artifactId>
+                <version>2.0.3</version>
+            </dependency>
 
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
@@ -34,6 +39,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>sns</artifactId>
@@ -65,6 +71,11 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-core -->
         <dependency>

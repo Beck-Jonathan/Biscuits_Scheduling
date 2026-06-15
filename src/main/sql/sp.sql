@@ -853,3 +853,90 @@ ORDER BY Culvers_ID
 
  ; END $$
  DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS sp_retrieve_by_all_User;
+DELIMITER $$
+CREATE PROCEDURE sp_retrieve_by_all_User(
+)
+begin 
+ SELECT 
+
+user.User_ID as 'User_User_ID',
+user.User_Name as 'User_User_Name',
+user.Email as 'User_Email'
+ FROM user
+
+ORDER BY User_ID
+
+ ;
+ END $$ 
+ DELIMITER ;
+ 
+  /******************
+Create the retrieve by for newsletter sp for the event table
+ Created By Jonathan Beck 6/15/2026
+***************/
+ 
+ DROP PROCEDURE IF EXISTS `sp_retreive_Event_For_Newsletter` ; 
+DELIMITER $$
+CREATE PROCEDURE `sp_retreive_Event_For_Newsletter`(
+    user_id_param nvarchar(36),
+    month_param int,
+    day_param int,
+    year_param int
+)
+BEGIN 
+    -- 1. Create a baseline starting date variable
+    DECLARE start_date DATE;
+    SET start_date = STR_TO_DATE(CONCAT(year_param, '-', month_param, '-', day_param), '%Y-%m-%d');
+
+    -- First Query: Events happening exactly on 'start_date'
+    SELECT 
+        event.Event_ID as 'Event_Event_ID',
+        event.user_id as 'Event_User_ID',
+        event.Name as 'Event_Name',
+        event.Date as 'Event_Date',
+        event.Location as 'Event_Location',
+        event.Description as 'Event_Description',
+        event.Length as 'Event_Length',
+        event.Decision as 'Event_Decision',
+        event.Paid as 'Event_Paid'
+    FROM event
+    WHERE user_id = user_id_param
+      AND event.date >= start_date 
+      AND event.date < DATE_ADD(start_date, INTERVAL 1 DAY)     
+
+    UNION 
+    
+    -- Second Query: Approved events happening within the next 7 days (Days +1 to +7)
+    SELECT 
+        event.Event_ID as 'Event_Event_ID',
+        event.user_id as 'Event_User_ID',
+        event.Name as 'Event_Name',
+        event.Date as 'Event_Date',
+        event.Location as 'Event_Location',
+        event.Description as 'Event_Description',
+        event.Length as 'Event_Length',
+        event.Decision as 'Event_Decision',
+        event.Paid as 'Event_Paid'
+    FROM event
+    WHERE user_id = user_id_param
+      AND event.Decision = 'Going'
+      AND event.date >= DATE_ADD(start_date, INTERVAL 1 DAY) 
+      AND event.date < DATE_ADD(start_date, INTERVAL 8 DAY);
+
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `sp_delete_old_events` ; 
+DELIMITER $$
+CREATE PROCEDURE `sp_delete_old_events`()
+BEGIN
+    -- 1. Correct syntax to declare a variable and default it to the current time
+    DECLARE start_date DATETIME DEFAULT NOW();
+    
+    -- 2. Run the delete statement
+    DELETE FROM event WHERE event.date < DATE_SUB(start_date, INTERVAL 180 DAY);
+END$$
+DELIMITER ;

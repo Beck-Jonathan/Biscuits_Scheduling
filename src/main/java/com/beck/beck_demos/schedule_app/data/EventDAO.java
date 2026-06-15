@@ -517,4 +517,56 @@ public class EventDAO implements iEventDAO {
     return result;
 
   }
+
+  @Override
+  public List<Event> getEventForEmail(CalendarDay day, String userId) {
+    List<Event> result = new ArrayList<>();
+    try (Connection connection = getConnection()) {
+      if (connection != null) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_retreive_Event_For_Newsletter(?,?,?,?)}")) {
+          statement.setString(1,userId);
+          statement.setInt(2, day.getMonth());
+          statement.setInt(3, day.getDay());
+          statement.setInt(4, day.getYear());
+
+
+          try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+              String Event_ID = resultSet.getString("Event_Event_ID");
+              String user_id = resultSet.getString("Event_User_ID");
+              String Name = resultSet.getString("Event_Name");
+              Date Date = resultSet.getTimestamp("Event_Date");
+              String Location = resultSet.getString("Event_Location");
+              String description = resultSet.getString("Event_description");
+              Double Length = resultSet.getDouble("Event_Length");
+              String Decision = resultSet.getString("Event_Decision");
+              String Paid = resultSet.getString("Event_Paid");
+              Event _event = new Event(Event_ID,user_id, Name, Date, Location, description, Length, Decision, Paid);
+              result.add(_event);
+            }
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not retrieve Events. Try again later");
+    }
+    return result;
+  }
+
+  @Override
+  public void clearOldEvents() throws SQLException {
+    int result = 0;
+    try (Connection connection = getConnection()) {
+      if (connection != null) {
+        try (CallableStatement statement = connection.prepareCall("{CALL sp_delete_old_events()}")) {
+
+          result = statement.executeUpdate();
+        } catch (SQLException e) {
+          throw new RuntimeException("Could not update Event . Try again later");
+        }
+      }
+    }
+    return;
+    //return result;
+  }
 }

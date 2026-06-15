@@ -158,6 +158,12 @@ public class UserDAO_Fake implements iUserDAO {
   public int yearRange(int user_ID) throws SQLException {
     return 0;
   }
+
+  @Override
+  public List<User> getAllUsers() {
+    return users;
+  }
+
   private boolean duplicateKey(User _user){
     return _user.getUser_Name().equals("DUPLICATE");
   }

@@ -1,7 +1,9 @@
 package com.beck.beck_demos.schedule_app.controllers;
 import com.beck.beck_demos.schedule_app.data.CulversDAO;
+import com.beck.beck_demos.schedule_app.data.EmailService;
 import com.beck.beck_demos.schedule_app.data.EventDAO;
 import com.beck.beck_demos.schedule_app.data.PaletteDAO;
+import com.beck.beck_demos.schedule_app.iData.iEmailService;
 import com.beck.beck_demos.schedule_app.iData.iPaletteDAO;
 import com.beck.beck_demos.schedule_app.models.*;
 import com.beck.beck_demos.schedule_app.iData.iEventDAO;
@@ -135,6 +137,15 @@ public class AllEventServlet extends HttpServlet {
         else {
           FutureEvents.add(event);
         }
+      }
+      int x =0;
+    //  iEmailService emailService = new EmailService();
+      try {
+      //  emailService.sendEventSchedule("jjbeck7@gmail.com","List of Events",CurrentEvents);
+
+      }
+      catch (Exception e  ){
+        e.printStackTrace();
       }
 
       req.setAttribute("PastEvents", PastEvents);

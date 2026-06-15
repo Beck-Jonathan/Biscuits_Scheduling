@@ -54,4 +54,8 @@ public interface iEventDAO {
   List<Event> getPokemonEvents(int month, int year) throws Exception;
   int writeEventToFile(List<Event> Events, String path) throws IOException;
   int writeEventToSQLInsert(List<Event> Events, String path) throws IOException;
+
+  List<Event> getEventForEmail(CalendarDay day, String userId);
+
+  void clearOldEvents() throws SQLException;
 }

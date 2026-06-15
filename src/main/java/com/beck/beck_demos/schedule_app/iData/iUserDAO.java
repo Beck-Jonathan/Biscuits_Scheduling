@@ -34,4 +34,5 @@ public interface iUserDAO {
 
   int yearRange(int user_ID) throws SQLException ;
 
+  List<User> getAllUsers();
 }

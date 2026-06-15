@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import java.sql.SQLException;
@@ -198,7 +199,56 @@ public class EventDAO_Fake implements iEventDAO {
     return 0;
   }
 
-  
+  @Override
+  public List<Event> getEventForEmail(CalendarDay day, String userId) {
+    List<Event> _events = new ArrayList<>();
+
+    if (day.getYear()==0 && day.getMonth()==0 && day.getDay()==0){
+      _events.addAll(events);
+    }
+    else if (day.getDay()==0&day.getMonth()==0) {
+      for (Event e : events) {
+
+        if (e.getDate().getYear()+1900==(day.getYear())) {
+          _events.add(e);
+        }
+      }
+    }
+    else if (day.getDay()==0) {
+      for (Event e : events) {
+        if (e.getDate().getYear()+1900==day.getYear() && e.getDate().getMonth()==day.getMonth()) {
+          _events.add(e);
+        }
+      }
+    }
+    else {
+      for (Event e : events) {
+        if (e.getDate().getYear()+1900==day.getYear() && e.getDate().getMonth()==day.getMonth()&& e.getDate().getDate()==day.getDay()) {
+          _events.add(e);
+        }
+      }
+    }
+    List<Event> filteredEvents = new ArrayList<>();
+
+      filteredEvents.addAll(_events);
+
+
+    return filteredEvents;
+  }
+
+  @Override
+  public void clearOldEvents() throws SQLException {
+    Date startDate = new Date();
+
+    // 2. Use Calendar to subtract 180 days safely
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(startDate);
+    cal.add(Calendar.DAY_OF_YEAR, -180);
+    Date cutoffDate = cal.getTime();
+
+    // 3. Remove all events before the cutoff
+    events.removeIf(event -> event.getDate().before(cutoffDate));
+  }
 
   private boolean duplicateKey(Event _event){
     return _event.getName().equals("DUPLICATE");
