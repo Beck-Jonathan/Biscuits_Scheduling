@@ -305,7 +305,8 @@ public class EventDAO implements iEventDAO {
     Date date = new Date();
     Dotenv dotenv = Dotenv.load();
     String disctict = "cr";
-    String school = "coolidge";
+    //String school = "coolidge";
+    String school = "summer-programming";
 
     String year = String.valueOf(((Integer) date.getYear()) + 1900);
     String month = String.valueOf(_month+1);
@@ -360,8 +361,13 @@ public class EventDAO implements iEventDAO {
                   continue;
                 }
               }
-              String Name = "School "+mealname+" at West Willow";
-              String location = "West Willow";
+              String Name = "School "+mealname+" at City Parks";
+              String location = "West Willow, Erskine";
+
+
+              if (!meal.equals("breakfast")){
+                location += ", Noelridge Park, Morgan Creek ";
+              }
               String Description = todaysFood;
               Double Length = 0d;
               String Decision = "Maybe";
