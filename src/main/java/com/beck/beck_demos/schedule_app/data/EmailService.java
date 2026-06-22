@@ -14,32 +14,27 @@ import jakarta.mail.internet.*;
 
 public class EmailService implements iEmailService {
 
-  private final String username = "admin@jjbeck.us";
+  private String username = "admin@jjbeck.us";
 
   @Override
   public void sendEventSchedule(String recipientEmail, String subject, List<Event> events) throws MessagingException {
     Properties props = new Properties();
-    props.put("mail.smtp.host", "jjbeck.us");
+    Dotenv dotenv = Dotenv.load();
+    String smtpHost = dotenv.get("SMTP_HOST");
+    String rackNerdUser = dotenv.get("RACKNERDUSER");
+    String rackNerdPass = dotenv.get("RACKNERDPASS");
+    username = dotenv.get("MAIL_USER");
+    props.put("mail.smtp.host", smtpHost);
     props.put("mail.smtp.port", "587");
     props.put("mail.smtp.auth", "true");
     props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.ssl.trust", "jjbeck.us");
-
+    props.put("mail.smtp.ssl.trust", smtpHost);
     props.put("mail.smtp.connectiontimeout", "5000");
     props.put("mail.smtp.timeout", "5000");
     props.put("mail.transport.protocol", "smtp");
 
-    // Authenticate using your remote Linux server credentials
-    Session session = Session.getInstance(props, new jakarta.mail.Authenticator() {
-      @Override
-      protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-        Dotenv dotenv = Dotenv.load();
-        String rackNerdUser = dotenv.get("RACKNERDUSER");
-        String rackNerdPass = dotenv.get("RACKNERDPASS");
-
-        return new jakarta.mail.PasswordAuthentication(rackNerdUser, rackNerdPass);
-      }
-    });
+    // Pass 'null' for the authenticator since we will handle it explicitly below
+    Session session = Session.getInstance(props, null);
 
     // This now builds the newly formatted split-section HTML
     String htmlBody = buildEventTableHtml(events);
@@ -52,7 +47,12 @@ public class EmailService implements iEmailService {
 
     // Open connection and transmit explicitly via port 587 settings
     try (Transport transport = session.getTransport("smtp")) {
-      transport.connect(); // Automatically uses host/port/auth from props and Authenticator
+      // Load environment variables directly at the time of connection
+
+
+
+      // Authenticate directly with the remote server here instead of a nested function
+      transport.connect(smtpHost, rackNerdUser, rackNerdPass);
       transport.sendMessage(message, message.getAllRecipients());
     } catch (MessagingException e) {
       e.printStackTrace(); // Ensures failures are captured clearly in your local console output

@@ -87,7 +87,7 @@ public class DailyEmailService implements ServletContextListener , iDailyEmailSe
         else {
           //System.out.println("Sending email for User ID: " + u.getUser_ID() + " (Value: " + recipient + ")");
         }
-        if (recipient.toLowerCase().equals("eabeck7@gmail.com")) {
+        if (!recipient.toLowerCase().equals("eabeck7@gmail.com")) {
           continue;
         }
         recipient="jjbeck7@gmail.com";
