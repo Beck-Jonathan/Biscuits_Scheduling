@@ -237,124 +237,128 @@ body {
     position: relative;
     display:none;
 }
+/* --- HOVER RIGHT --- */
+.box.HoverRight {
+    position: relative; /* Ensure parent context is established */
+}
 
 .box.HoverRight:hover > span {
-    width:300px;
+    width: 300px;
     text-align: left;
     position: absolute;
-    top:-60px;
-    left:20px;
-    display:block;
-
-
+    top: 50%;                 /* Center vertically relative to parent */
+    transform: translateY(-50%); /* Clean alignment instead of top:-60px */
+    left: 100%;               /* Push neatly to the right of parent */
+    display: block;
     z-index: 7;
-    margin: 12px;
-    padding : 20px;
+    margin-left: 12px;        /* Spacing away from trigger */
+    padding: 20px;
 }
 
-.box.HoverRight:hover > span:after{
+.box.HoverRight:hover > span:after {
     right: 100%;
-    top: 40px;
+    top: 50%;                 /* Centers arrow vertically */
+    transform: translateY(-50%);
     border: solid transparent;
     content: " ";
     height: 0;
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-color: rgba(136, 183, 213, 0);
     border-right-color: lightgray;
-    border-width: 20px;
-    margin-top: -6px;
-    z-index: 7;
+    border-width: 10px;       /* Shrunk massive 20px border down to cleaner 10px */
 }
 
-.box.HoverTopLeft:hover > span {
-    width:300px;
-    text-align: left;
-    position: absolute;
-    top:-150px;
-    left:-330px;
-    display:block;
-
-
-    z-index: 7;
-    margin: 12px;
-    padding : 20px;
-}
-
-.box.HoverTopLeft:hover > span:after{
-    left: 100%;
-    bottom: 0;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(136, 183, 213, 0);
-    border-left-color: lightgray;
-    border-width: 20px;
-    margin-top: -6px;
-    z-index: 7;
-}
-.box.HoverTopRight:hover > span {
-    width:300px;
-    text-align: left;
-    position: absolute;
-    top:-150px;
-    left:20px;
-    display:block;
-
-
-    z-index: 7;
-    margin: 12px;
-    padding : 20px;
-}
-
-.box.HoverTopRight:hover > span:after{
-    right: 100%;
-    bottom: 0;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(136, 183, 213, 0);
-    border-right-color: lightgray;
-    border-width: 20px;
-    margin-top: -6px;
-    z-index: 7;
+/* --- HOVER LEFT --- */
+.box.HoverLeft {
+    position: relative;
 }
 
 .box.HoverLeft:hover > span {
-    width:300px;
+    width: 300px;
     text-align: left;
     position: absolute;
-    top:-60px;
-    left:-330px;
-    display:block;
-
-
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100%;              /* Pull neatly to the left of parent */
+    display: block;
     z-index: 7;
-    margin: 12px;
-    padding : 20px;
+    margin-right: 12px;
+    padding: 20px;
 }
 
-.box.HoverLeft:hover > span:after{
+.box.HoverLeft:hover > span:after {
     left: 100%;
-    top: 40px;
+    top: 50%;
+    transform: translateY(-50%);
     border: solid transparent;
     content: " ";
     height: 0;
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-color: rgba(136, 183, 213, 0);
     border-left-color: lightgray;
-    border-width: 20px;
-    margin-top: -6px;
+    border-width: 10px;
+}
+
+/* --- HOVER TOP LEFT (FLIPPED UPWARD TO PREVENT BOTTOM CLIPPING) --- */
+.box.HoverTopLeft {
+    position: relative;
+}
+
+.box.HoverTopLeft:hover > span {
+    width: 300px;
+    text-align: left;
+    position: absolute;
+    bottom: 100%;             /* Anchors bottom of popup to top of box */
+    right: 8px;                 /* Align right edges */
+    display: block;
     z-index: 7;
+    margin-bottom: 12px;      /* Spacing above parent */
+    padding: 20px;
+}
+
+.box.HoverTopLeft:hover > span:after {
+    top: 100%;                /* Arrow sits under the span */
+    right: 0px;              /* Arrow positioned on right side */
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top-color: lightgray;
+    border-width: 10px;
+}
+
+/* --- HOVER TOP RIGHT (FLIPPED UPWARD TO PREVENT BOTTOM CLIPPING) --- */
+.box.HoverTopRight {
+    position: relative;
+}
+
+.box.HoverTopRight:hover > span {
+    width: 300px;
+    text-align: left;
+    position: absolute;
+    bottom: 100%;             /* Anchors bottom of popup to top of box */
+    left: -8px;                  /* Align left edges */
+    display: block;
+    z-index: 7;
+    margin-bottom: 12px;
+    padding: 20px;
+}
+
+.box.HoverTopRight:hover > span:after {
+    top: 100%;
+    left:20px;               /* Arrow positioned on left side */
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top-color: lightgray;
+    border-width: 10px;
 }
 
 .double-border {
