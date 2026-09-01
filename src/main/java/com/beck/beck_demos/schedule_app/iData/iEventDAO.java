@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface iEventDAO {
   /**
@@ -49,7 +50,7 @@ public interface iEventDAO {
   int deleteEvent(String eventID) throws SQLException;
 
   List<Event> getCulversFlavors(List<Culvers> Culvers, int month) throws Exception;
-  List<Event> getFoodMenu(List<String> Schools, int month) throws Exception;
+  List<Event> getFoodMenu(Map<String,String> Schools, int month) throws Exception;
 
   List<Event> getPokemonEvents(int month, int year) throws Exception;
   int writeEventToFile(List<Event> Events, String path) throws IOException;

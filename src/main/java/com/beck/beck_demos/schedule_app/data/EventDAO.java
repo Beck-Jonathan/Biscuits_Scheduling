@@ -4,6 +4,7 @@ import com.beck.beck_demos.schedule_app.iData.iEventDAO;
 import com.beck.beck_demos.schedule_app.models.CalendarDay;
 import com.beck.beck_demos.schedule_app.models.Culvers;
 import com.beck.beck_demos.schedule_app.models.Event;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -298,15 +299,13 @@ public class EventDAO implements iEventDAO {
   }
 
   @Override
-  public List<Event> getFoodMenu(List<String> Schools, int _month) throws Exception {
+  public List<Event> getFoodMenu(Map<String,String> Schools, int _month) throws Exception {
     //https://{yourDistrict}.api.nutrislice.com/menu/api/weeks/school/{yourSchool}/menu-type/{yourMeal}/{year}/{month}/{day}/?format=json`
     List<String> mealNames = Arrays.asList("breakfast","lunch");
     List<Event> meals = new ArrayList<>();
     Date date = new Date();
     Dotenv dotenv = Dotenv.load();
-    String disctict = "cr";
-    //String school = "coolidge";
-    String school = "summer-programming";
+
 
     String year = String.valueOf(((Integer) date.getYear()) + 1900);
     String month = String.valueOf(_month+1);
@@ -315,23 +314,27 @@ public class EventDAO implements iEventDAO {
     SimpleDateFormat Simple = new SimpleDateFormat("yyyy-MM-dd");
     //List<MissingPiece> setPieces = new ArrayList<>();
     String result = "";
-    for (String mealname : mealNames) {
-      Integer day = 1;
-      String meal = mealname;
-      while (day <= 32) {
-        String uril = "https://" + disctict + ".api.nutrislice.com/menu/api/weeks/school/" + school + "/menu-type/" + meal + "/" + year + "/" + month + "/" + day + "/?format=json";
+    for (int k =0;k<2;k++) {
+      String meal = Schools.get("lunch");
+      if (k==1){
+        meal = Schools.get("breakfast");
+      }
+      //Integer day = 1;
+
+      //while (day <= 32) {
+      String uril = "https://menus.healthepro.com/api/organizations/"+Schools.get("school")+"/menus/"+meal+"/year/"+year+"/month/"+month+"/date_overwrites";
         try {
           try (Scanner scanner = new Scanner(new URL(uril).openStream(),
               StandardCharsets.UTF_8.toString())) {
             scanner.useDelimiter("\\A");
             result = scanner.next();
             JSONObject jsonObject = new JSONObject(result);
-            JSONArray daysArray = jsonObject.getJSONArray("days");
+            JSONArray daysArray = jsonObject.getJSONArray("data");
             for (int i = 0; i < daysArray.length(); i++) {
               JSONObject day4 = daysArray.getJSONObject(i);
-              String fastTime = day4.getString("date");
+              String fastTime = day4.getString("day");
               Date Start_Date_Time = Simple.parse(fastTime);
-              if (meal.equals("breakfast")){
+              if (meal.equals("136040")){
                 Start_Date_Time.setHours(8);
                 Start_Date_Time.setMinutes(30);
               }
@@ -339,41 +342,46 @@ public class EventDAO implements iEventDAO {
                 Start_Date_Time.setHours(11);
                 Start_Date_Time.setMinutes(30);
               }
-
               int y =0;
               if (Start_Date_Time.getDay() == 0 || Start_Date_Time.getDay() == 6 || Start_Date_Time.getMonth()!=_month) {
                 int z = Start_Date_Time.getMonth();
                 continue;
               }
+              String SettingString = day4.getString("setting");
+              JSONObject Settings = new JSONObject(SettingString);
+              JSONArray MenuObject = Settings.getJSONArray("current_display");
+              //JSONObject MenuObject = new JSONObject(MenuString);
 
-              JSONArray menu_items = day4.getJSONArray("menu_items");
-              String todaysFood = "";
+              List<String> recipeNames = new ArrayList<>();
 
-              for (int j = 0; j < menu_items.length(); j++) {
-                try {
-                  JSONObject menu_item2 = menu_items.getJSONObject(j);
-                  JSONObject food = menu_item2.getJSONObject("food");
-                  String name = food.getString("name");
+              // Helper lambda to collect entries matching "recipe"
 
-                  todaysFood = todaysFood + name + "  ";
-
-                } catch (Exception e) {
-                  continue;
+                if (MenuObject != null ) {
+                  for (int j=0;j<MenuObject.length();j++) {
+                    JSONObject looper = MenuObject.getJSONObject(j);
+                    if ("recipe".equals(looper.getString("type"))){
+                      recipeNames.add(looper.getString("name"));
+                    }
+                  }
                 }
-              }
-              String Name = "School "+mealname+" at City Parks";
-              String location = "West Willow, Erskine";
+
+              String todaysFood = "";
+                String type = "Main:";
+                for (int j=0;j<recipeNames.size();j++) {
+                  if (j>2){
+                    type="Side:";
+                  }
+                  todaysFood+=type+" "+recipeNames.get(j)+"\n";
+                }
 
 
-              if (!meal.equals("breakfast")){
-                location += ", Noelridge Park, Morgan Creek ";
-              }
+
               String Description = todaysFood;
               Double Length = 0d;
               String Decision = "Maybe";
               String Paid = "No";
               if (!Description.isEmpty()) {
-                Event _event = new Event("", "", Name, Start_Date_Time, location, Description, Length, Decision, Paid);
+                Event _event = new Event("", "", "Food at WW", Start_Date_Time, "West Willow", Description, Length, Decision, Paid);
                 meals.add(_event);
               }
             }
@@ -382,8 +390,8 @@ public class EventDAO implements iEventDAO {
           meals = new ArrayList<>();
           return meals;
         }
-        day = day + 7;
-      }
+        //day = day + 7;
+      //}
     }
     int x = meals.size();
     return meals;

@@ -180,7 +180,7 @@ public class EventDAO_Fake implements iEventDAO {
   }
 
   @Override
-  public List<Event> getFoodMenu(List<String> Schools, int month) throws Exception {
+  public List<Event> getFoodMenu(Map<String,String> Schools, int month) throws Exception {
     return List.of();
   }
 

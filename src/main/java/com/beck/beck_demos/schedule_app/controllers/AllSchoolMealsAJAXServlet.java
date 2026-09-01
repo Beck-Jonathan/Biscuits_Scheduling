@@ -19,7 +19,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/AJAXSCHOOL")
 public class AllSchoolMealsAJAXServlet extends HttpServlet {
@@ -48,8 +50,10 @@ public class AllSchoolMealsAJAXServlet extends HttpServlet {
 
     String cal_month = req.getParameter("month");
     //String cal_year = req.getParameter("year");
-    List<String> schools = new ArrayList<>();
-    schools.add("cooledge");
+    Map<String,String> schools = new HashMap<>();
+    schools.put("school","3728");
+    schools.put("lunch","135851");
+    schools.put("breakfast","136040");
 
     int _cal_month = 0;
     int _cal_year = 0;
