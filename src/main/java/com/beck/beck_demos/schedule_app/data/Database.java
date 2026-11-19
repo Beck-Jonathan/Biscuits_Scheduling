@@ -15,9 +15,9 @@ public class Database {
     //String db_connection = dotenv.get("DB_CONNECTION_STRING6");
     //String db_user = dotenv.get("DB_USER");
     //String db_password = dotenv.get("DB_PASSWORD");
-    String db_connection = dotenv.get("AVIN");
-    String db_user = dotenv.get("AVIN_USER");
-    String db_password = dotenv.get("AVIN_PASS");
+    String db_connection = dotenv.get("LOCAL");
+    String db_user = dotenv.get("LOCAL_USER");
+    String db_password = dotenv.get("LOCAL_PASS");
     try {
       Class.forName(db_driver);
     } catch (ClassNotFoundException e) {
