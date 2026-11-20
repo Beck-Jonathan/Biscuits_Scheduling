@@ -54,7 +54,7 @@ public class DailyEmailService implements ServletContextListener , iDailyEmailSe
 
     // Calculate how many seconds to wait until the target execution time
     long initialDelayInSeconds = calculateSecondsUntilSevenAM();
-    System.out.println("DailyEmailService: Initial delay is " + initialDelayInSeconds + " seconds.");
+    //System.out.println("DailyEmailService: Initial delay is " + initialDelayInSeconds + " seconds.");
 
     long periodInSeconds = TimeUnit.DAYS.toSeconds(1);
 
@@ -114,6 +114,10 @@ public class DailyEmailService implements ServletContextListener , iDailyEmailSe
   }
 
   private long calculateSecondsUntilSevenAM() {
+
+
+
+
     // 1. Enforce Chicago Timezone cleanly
     ZoneId localZone = ZoneId.of("America/Chicago");
     ZonedDateTime now = ZonedDateTime.now(localZone);

@@ -14,16 +14,18 @@ import jakarta.mail.internet.*;
 
 public class EmailService implements iEmailService {
 
-  private String username = "admin@jjbeck.us";
+  //private String username = "admin@jjbeck.us";
 
   @Override
   public void sendEventSchedule(String recipientEmail, String subject, List<Event> events) throws MessagingException {
     Properties props = new Properties();
     Dotenv dotenv = Dotenv.load();
     String smtpHost = dotenv.get("SMTP_HOST");
-    String rackNerdUser = dotenv.get("RACKNERDUSER");
-    String rackNerdPass = dotenv.get("RACKNERDPASS");
-    username = dotenv.get("MAIL_USER");
+    //String rackNerdUser = dotenv.get("RACKNERDUSER");
+    //String rackNerdPass = dotenv.get("RACKNERDPASS");
+    String cloudUser = dotenv.get("CLOUD_USER");
+    String cloudPassword = dotenv.get("CLOUD_PASSWORD");
+    String username = dotenv.get("MAIL_USER");
     props.put("mail.smtp.host", smtpHost);
     props.put("mail.smtp.port", "587");
     props.put("mail.smtp.auth", "true");
@@ -52,7 +54,7 @@ public class EmailService implements iEmailService {
 
 
       // Authenticate directly with the remote server here instead of a nested function
-      transport.connect(smtpHost, rackNerdUser, rackNerdPass);
+      transport.connect(smtpHost, cloudUser, cloudPassword);
       transport.sendMessage(message, message.getAllRecipients());
     } catch (MessagingException e) {
       e.printStackTrace(); // Ensures failures are captured clearly in your local console output
